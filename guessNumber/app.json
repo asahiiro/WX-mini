@@ -4,7 +4,7 @@
   ],
   "window": {
     "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "Weixin",
+    "navigationBarTitleText": "猜数字",
     "navigationBarBackgroundColor": "#ffffff"
   },
   "style": "v2",

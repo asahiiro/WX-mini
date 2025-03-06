@@ -1,43 +1,155 @@
 /* pages/index/index.wxss */
-.container {
+
+.container {     
+  position: relative;
+  width: 100vw;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20rpx;
+  padding: 40rpx;
+  justify-content: flex-start;
+
 }
+.background{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 10rpx;
+}
+
 
 .character {
-  width: 200rpx;
-  height: 200rpx;
-  margin-bottom: 20rpx;
+  width: 400rpx;
+  height: 600rpx;
+  margin-top: 0rpx; 
 }
 
-.message {
-  font-size: 32rpx;
-  color: #333;
-  margin-bottom: 20rpx;
+.icon {
+  width: 100rpx;
+  height: 100rpx;
+}
+
+.icon-container:active .icon {
+  transform: translateY(5rpx) scale(0.9); 
+  transition: transform 0.2s ease; 
+}
+
+
+.character-container {
+  display: inline-block;
+  transition: transform 0.3s ease; 
+}
+
+.character-active  {
+  transform: translateY(-20rpx); 
+}
+.character-container :active  {
+  transition: transform 0.3s ease; 
+  transform: translateY(-10rpx); 
+}
+
+/* 聊天框样式 */
+.chat-bubble {
+  padding: 20rpx; 
+  max-width: 80%;
+  height: auto;
   text-align: center;
+  position: relative;
+
+  color: rgb(255, 255, 255);
+  font-size: 32rpx;
+
+  background: none;
+
+  border-color: rgb(0, 22, 122);
+  border-style: dashed;
+  border-radius: 20rpx;
+    transition: all 0.1s ease; 
+}
+
+.chat-bubble:active {
+
+  color:rgb(255, 255, 255);
+  background-color: #00013f5f;
+  transform: translateY(3rpx) scale(0.96);
+  box-shadow: 0 10px 12px rgba(0,0,0,0.2);
+}
+.chat-bubble-active {
+  animation: bubbleAnimate 0.3s ease-in-out;
+}
+
+@keyframes bubbleAnimate {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+/* 聊天框的小三角 */
+.chat-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -40rpx; 
+  left: 50%;
+  transform: translateX(-50%);
+  border: 10rpx solid transparent;
+  border-top-color: rgb(0, 81, 97);
 }
 
 .input {
+
   width: 80%;
   height: 80rpx;
-  border: 2rpx solid #ccc;
+  border: none;
+  color:white;
   border-radius: 10rpx;
   padding: 0 20rpx;
-  margin-bottom: 20rpx;
+  text-align: center;
+  margin-bottom: 30rpx; /* 最小底部间距 */
 }
 
-.button {
+.normal {
+
   width: 60%;
   height: 80rpx;
-  background-color: #07c160;
-  color: #fff;
+
+  background: none;
+  color: rgb(255, 255, 255);
+  border-color: rgb(0, 30, 129);
+  border-style: dashed;
+
+  
   font-size: 32rpx;
   border-radius: 10rpx;
-  margin-bottom: 20rpx;
+  margin-bottom: 30rpx; /* 最小底部间距 */
+
+  transition: all 0.1s ease; 
 }
 
-.reset {
-  background-color: #ff4444;
+.normal:active {
+
+  color:rgb(255, 255, 255);
+  background-color: #aaaaaa38;
+  transform: translateY(3rpx) scale(0.96);
+  box-shadow: 0 10px 12px rgba(0,0,0,0.2);
+}
+
+
+
+.noborder {
+
+      background-image: url('/icon/cloudy-night\ \(1\).png');
+      background-size: 45px 45px;
+      background-position: center;
+
+      background-color: transparent;
+      
+      border-style: none;
 }
