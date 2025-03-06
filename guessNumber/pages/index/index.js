@@ -5,7 +5,26 @@ Page({
     guess: '',         // 用户输入的猜测
     message: '猜一个1-100之间的数字吧！', // 人物的提示消息
     characterActive: false,
-    chatBubbleActive:false
+    chatBubbleActive:false,
+    theme: 'theme-light',
+    lightBackgroundImage: '/image/red.png', 
+    lightCharacterImage: '/image/angeh.png', 
+    lightIconImage: '/icon/cloudy (1).png',
+    darkBackgroundImage: '/image/Starlit Dreams.jpg',
+    darkCharacterImage: '/image/tokoh.png',
+    darkIconImage: '/icon/cloudy-night (1).png' ,
+    backgroundImage: '/image/red.png',
+    characterImage: '/image/angeh.png',
+    iconImage: '/icon/cloudy (1).png'
+  },
+  toggleTheme() {
+    const isLight = this.data.theme === 'theme-light'; // 判断当前是否为浅色主题
+    this.setData({
+      theme: isLight ? 'theme-dark' : 'theme-light', // 切换主题
+      backgroundImage: isLight ? this.data.darkBackgroundImage : this.data.lightBackgroundImage, // 切换背景图片
+      characterImage: isLight ? this.data.darkCharacterImage : this.data.lightCharacterImage, // 切换角色图片
+      iconImage: isLight ? this.data.darkIconImage : this.data.lightIconImage // 切换图标图片
+    });
   },
 
   // 页面加载时初始化游戏

@@ -1,24 +1,19 @@
-
-<view class="container">
-  <image class="background" src="/image/Starlit Dreams.jpg"></image>
+<view class="container {{theme}}">
+  <image class="background" src="{{backgroundImage}}"></image>
 
   <view class="chat-container">
-    <view class="chat-bubble {{chatBubbleActive ? 'chat-bubble-active' : ''}}">
-    {{message}}</view>
-
+    <view class="chat-bubble {{chatBubbleActive ? 'chat-bubble-active' : ''}}">{{message}}</view>
     <view class="character-container {{characterActive ? 'character-active' : ''}}" bindtap="handleCharacterTap">
-    <image class="character" src="/image/tokoh.png"></image>
+      <image class="character" src="{{characterImage}}"></image>
     </view>
-
   </view>
   
   <input class="input" type="number" placeholder="请输入1-100之间的数字" bindinput="inputGuess" value="{{guess}}" />
   
   <button class="normal" bindtap="checkGuess">我猜是</button>
-  
   <button class="normal" bindtap="resetGame">再来</button>
 
-  <view class="icon-container" bindtap="changeTheme">
-    <image class="icon" src="/icon/cloudy-night (1).png"></image>
-    </view>
+  <view class="icon-container" bindtap="toggleTheme">
+    <image class="icon" src="{{iconImage}}"></image>
+  </view>
 </view>
