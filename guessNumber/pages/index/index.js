@@ -105,7 +105,7 @@ Page({
         });
       } else {
         this.setData({
-          message: '哇！恭喜你猜中了！就是' + target + '！'
+          message: '哇哇！你怎么知道是' + target + '！'
         });
         this.animateCharacter(3);
         this.animateChatBubble(3);
