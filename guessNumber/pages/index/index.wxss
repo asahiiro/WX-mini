@@ -1,6 +1,5 @@
 /* pages/index/index.wxss */
 
-
 /*容器*/
 .container {     
   position: relative;
@@ -27,7 +26,9 @@
 }
 
 
-/*图片*/
+/*图片*
+
+/*背景*/
 .background {
   position: absolute;
   width: 100%;
@@ -35,7 +36,7 @@
   z-index: -1;
 }
 
-
+/*图标*/
 .icon {
   height: 100rpx;
   width: 100rpx;
@@ -46,11 +47,11 @@
   transition: transform 0.1s ease; 
 }
 
-
+/*人物*/
 .character {
   width: 400rpx;
   height: 600rpx;
-  margin-top: 0rpx; 
+  margin-top: 50rpx; 
 }
 
 /*点击动画*/
@@ -64,7 +65,8 @@
   transform: translateY(-10rpx); 
 }
 
-/*主题切换相关*/
+/*其他各种框框
+theme-dark与theme-light是主题切换相关*/
 
 /*对话泡*/
 .theme-light .chat-bubble {

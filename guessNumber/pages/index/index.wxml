@@ -1,3 +1,11 @@
+<!-- 
+在基础游戏功能上进行美化：
+1.添加对话泡
+2.添加了人物，背景，以及图标（用于主题切换）
+3.每个组件都添加了点击动画
+4.对话泡与人物有额外动画，进行不同操作可以激活不同次数
+5.制作了两套主题，可以通过图标一键切换
+-->
 <view class="container {{theme}}">
   <image class="background" src="{{backgroundImage}}"></image>
 
@@ -8,8 +16,7 @@
     </view>
   </view>
   
-  <input class="input" type="number" placeholder="请输入1-100之间的数字" bindinput="inputGuess" value="{{guess}}" />
-  
+  <input class="input" type="number" placeholder="请输入1-100之间的数字" bindinput="inputGuess" value="{{guess}}" /> 
   <button class="normal" bindtap="checkGuess">我猜是</button>
   <button class="normal" bindtap="resetGame">再来</button>
 
