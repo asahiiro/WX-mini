@@ -7,39 +7,36 @@ Page({
     characterActive: false,
     chatBubbleActive:false,
     theme: 'theme-light',
-    lightBackgroundImage: '/image/red.png', 
+    lightBackgroundImage: '/image/pixel/Bakery pixel art (1).jpg', 
     lightCharacterImage: '/image/angeh.png', 
-    lightIconImage: '/icon/cloudy (1).png',
-    darkBackgroundImage: '/image/Starlit Dreams.jpg',
+    lightIconImage: '/icon/sunf.png',
+    darkBackgroundImage: '/image/pixel/Bakery pixel art.jpg',
     darkCharacterImage: '/image/tokoh.png',
-    darkIconImage: '/icon/cloudy-night (1).png' ,
-    backgroundImage: '/image/red.png',
+    darkIconImage: '/icon/moonstar.png' ,
+    backgroundImage: '/image/pixel/Bakery pixel art (1).jpg',
     characterImage: '/image/angeh.png',
-    iconImage: '/icon/cloudy (1).png'
+    iconImage: '/icon/sunf.png'
   },
   toggleTheme() {
-    const isLight = this.data.theme === 'theme-light'; // 判断当前是否为浅色主题
+    const isLight = this.data.theme === 'theme-light'; 
     this.setData({
-      theme: isLight ? 'theme-dark' : 'theme-light', // 切换主题
-      backgroundImage: isLight ? this.data.darkBackgroundImage : this.data.lightBackgroundImage, // 切换背景图片
-      characterImage: isLight ? this.data.darkCharacterImage : this.data.lightCharacterImage, // 切换角色图片
-      iconImage: isLight ? this.data.darkIconImage : this.data.lightIconImage // 切换图标图片
+      theme: isLight ? 'theme-dark' : 'theme-light', 
+      backgroundImage: isLight ? this.data.darkBackgroundImage : this.data.lightBackgroundImage, 
+      characterImage: isLight ? this.data.darkCharacterImage : this.data.lightCharacterImage, 
+      iconImage: isLight ? this.data.darkIconImage : this.data.lightIconImage 
     });
   },
 
-  // 页面加载时初始化游戏
   onLoad: function () {
     this.resetGame();
   },
 
-  // 输入框绑定，实时更新guess值
   inputGuess: function (e) {
     this.setData({
       guess: e.detail.value
     });
   },
 
-    // 动画函数：触发人物动画，times 为动画次数
     animateCharacter: function (times) {
       let count = 0;
       const animate = () => {
@@ -104,18 +101,17 @@ Page({
         });
       } else if (guess < target) {
         this.setData({
-          message: '嘿，猜小了呢！再努力一下！'
+          message: '嘿嘿，猜小了呢！再努力一下！'
         });
       } else {
         this.setData({
           message: '哇！恭喜你猜中了！就是' + target + '！'
         });
+        this.animateCharacter(3);
         this.animateChatBubble(3);
       }
     },
 
-    //换背景图片，换人物图片，换图标
-    //换边框颜色
 
   // 重置游戏
   resetGame: function () {
@@ -123,7 +119,7 @@ Page({
     this.setData({
       targetNumber: randomNum,
       guess: '',
-      message: '游戏重置啦！猜一个1-100之间的数字吧！'
+      message: '猜一个1-100之间的数字吧！'
     });
     this.animateCharacter(1);
     this.animateChatBubble(1);
