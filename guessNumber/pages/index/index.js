@@ -1,22 +1,28 @@
 // pages/index/index.js
 Page({
   data: {
-    targetNumber: 0,    // 目标数字
-    guess: '',         // 用户输入的猜测
-    message: '猜一个1-100之间的数字吧！', // 人物的提示消息
+    targetNumber: 0,
+    guess: '', 
+    message: '猜一个1-100之间的数字吧！',
+    //动画初始
     characterActive: false,
     chatBubbleActive:false,
+    //切换主题初始
     theme: 'theme-light',
+    backgroundImage: '/image/pixel/Bakery pixel art (1).jpg',
+    characterImage: '/image/angeh.png',
+    iconImage: '/icon/sunf.png',
     lightBackgroundImage: '/image/pixel/Bakery pixel art (1).jpg', 
     lightCharacterImage: '/image/angeh.png', 
     lightIconImage: '/icon/sunf.png',
     darkBackgroundImage: '/image/pixel/Bakery pixel art.jpg',
     darkCharacterImage: '/image/tokoh.png',
-    darkIconImage: '/icon/moonstar.png' ,
-    backgroundImage: '/image/pixel/Bakery pixel art (1).jpg',
-    characterImage: '/image/angeh.png',
-    iconImage: '/icon/sunf.png'
+    darkIconImage: '/icon/moonstar.png' 
   },
+
+  //切换主题
+  //背景，人物，图标
+  //各种框的颜色和阴影
   toggleTheme() {
     const isLight = this.data.theme === 'theme-light'; 
     this.setData({
@@ -27,16 +33,8 @@ Page({
     });
   },
 
-  onLoad: function () {
-    this.resetGame();
-  },
 
-  inputGuess: function (e) {
-    this.setData({
-      guess: e.detail.value
-    });
-  },
-
+  //人物动画
     animateCharacter: function (times) {
       let count = 0;
       const animate = () => {
@@ -50,14 +48,15 @@ Page({
             });
             count++;
             if (count < times) {
-              setTimeout(animate, 150); // 间隔 500 毫秒后进行下一次动画
+              setTimeout(animate, 150); 
             }
-          }, 300); // 动画持续 300 毫秒
+          }, 300);
         }
       };
       animate();
     },
 
+    //泡泡动画
     animateChatBubble: function (times) {
       let count = 0;
       const animate = () => {
@@ -71,20 +70,35 @@ Page({
             });
             count++;
             if (count < times) {
-              setTimeout(animate, 150); // 间隔 150 毫秒后进行下一次动画
+              setTimeout(animate, 150);
             }
-          }, 300); // 动画持续 300 毫秒，与 WXSS 中的动画时间一致
+          }, 300);
         }
       };
       animate();
     },
   
-    // 检查用户猜测
+
+//游戏机制
+
+  //加载
+  onLoad: function () {
+    this.resetGame();
+  },
+
+  //输入
+  inputGuess: function (e) {
+    this.setData({
+      guess: e.detail.value
+    });
+  },
+
+
+  //判断
     checkGuess: function () {
       const guess = parseInt(this.data.guess);
       const target = this.data.targetNumber;
   
-      // 触发两次动画
       this.animateCharacter(2);
       this.animateChatBubble(1);
   
@@ -113,7 +127,7 @@ Page({
     },
 
 
-  // 重置游戏
+    //重置
   resetGame: function () {
     const randomNum = Math.floor(Math.random() * 100) + 1;
     this.setData({

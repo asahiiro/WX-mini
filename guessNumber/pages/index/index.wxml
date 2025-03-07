@@ -3,7 +3,7 @@
 
   <view class="chat-container">
     <view class="chat-bubble {{chatBubbleActive ? 'chat-bubble-active' : ''}}">{{message}}</view>
-    <view class="character-container {{characterActive ? 'character-active' : ''}}" bindtap="handleCharacterTap">
+    <view class="character-container {{characterActive ? 'character-active' : ''}}" >
       <image class="character" src="{{characterImage}}"></image>
     </view>
   </view>

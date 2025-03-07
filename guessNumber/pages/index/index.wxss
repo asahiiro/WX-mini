@@ -1,5 +1,7 @@
 /* pages/index/index.wxss */
-/* 公共样式保持不变 */
+
+
+/*容器*/
 .container {     
   position: relative;
   width: 100vw;
@@ -11,13 +13,6 @@
   justify-content: flex-start;
 }
 
-.background {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-}
-
 .chat-container {
   display: flex;
   flex-direction: column;
@@ -26,38 +21,52 @@
   margin-top: auto;
 }
 
+.character-container {
+  display: inline-block;
+  transition: transform 0.3s ease; 
+}
+
+
+/*图片*/
+.background {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+
+.icon {
+  height: 100rpx;
+  width: 100rpx;
+}
+/*图标动画*/
+.icon-container:active .icon {
+  transform: translateY(5rpx) scale(1.1); 
+  transition: transform 0.1s ease; 
+}
+
+
 .character {
   width: 400rpx;
   height: 600rpx;
   margin-top: 0rpx; 
 }
 
-.icon {
-  height: 100rpx;
-  width: 100rpx;
-  
-}
-
-.icon-container:active .icon {
-  transform: translateY(5rpx) scale(0.9); 
-  transition: transform 0.2s ease; 
-}
-
-.character-container {
-  display: inline-block;
-  transition: transform 0.3s ease; 
-}
-
+/*点击动画*/
 .character-active {
   transform: translateY(-20rpx); 
 }
 
+/*JS动画*/
 .character-container:active {
   transition: transform 0.3s ease; 
   transform: translateY(-10rpx); 
 }
 
-/* 定义两个主题的样式类 */
+/*主题切换相关*/
+
+/*对话泡*/
 .theme-light .chat-bubble {
   padding: 20rpx; 
   max-width: 80%;
@@ -67,7 +76,7 @@
   color: rgb(255, 255, 255);
   font-size: 32rpx;
   background: none;
-  border-color: rgb(255, 0, 0); /* 当前主题边框颜色 */
+  border-color: rgb(255, 0, 0);
   border-style: dashed;
   border-radius: 20rpx;
   transition: all 0.1s ease; 
@@ -82,7 +91,7 @@
   color: rgb(255, 255, 255);
   font-size: 32rpx;
   background: none;
-  border-color: #ff7b00; /* 深蓝色边框 */
+  border-color: #ff7b00;
   border-style: dashed;
   border-radius: 20rpx;
   transition: all 0.1s ease; 
@@ -112,7 +121,7 @@
   left: 50%;
   transform: translateX(-50%);
   border: 10rpx solid transparent;
-  border-top-color: rgb(255, 0, 0); /* 当前主题三角颜色 */
+  border-top-color: rgb(255, 0, 0);
 }
 
 .theme-dark .chat-bubble::after {
@@ -122,9 +131,10 @@
   left: 50%;
   transform: translateX(-50%);
   border: 10rpx solid transparent;
-  border-top-color: #ff7b00; /* 深蓝色三角 */
+  border-top-color: #ff7b00;
 }
 
+/*输入框*/
 .theme-light .input {
   width: 80%;
   height: 80rpx;
@@ -151,12 +161,13 @@
   transition: all 0.1s ease;   
 }
 
+/*一般按钮*/
 .theme-light .normal {
   width: 60%;
   height: 80rpx;
   background: none;
   color: rgb(255, 255, 255);
-  border-color: rgb(255, 0, 0); /* 当前主题边框颜色 */
+  border-color: rgb(255, 0, 0); 
   border-style: dashed;
   font-size: 32rpx;
   border-radius: 10rpx;
