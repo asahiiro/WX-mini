@@ -1,17 +1,23 @@
-<!-- 
-在基础游戏功能上进行美化：
+<!-- 美化：
 1.添加对话泡
 2.添加了人物，背景，以及图标（用于主题切换）
 3.每个组件都添加了点击动画
 4.对话泡与人物有额外动画，进行不同操作可以激活不同次数
-5.制作了两套主题，可以通过图标一键切换
--->
+5.制作了两套主题，可以通过图标一键切换 -->
+
+<!--更新
+1.根据视频内容添加了计数功能，可以通过上方计数器以及点击人物触发信息得知
+2.添加像素风字体
+3.添加计数器动画
+4.优化人物显示（原本比例不对）
+ -->
 <view class="container {{theme}}">
   <image class="background" src="{{backgroundImage}}"></image>
 
   <view class="chat-container">
+    <view class="guessCount {{guessCountActive ? 'guessCount-active' : ''}}">{{guessCount}}</view>
     <view class="chat-bubble {{chatBubbleActive ? 'chat-bubble-active' : ''}}">{{message}}</view>
-    <view class="character-container {{characterActive ? 'character-active' : ''}}" >
+    <view class="character-container {{characterActive ? 'character-active' : ''}}" bindtap="characterTap">
       <image class="character" src="{{characterImage}}"></image>
     </view>
   </view>
