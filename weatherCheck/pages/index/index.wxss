@@ -1,0 +1,26 @@
+/* pages/index/index.wxss */
+swiper{
+  height: 100vh;
+}
+.page1{
+  height: 100vh;
+  border: 1px solid rgb(92, 92, 92);
+  background-color: #f0f0f0;
+}
+.page2{
+  height: 100vh;
+  border: 1px solid rgb(92, 92, 92);
+  background-color: #e0e0e0;
+}
+.main-container{
+  border: 1px solid rgb(92, 92, 92);
+}
+.detail-container{
+  border: 1px solid rgb(92, 92, 92);
+}
+.advise-container{
+  border: 1px solid rgb(92, 92, 92);
+}
+.other-container{
+  border: 1px solid rgb(92, 92, 92);
+}
