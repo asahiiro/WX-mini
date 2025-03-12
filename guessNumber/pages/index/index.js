@@ -11,13 +11,13 @@ Page({
     guessCountActive: false,
     //切换主题初始
     theme: 'theme-light',
-    backgroundImage: 'https://web-test-50s8f.kinsta.page/data/image/Bakery pixel art (1).jpg',
+    backgroundImage: 'https://web-test-50s8f.kinsta.page/data/image/bakery-room.jpg',
     characterImage: 'https://web-test-50s8f.kinsta.page/data/image/angeh.png',
     iconImage: 'https://web-test-50s8f.kinsta.page/data/icon/sunf.png',
-    lightBackgroundImage: 'https://web-test-50s8f.kinsta.page/data/image/Bakery pixel art (1).jpg', 
+    lightBackgroundImage: 'https://web-test-50s8f.kinsta.page/data/image/bakery-room.jpg', 
     lightCharacterImage: 'https://web-test-50s8f.kinsta.page/data/image/angeh.png', 
     lightIconImage: 'https://web-test-50s8f.kinsta.page/data/icon/sunf.png',
-    darkBackgroundImage: 'https://web-test-50s8f.kinsta.page/data/image/Bakery pixel art.jpg',
+    darkBackgroundImage: 'https://web-test-50s8f.kinsta.page/data/image/bakery-night.jpg',
     darkCharacterImage: 'https://web-test-50s8f.kinsta.page/data/image/tokoh.png',
     darkIconImage: 'https://web-test-50s8f.kinsta.page/data/icon/moonstar.png' 
   },
