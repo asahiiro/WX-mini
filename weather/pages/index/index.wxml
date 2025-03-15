@@ -8,18 +8,21 @@
     </view>
 
     <view class="page1" wx:else>
-      <image class="background-image" src="/image/下载.png" mode="aspectFill"></image>
+      <image class="background-image" src="/image/下载 (4).png" mode="aspectFill"></image>
       <view class="main-container">
-        <view>{{weather.temperature}}°C</view><!--目前温度-->
-        <view>{{forecasts[0].nighttemp}}°C/{{forecasts[0].daytemp}}°C</view><!--夜间与日间温度-->
-        <view>{{weather.city}}</view><!--城市-->
-        <view>{{weather.province}}</view><!--省份-->
-        <view>{{weather.weather}}</view><!--天气-->
-
-        <view>{{forecasts[0].week}}</view><!--时间-->
-        <view>{{weather.winddirection}}风</view><!--风向-->
-        <view>{{weather.windpower}}级</view><!--风力-->
-        <view>{{weather.reporttime}}</view><!--发布时间-->
+        <view class="temp">{{weather.temperature}}°C</view><!--目前温度-->
+        <view class="temprange">{{forecasts[0].nighttemp}}°C/{{forecasts[0].daytemp}}°C</view><!--夜间与日间温度-->
+        <view class="weather">{{weather.weather}}</view><!--天气-->
+        <view class="location">
+          <text class="city">{{weather.city}} </text><!--城市-->
+        <text class="province">{{weather.province}}</text><!--省份-->
+        </view>
+        <view class="week">{{forecasts[0].week}}</view><!--时间-->
+        <view class="wind">
+          <text class="winddir">{{weather.winddirection}}风 </text><!--风向-->
+          <text class="windpow ">{{weather.windpower}}级</text><!--风力-->
+        </view>
+        <view class="reporttime">{{weather.reporttime}}</view><!--发布时间-->
       </view>
 
       <view class="forecast-container">

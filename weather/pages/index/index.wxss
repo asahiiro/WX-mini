@@ -50,15 +50,16 @@ swiper{
   width: 100%;
 
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  gap: 20rpx;
   border: 1px solid rgb(92, 92, 92);       /* 记得删 */
 }
 .forecast-container{
   display: flex;
   height: 35%;
   width: 100%;
-  justify-content: space-around;
+  justify-content: space-evenly;
+
   border: 1px solid rgb(92, 92, 92);
 
 }
@@ -70,9 +71,37 @@ swiper{
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 20rpx;
 
 }
 
 .other-container{
   border: 1px solid rgb(92, 92, 92);
+}
+
+
+.temp{
+  margin-top: 150rpx;
+  font-size: 200rpx;
+}
+.temprange{
+  font-size: 40rpx;
+}
+.weather{
+  font-size: 50rpx;
+}
+.location{
+  font-size: 40rpx;
+}
+
+.week{
+  font-size: large;
+}
+.wind{
+  font-size: large;
+}
+
+.reporttime{
+  margin-top: auto;
+  font-size: large;
 }
