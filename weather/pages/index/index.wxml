@@ -8,6 +8,7 @@
     </view>
 
     <view class="page1" wx:else>
+      <image class="background-image" src="/image/下载.png" mode="aspectFill"></image>
       <view class="main-container">
         <view>{{weather.temperature}}°C</view><!--目前温度-->
         <view>{{forecasts[0].nighttemp}}°C/{{forecasts[0].daytemp}}°C</view><!--夜间与日间温度-->
