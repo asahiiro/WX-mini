@@ -1,26 +1,70 @@
 /* pages/index/index.wxss */
-swiper{
-  height: 100vh;
+
+@font-face {
+  font-family: 'Pixel';
+  src: url('https://data-wyzmv.kinsta.page/font/ark-pixel-font-12px/ark-pixel-12px-monospaced-zh_cn.ttf');
 }
-.page1{
+
+swiper{
+  font-family: 'Pixel';
   height: 100vh;
-  border: 1px solid rgb(92, 92, 92);
-  background-color: #f0f0f0;
+  width: 100vw;
+}
+
+.loading{
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: black;
+  font-size: large;
+}
+
+.page1{
+  height: 100%;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
 }
 .page2{
-  height: 100vh;
+  height: 100%;
+  width: 100%;
+
   border: 1px solid rgb(92, 92, 92);
   background-color: #e0e0e0;
 }
 .main-container{
-  border: 1px solid rgb(92, 92, 92);
+  display: flex;
+  height: 65%;
+  width: 100%;
+
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid rgb(92, 92, 92);       /* 记得删 */
 }
-.detail-container{
+.forecast-container{
+  display: flex;
+  height: 35%;
+  width: 100%;
+  justify-content: space-around;
   border: 1px solid rgb(92, 92, 92);
+
 }
-.advise-container{
-  border: 1px solid rgb(92, 92, 92);
+
+.forecast{
+  height: auto;
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
 }
+
 .other-container{
   border: 1px solid rgb(92, 92, 92);
 }

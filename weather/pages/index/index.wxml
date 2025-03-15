@@ -1,42 +1,68 @@
 <!--pages/index/index.wxml-->
-      <!-- 使用高德地图API，没有天气建议与最高最低温度的数据，所以为空-->
+<!-- 使用高德地图API，没有天气建议的数据，所以为空-->
 <swiper  vertical="true" circular="true">
 
   <swiper-item>
-    <view wx:if="{{isLoading}}">
-      <text>正在加载天气数据...</text>
+    <view class="loading" wx:if="{{isLoading}}">
+      <view>天气数据加载中...</view>
     </view>
 
     <view class="page1" wx:else>
       <view class="main-container">
-        <view>城市：{{weather.city}}</view>
-        <view>天气：{{weather.weather}}</view>
-        <view>温度：{{weather.temperature}}°C</view>
-        <view>风向：{{weather.winddirection}}</view>
-        <view>风力：{{weather.windpower}}级</view>
-        <view>湿度：{{weather.humidity}}%</view>
-        <view>更新时间：{{weather.reporttime}}</view>
+        <view>{{weather.temperature}}°C</view><!--目前温度-->
+        <view>{{forecasts[0].nighttemp}}°C/{{forecasts[0].daytemp}}°C</view><!--夜间与日间温度-->
+        <view>{{weather.city}}</view><!--城市-->
+        <view>{{weather.province}}</view><!--省份-->
+        <view>{{weather.weather}}</view><!--天气-->
+
+        <view>星期{{forecasts[0].week}}</view><!--时间-->
+        <view>{{weather.winddirection}}风</view><!--风向-->
+        <view>{{weather.windpower}}级</view><!--风力-->
+        <view>{{weather.reporttime}}</view><!--发布时间-->
       </view>
 
       <view class="forecast-container">
+
         <view class="forecast">
-
+          <view>{{forecasts[1].dayweather}}</view>
+          <view> {{forecasts[1].nighttemp}}°C ~ {{forecasts[1].daytemp}}°C</view>
+          <view>星期{{forecasts[1].week}}</view>
+          <view>{{forecasts[1].daywind}}风</view>
+          <view>{{forecasts[1].daypower}}级</view>
         </view>
-      </view>
 
-      <view class="advise-container">
-      
+        <view class="forecast">
+          <view>{{forecasts[2].dayweather}}</view>
+          <view> {{forecasts[2].nighttemp}}°C ~ {{forecasts[2].daytemp}}°C</view>
+          <view>星期{{forecasts[2].week}}</view>
+          <view>{{forecasts[2].daywind}}风</view>
+          <view>{{forecasts[2].daypower}}级</view>
+        </view>
+
+        <view class="forecast">
+          <view>{{forecasts[3].dayweather}}</view>
+          <view> {{forecasts[3].nighttemp}}°C ~ {{forecasts[3].daytemp}}°C</view>
+          <view>星期{{forecasts[3].week}}</view>
+          <view>{{forecasts[3].daywind}}风</view>
+          <view>{{forecasts[3].daypower}}级</view>
+        </view>
       </view>
 
     </view>
   </swiper-item>
 
   <swiper-item>
-    <view wx:if="{{isLoading}}">
-      <text>正在加载天气数据...</text>
+    <view class="loading" wx:if="{{isLoading}}">
+      <view>天气数据加载中...</view>
     </view>
     <view class="page2" wx:else>
-      <view class="other-container"></view>
+      <view class="other-container">
+        <block wx:for="{{forecasts}}" wx:key="date">
+          <view>
+            {{item.date}}：{{item.dayweather}}，{{item.nighttemp}}°C ~ {{item.daytemp}}°C
+          </view>
+        </block>
+      </view>
     </view>
   </swiper-item>
 
