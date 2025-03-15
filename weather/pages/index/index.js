@@ -31,15 +31,11 @@ Page({
       },
       success(res) {
         if (res.data.status === '1') {
-          weather.forEach(item => {
-            item.week = that.getWeekText(item.week);
-          });
+          const liveWeather = res.data.lives[0];
+          // 将数字星期转换为汉字
+          liveWeather.weekText = that.getWeekText(liveWeather.week);
           that.setData({
-            weather: weather,  // 存储处理后的预报天气数据
-            isLoading: false      // 加载完成
-          });
-          that.setData({
-            weather: res.data.lives[0]  // 存储实况天气数据
+            weather: liveWeather
           });
         } else {
           wx.showToast({
