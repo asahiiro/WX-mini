@@ -1,16 +1,41 @@
 <!--pages/index/index.wxml-->
+      <!-- 使用高德地图API，没有天气建议与最高最低温度的数据，所以为空-->
 <swiper  vertical="true" circular="true">
 
   <swiper-item>
-    <view class="page1">
-      <view class="main-container"></view>
-      <view class="detail-container"></view>
-      <view class="advise-container"></view>
+    <view wx:if="{{isLoading}}">
+      <text>正在加载天气数据...</text>
+    </view>
+
+    <view class="page1" wx:else>
+      <view class="main-container">
+        <view>城市：{{weather.city}}</view>
+        <view>天气：{{weather.weather}}</view>
+        <view>温度：{{weather.temperature}}°C</view>
+        <view>风向：{{weather.winddirection}}</view>
+        <view>风力：{{weather.windpower}}级</view>
+        <view>湿度：{{weather.humidity}}%</view>
+        <view>更新时间：{{weather.reporttime}}</view>
+      </view>
+
+      <view class="forecast-container">
+        <view class="forecast">
+
+        </view>
+      </view>
+
+      <view class="advise-container">
+      
+      </view>
+
     </view>
   </swiper-item>
 
   <swiper-item>
-    <view class="page2">
+    <view wx:if="{{isLoading}}">
+      <text>正在加载天气数据...</text>
+    </view>
+    <view class="page2" wx:else>
       <view class="other-container"></view>
     </view>
   </swiper-item>

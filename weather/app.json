@@ -5,8 +5,13 @@
   ],
   "window": {
     "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "Weixin",
+    "navigationBarTitleText": "中国天气网",
     "navigationBarBackgroundColor": "#ffffff"
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于获取天气数据"
+    }
   },
   "style": "v2",
   "componentFramework": "glass-easel",
