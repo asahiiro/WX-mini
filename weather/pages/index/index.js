@@ -2,7 +2,6 @@ Page({
   data: {
     weather: null,      // 存储实况天气数据
     forecasts: null,    // 存储预报天气数据
-    lastThreeDays: null,//存储后三天的天气数据
     isLoading: true     // 加载状态
     
   },
@@ -32,6 +31,13 @@ Page({
       },
       success(res) {
         if (res.data.status === '1') {
+          weather.forEach(item => {
+            item.week = that.getWeekText(item.week);
+          });
+          that.setData({
+            weather: weather,  // 存储处理后的预报天气数据
+            isLoading: false      // 加载完成
+          });
           that.setData({
             weather: res.data.lives[0]  // 存储实况天气数据
           });
@@ -63,10 +69,14 @@ Page({
       },
       success(res) {
         if (res.data.status === '1') {
+          const forecasts = res.data.forecasts[0].casts;
+          // 将数字星期转换为汉字
+          forecasts.forEach(item => {
+            item.week= that.getWeekText(item.week);
+          });
           that.setData({
-            forecasts: res.data.forecasts[0].casts,  // 存储预报天气数据
-            lastThreeDays: res.data.forecasts[0].casts.slice(-3),
-            isLoading: false  // 加载完成
+            forecasts: forecasts,  // 存储处理后的预报天气数据
+            isLoading: false      // 加载完成
           });
         } else {
           wx.showToast({
@@ -84,5 +94,18 @@ Page({
         that.setData({ isLoading: false });
       }
     });
+  },
+  // 将数字星期转换为汉字
+  getWeekText: function(week) {
+    const weekMap = {
+      '1': '星期一',
+      '2': '星期二',
+      '3': '星期三',
+      '4': '星期四',
+      '5': '星期五',
+      '6': '星期六',
+      '7': '星期日'
+    };
+    return weekMap[week] || '未知';
   }
 });

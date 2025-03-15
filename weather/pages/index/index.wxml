@@ -15,7 +15,7 @@
         <view>{{weather.province}}</view><!--省份-->
         <view>{{weather.weather}}</view><!--天气-->
 
-        <view>星期{{forecasts[0].week}}</view><!--时间-->
+        <view>{{forecasts[0].week}}</view><!--时间-->
         <view>{{weather.winddirection}}风</view><!--风向-->
         <view>{{weather.windpower}}级</view><!--风力-->
         <view>{{weather.reporttime}}</view><!--发布时间-->
@@ -26,7 +26,7 @@
         <view class="forecast">
           <view>{{forecasts[1].dayweather}}</view>
           <view> {{forecasts[1].nighttemp}}°C ~ {{forecasts[1].daytemp}}°C</view>
-          <view>星期{{forecasts[1].week}}</view>
+          <view>{{forecasts[1].week}}</view>
           <view>{{forecasts[1].daywind}}风</view>
           <view>{{forecasts[1].daypower}}级</view>
         </view>
@@ -34,7 +34,7 @@
         <view class="forecast">
           <view>{{forecasts[2].dayweather}}</view>
           <view> {{forecasts[2].nighttemp}}°C ~ {{forecasts[2].daytemp}}°C</view>
-          <view>星期{{forecasts[2].week}}</view>
+          <view>{{forecasts[2].week}}</view>
           <view>{{forecasts[2].daywind}}风</view>
           <view>{{forecasts[2].daypower}}级</view>
         </view>
@@ -42,7 +42,7 @@
         <view class="forecast">
           <view>{{forecasts[3].dayweather}}</view>
           <view> {{forecasts[3].nighttemp}}°C ~ {{forecasts[3].daytemp}}°C</view>
-          <view>星期{{forecasts[3].week}}</view>
+          <view>{{forecasts[3].week}}</view>
           <view>{{forecasts[3].daywind}}风</view>
           <view>{{forecasts[3].daypower}}级</view>
         </view>
