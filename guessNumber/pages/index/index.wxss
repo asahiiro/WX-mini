@@ -2,7 +2,7 @@
 
 @font-face{
   font-family: 'Pixel';
-  src: url('https://web-test-50s8f.kinsta.page/data/font/ark-pixel-font-12px/ark-pixel-12px-monospaced-zh_cn.ttf');
+  src: url('https://data-wyzmv.kinsta.page/font/ark-pixel-font-12px/ark-pixel-12px-monospaced-zh_cn.ttf');
 }
 
 /*容器*/

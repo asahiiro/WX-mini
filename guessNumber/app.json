@@ -1,10 +1,11 @@
 {
   "pages": [
-    "pages/index/index"
+    "pages/index/index",
+    "pages/logs/logs"
   ],
   "window": {
     "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "猜数字",
+    "navigationBarTitleText": "Weixin",
     "navigationBarBackgroundColor": "#ffffff"
   },
   "style": "v2",

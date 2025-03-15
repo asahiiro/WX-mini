@@ -11,15 +11,15 @@ Page({
     guessCountActive: false,
     //切换主题初始
     theme: 'theme-light',
-    backgroundImage: 'https://web-test-50s8f.kinsta.page/data/image/bakery-room.jpg',
-    characterImage: 'https://web-test-50s8f.kinsta.page/data/image/angeh.png',
-    iconImage: 'https://web-test-50s8f.kinsta.page/data/icon/sunf.png',
-    lightBackgroundImage: 'https://web-test-50s8f.kinsta.page/data/image/bakery-room.jpg', 
-    lightCharacterImage: 'https://web-test-50s8f.kinsta.page/data/image/angeh.png', 
-    lightIconImage: 'https://web-test-50s8f.kinsta.page/data/icon/sunf.png',
-    darkBackgroundImage: 'https://web-test-50s8f.kinsta.page/data/image/bakery-night.jpg',
-    darkCharacterImage: 'https://web-test-50s8f.kinsta.page/data/image/tokoh.png',
-    darkIconImage: 'https://web-test-50s8f.kinsta.page/data/icon/moonstar.png' 
+    backgroundImage: 'https://data-wyzmv.kinsta.page/image/bakery-room.jpg',
+    characterImage: 'https://data-wyzmv.kinsta.page/image/angeh.png',
+    iconImage: 'https://data-wyzmv.kinsta.page/icon/sunf.png',
+    lightBackgroundImage: 'https://data-wyzmv.kinsta.page/image/bakery-room.jpg', 
+    lightCharacterImage: 'https://data-wyzmv.kinsta.page/image/angeh.png', 
+    lightIconImage: 'https://data-wyzmv.kinsta.page/icon/sunf.png',
+    darkBackgroundImage: 'https://data-wyzmv.kinsta.page/image/bakery-night.jpg',
+    darkCharacterImage: 'https://data-wyzmv.kinsta.page/image/tokoh.png',
+    darkIconImage: 'https://data-wyzmv.kinsta.page/icon/moonstar.png' 
   },
 
   //切换主题
