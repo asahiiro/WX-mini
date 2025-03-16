@@ -33,18 +33,87 @@ Page({
     }
   },
 
+
   // 页面加载时触发
   onLoad: function() {
-    this.getAdcode();
+    this.getUserLocation();  // 获取用户位置
   },
- //
- //   !!!为了功能展示暂时去掉了定位功能！！！
- //
-  getAdcode: function() {
+
+  // 获取用户位置权限
+  getUserLocation: function() {
     const that = this;
-    const adcode = 110114;
-    that.getLiveWeather(adcode);      // 获取实况天气
-    that.getForecastWeather(adcode);  // 获取预报天气
+    wx.getSetting({
+      success(res) {
+        if (!res.authSetting['scope.userLocation']) {
+          wx.authorize({
+            scope: 'scope.userLocation',
+            success() {
+              that.getLocation();  // 授权成功后获取经纬度
+            },
+            fail() {
+              wx.showToast({
+                title: '请授权地理位置',
+                icon: 'none'
+              });
+            }
+          });
+        } else {
+          that.getLocation();  // 已授权，直接获取经纬度
+        }
+      }
+    });
+  },
+
+  // 获取经纬度
+  getLocation: function() {
+    const that = this;
+    wx.getLocation({
+      type: 'wgs84',  // 使用 WGS84 坐标系
+      success(res) {
+        const latitude = res.latitude;
+        const longitude = res.longitude;
+        that.getAdcode(longitude, latitude);  // 调用逆地理编码
+      },
+      fail() {
+        wx.showToast({
+          title: '获取位置失败',
+          icon: 'none'
+        });
+        that.setData({ isLoading: false });
+      }
+    });
+  },
+
+  // 通过逆地理编码获取 adcode
+  getAdcode: function(longitude, latitude) {
+    const that = this;
+    wx.request({
+      url: 'https://restapi.amap.com/v3/geocode/regeo',
+      data: {
+        key: '2f7c1f0473c07d78c0f430480094e126',  // 你的高德 API Key
+        location: `${longitude},${latitude}`
+      },
+      success(res) {
+        if (res.data.status === '1') {
+          const adcode = res.data.regeocode.addressComponent.adcode;
+          that.getLiveWeather(adcode);      // 获取实况天气
+          that.getForecastWeather(adcode);  // 获取预报天气
+        } else {
+          wx.showToast({
+            title: '获取位置信息失败',
+            icon: 'none'
+          });
+          that.setData({ isLoading: false });
+        }
+      },
+      fail() {
+        wx.showToast({
+          title: '网络请求失败',
+          icon: 'none'
+        });
+        that.setData({ isLoading: false });
+      }
+    });
   },
 
   // 获取实况天气数据
@@ -126,10 +195,6 @@ Page({
           });
           that.setData({ isLoading: false });
         }
-        //测试用
-        const setTheme = 'snowy';
-        const setIcon = 'https://data-wyzmv.kinsta.page/icon/'+'snowy.png';
-        that.changeData(setTheme,setIcon);
       },
 
       fail() {
@@ -141,20 +206,6 @@ Page({
       }
     });
   },
-  //测试用函数
-  changeData: function(newTheme, newDayIcon) {
-    const that = this;
-    const forecasts = [...that.data.forecasts];
-    if (forecasts && forecasts.length > 0) {
-      forecasts[0].dayIcon = newDayIcon; 
-    }
-    that.setData({
-      currentTheme: newTheme,
-      forecasts: forecasts
-    });
-    that.setNavBarColor(); // 更新导航栏颜色
-  },
-
 
   // 将数字星期转换为汉字
   getWeekText: function(week) {
