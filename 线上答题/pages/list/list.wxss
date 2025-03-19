@@ -1,0 +1,12 @@
+/* pages/list/list.wxss */
+label {
+  display: block;
+  margin: 8rpx;
+}
+textarea {
+  width: 600rpx;
+  height: 100rpx;
+  margin-top: 10rpx;
+  margin-bottom: 80rpx;
+  border: 2rpx solid #eee;
+}

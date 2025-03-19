@@ -127,8 +127,8 @@ Page({
           that.setData({ isLoading: false });
         }
         //测试用
-        const setTheme = 'snowy';
-        const setIcon = 'https://data-wyzmv.kinsta.page/icon/'+'snowy.png';
+        const setTheme = 'default';
+        const setIcon = 'https://data-wyzmv.kinsta.page/icon/'+'kawaii-ghost.png';
         that.changeData(setTheme,setIcon);
       },
 

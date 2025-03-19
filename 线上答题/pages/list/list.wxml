@@ -1,0 +1,19 @@
+<!--pages/list/list.wxml-->
+
+<scroll-view>
+<form  bindsubmit="submit">
+  <block wx:for="{{paper}}" wx:for-item="subitem" wx:key="title">
+    <text>{{index+1}}.{{subitem.title}}</text>
+    <radio-group name="list{{index}}">
+        <label wx:for="{{subitem.choice}}" wx:key="value">
+          <radio value="{{index}}" /> {{item}}
+        </label>
+      </radio-group>
+  </block>
+  <view>
+      <text>6.如实填写学习微信小程序的感受：</text>
+      <textarea name="opinion"  />
+    </view>
+    <button form-type="submit" >提交</button>
+  </form>
+</scroll-view>

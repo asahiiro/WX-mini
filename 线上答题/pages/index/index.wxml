@@ -1,0 +1,33 @@
+<!--pages/index/index.wxml-->
+<!--pages/index/index.wxml-->
+
+<view class="container">
+  <form bindsubmit="submit">
+    <view>
+      <text>姓名：</text>
+      <input name="name"  />
+    </view>
+    <view>
+      <text>学号：</text>
+      <input name="num"  />
+    </view>
+    <view>
+      <text>性别：</text>
+      <radio-group name="gender">
+        <label><radio value="0"  />男</label>
+        <label><radio value="1" />女</label>
+      </radio-group>
+    </view>
+    <view>
+      <text>知识点类型：</text>
+      <checkbox-group name="skills">
+        <label><checkbox value="html"  />WXML</label>
+        <label><checkbox value="css" checked />WXSS</label>
+        <label><checkbox value="js" />JavaScript</label>
+        <label><checkbox value="cloud" />云开发</label>
+      </checkbox-group>
+    </view>
+    
+    <button form-type="submit" >开始答题</button>
+  </form>
+</view>
