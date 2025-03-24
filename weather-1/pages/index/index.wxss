@@ -1,0 +1,117 @@
+@font-face {
+  font-family: 'Pixel';
+  src: url('https://data-wyzmv.kinsta.page/font/ark-pixel-font-12px/ark-pixel-12px-monospaced-zh_cn.ttf');
+}
+
+scroll-view {
+  height: 100vh;
+  width: 100vw;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch; /* 使 iOS 滚动更平滑 */
+  font-family: 'Pixel';
+}
+
+.loading {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: black;
+  font-size: large;
+}
+
+.page1, .page2 {
+  height: 100%;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  transition: background-image 0.5s ease, color 0.5s ease;
+}
+
+.page1 {
+  display: flex;
+  flex-direction: column;
+}
+
+.icon1 { height: 200rpx; width: 200rpx; }
+.icon2 { height: 150rpx; width: 150rpx; }
+.icon3 { height: 100rpx; width: 100rpx; }
+
+.main-container {
+  display: flex;
+  height: 65%;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  gap: 20rpx;
+}
+
+.temp { margin-top: 100rpx; font-size: 200rpx; }
+.temprange { font-size: 40rpx; }
+.weather { font-size: 50rpx; }
+.location { font-size: 40rpx; }
+.week { font-size: large; }
+.wind { font-size: large; }
+.reporttime { margin-top: auto; font-size: large; }
+
+.forecast-container {
+  display: flex;
+  height: 35%;
+  width: 100%;
+  justify-content: space-around;
+  gap: 5rpx;
+}
+
+.forecast {
+  height: auto;
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20rpx;
+  border-radius: 20rpx;
+  background-color: #00000000;
+  backdrop-filter: blur(1rpx);
+}
+
+.other-container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  border: 1px solid rgb(92, 92, 92);
+  gap: 20rpx;
+}
+
+.each-day {
+  width: 45%;
+  height: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 40rpx;
+  border: none;
+  border-radius: 20rpx;
+  backdrop-filter: blur(5rpx);
+  transition: background-color 0.5s ease;
+}
+
+.day, .night {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10rpx;
+}
+
+/* 菜单样式 */
+.menu {
+  height: 100vh;
+  width: 100%; /* 使用 movable-view 的宽度 */
+  background-color: #fff;
+  box-shadow: -2rpx 0 10rpx rgba(0, 0, 0, 0.2); /* 阴影在左侧 */
+}
