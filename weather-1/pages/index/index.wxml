@@ -1,94 +1,67 @@
-<movable-area style="height: 100vh; width: 100vw;">
-  <!-- 主内容保持固定 -->
-  <scroll-view scroll-y style="height: 100vh; width: 100vw; position: fixed; top: 0; left: 0;">
-    <!-- Page 1 -->
-    <view style="height: 100vh; width: 100vw;">
-      <view class="loading" wx:if="{{isLoading}}">
-        <view>天气数据加载中...</view>
-      </view>
-      <view class="page1 {{'page1-' + currentTheme}}" wx:else>
-        <view class="main-container">
-          <view class="temp">{{weather.temperature}}°C</view>
-          <view class="temprange">{{forecasts[0].nighttemp}}°C/{{forecasts[0].daytemp}}°C</view>
-          <image src="{{forecasts[0].dayIcon}}" class="icon1"/>
-          <view class="weather">{{weather.weather}}</view>
-          <view class="location">
-            <text class="city">{{weather.city}} </text>
-            <text class="province">{{weather.province}}</text>
-          </view>
-          <view class="week">{{forecasts[0].week}}</view>
-          <view class="wind">
-            <text class="winddir" wx:if="{{showWindDirection}}">{{weather.winddirection}}风 </text>
-            <text class="windpow" wx:if="{{showWindPower}}">{{weather.windpower}}级</text>
-          </view>
-          <view class="reporttime">{{weather.reporttime}}</view>
-        </view>
-        <view class="forecast-container">
-          <block wx:for="{{lastThreeDays}}" wx:key="date">
-            <view class="forecast">
-              <image src="{{item.dayIcon}}" class="icon2"/>
-              <view>{{item.dayweather}}</view>
-              <view>{{item.nighttemp}}°C ~ {{item.daytemp}}°C</view>
-              <view>{{item.week}}</view>
-              <view>{{item.daywind}}风</view>
-              <view>{{item.daypower}}级</view>
-            </view>
-          </block>
-        </view>
-      </view>
-    </view>
-    <!-- Page 2 -->
-    <view style="height: 100vh; width: 100vw;">
-      <view class="loading" wx:if="{{isLoading}}">
-        <view>天气数据加载中...</view>
-      </view>
-      <view class="page2 {{'page2-' + currentTheme}}" wx:else>
-        <view class="other-container">
-          <block wx:for="{{forecasts}}" wx:key="date">
-            <view class="each-day {{'each-day-' + currentTheme}}">
-              <view>{{item.week}}</view>
-              <view class="day">
-                <view>日间</view>
-                <image src="{{item.dayIcon}}" class="icon3"/>
-                <view>{{item.dayweather}}</view>
-                <view>{{item.daytemp}}°C</view>
-                <view>{{item.daywind}}风{{item.daypower}}级</view>
-              </view>
-              <view class="night">
-                <view>夜间</view>
-                <image src="{{item.nightIcon}}" class="icon3" />
-                <view>{{item.nightweather}}</view>
-                <view>{{item.nighttemp}}°C</view>
-                <view>{{item.nightwind}}风{{item.nightpower}}级</view>
-              </view>
-            </view>
-          </block>
-        </view>
-      </view>
-    </view>
-  </scroll-view>
+<scroll-view scroll-y="true" style="height: 100vh;" class="scroll-container">
+  <!-- Loading 状态 -->
+  <view class="loading" wx:if="{{isLoading}}">
+    <view>天气数据加载中...</view>
+  </view>
 
-  <!-- 菜单固定在右侧 -->
-  <movable-view direction="horizontal" x="{{menuX}}" inertia bind:change="onMovableChange" bind:touchend="onTouchEnd" style="height: 100vh; width: {{menuWidth}}px; position: absolute; top: 0; right: 0; z-index: 10;">
-    <view class="menu">
-      <view style="padding: 20rpx;">
-        <view style="font-size: 40rpx; margin-bottom: 20rpx;">切换主题</view>
-        <radio-group bind:change="changeTheme">
-          <label style="display: block; margin: 10rpx 0;"><radio value="default" checked="{{currentTheme === 'default'}}"/> 默认</label>
-          <label style="display: block; margin: 10rpx 0;"><radio value="sunny" checked="{{currentTheme === 'sunny'}}"/> 晴天</label>
-          <label style="display: block; margin: 10rpx 0;"><radio value="cloudy" checked="{{currentTheme === 'cloudy'}}"/> 多云</label>
-          <label style="display: block; margin: 10rpx 0;"><radio value="overcast" checked="{{currentTheme === 'overcast'}}"/> 阴天</label>
-          <label style="display: block; margin: 10rpx 0;"><radio value="rainy" checked="{{currentTheme === 'rainy'}}"/> 雨天</label>
-          <label style="display: block; margin: 10rpx 0;"><radio value="snowy" checked="{{currentTheme === 'snowy'}}"/> 雪天</label>
-        </radio-group>
-        <view style="font-size: 40rpx; margin: 40rpx 0 20rpx;">显示控制</view>
-        <view style="margin: 20rpx 0;">
-          <switch checked="{{showWindDirection}}" bind:change="toggleWindDirection"/> 显示风向
+  <!-- 非 Loading 状态下的内容 -->
+  <view wx:else>
+    <!-- 第一部分（原 page1） -->
+    <view class="page1 {{'page1-' + currentTheme}}">
+      <view class="main-container">
+        <view class="temp">{{weather.temperature}}°C</view>
+        <view class="temprange">{{forecasts[0].nighttemp}}°C/{{forecasts[0].daytemp}}°C</view>
+        <image src="{{forecasts[0].dayIcon}}" class="icon1"/>
+        <view class="weather">{{weather.weather}}</view>
+        <view class="location">
+          <text class="city">{{weather.city}} </text>
+          <text class="province">{{weather.province}}</text>
         </view>
-        <view style="margin: 20rpx 0;">
-          <switch checked="{{showWindPower}}" bind:change="toggleWindPower"/> 显示风力
+        <view class="week">{{forecasts[0].week}}</view>
+        <view class="wind">
+          <text class="winddir">{{weather.winddirection}}风 </text>
+          <text class="windpow ">{{weather.windpower}}级</text>
         </view>
+        <view class="reporttime">{{weather.reporttime}}</view>
+      </view>
+
+      <view class="forecast-container">
+        <block wx:for="{{lastThreeDays}}" wx:key="date">
+          <view class="forecast">
+            <image src="{{item.dayIcon}}" class="icon2"/>
+            <view>{{item.dayweather}}</view>
+            <view> {{item.nighttemp}}°C ~ {{item.daytemp}}°C</view>
+            <view>{{item.week}}</view>
+            <view>{{item.daywind}}风</view>
+            <view>{{item.daypower}}级</view>
+          </view>
+        </block>
       </view>
     </view>
-  </movable-view>
-</movable-area>
+
+    <!-- 第二部分（原 page2） -->
+    <view class="page2 {{'page2-' + currentTheme}}">
+      <view class="other-container">
+        <block wx:for="{{forecasts}}" wx:key="date">
+          <view class="each-day {{'each-day-' + currentTheme}}">
+            <view>{{item.week}}</view>
+            <view class="day">
+              <view>日间</view>
+              <image src="{{item.dayIcon}}" class="icon3"/>
+              <view>{{item.dayweather}}</view>
+              <view>{{item.daytemp}}°C</view>
+              <view>{{item.daywind}}风{{item.daypower}}级</view>
+            </view>
+            <view class="night">
+              <view>夜间</view>
+              <image src="{{item.nightIcon}}" class="icon3" />
+              <view>{{item.nightweather}}</view>
+              <view>{{item.nighttemp}}°C</view>
+              <view>{{item.nightwind}}风{{item.nightpower}}级</view>
+            </view>
+          </view>
+        </block>
+      </view>
+    </view>
+  </view>
+</scroll-view>
