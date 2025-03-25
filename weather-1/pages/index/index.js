@@ -51,10 +51,11 @@ Page({
         if (res.data.status === '1') {
           const liveWeather = res.data.lives[0];
           const theme = this.getWeatherTheme(liveWeather.weather);
+          liveWeather.liveIcon = this.getWeatherIcon(liveWeather.weather, true); // 为实时天气添加图标
           this.setData({
             weather: liveWeather,
             currentTheme: theme,
-            switchColor: this.data.themes[theme].switchColor // 更新 switch 颜色
+            switchColor: this.data.themes[theme].switchColor
           });
           this.setNavBarColor();
         } else {
@@ -164,7 +165,7 @@ Page({
     this.setData({
       currentTheme: theme,
       showThemePicker: false,
-      switchColor: this.data.themes[theme].switchColor // 更新 switch 颜色
+      switchColor: this.data.themes[theme].switchColor
     });
     this.setNavBarColor();
     this.closeMenu();

@@ -42,7 +42,7 @@
               <view class="main-container">
                 <view class="temp">{{weather.temperature}}°C</view>
                 <view class="temprange">{{forecasts[0].nighttemp}}°C/{{forecasts[0].daytemp}}°C</view>
-                <image src="{{forecasts[0].dayIcon}}" class="icon icon1"/>
+                <image src="{{weather.liveIcon}}" class="icon icon1"/>
                 <view class="weather">{{weather.weather}}</view>
                 <view class="location">
                   <text class="city">{{weather.city}}</text>
