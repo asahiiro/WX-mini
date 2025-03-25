@@ -7,7 +7,8 @@ Page({
     lastThreeDays: null,
     isLoading: true,
     currentTheme: 'default',
-    showThemePicker: false, // 控制主题选择列表的显示
+    showThemePicker: false,
+    showWind: true, // 默认显示风向风力
     themeOptions: [
       { key: 'default', name: '默认' },
       { key: 'sunny', name: '晴天' },
@@ -145,7 +146,7 @@ Page({
     this.setData({
       currentIndex: current,
       isMenuOpen: current === 0,
-      showThemePicker: false // 滑动时关闭主题选择
+      showThemePicker: false
     });
   },
 
@@ -169,5 +170,11 @@ Page({
     this.setData({ isLoading: true });
     this.getAdcode();
     this.closeMenu();
+  },
+
+  toggleWindDisplay: function(e) {
+    this.setData({
+      showWind: e.detail.value
+    });
   }
 });

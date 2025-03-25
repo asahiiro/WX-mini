@@ -41,8 +41,11 @@ swiper-item {
   background-size: cover;
   background-position: center;
   transition: background-image 0.5s ease, color 0.5s ease;
-
-  background: rgba(0, 0, 0, 0.3); /* 可选：半透明背景增强效果 */
+  backdrop-filter: blur(10rpx);
+  -webkit-backdrop-filter: blur(10rpx);
+  background: rgba(0, 0, 0, 0.5);
+  position: relative;
+  z-index: 1;
 }
 
 /* 主页面占满屏幕 */
@@ -63,6 +66,8 @@ swiper-item {
   gap: 40rpx;
   width: 100%;
   margin: 0;
+  position: relative;
+  z-index: 2;
 }
 
 .menu-header {
@@ -76,6 +81,16 @@ swiper-item {
   padding: 20rpx;
   border-bottom: 1rpx solid #555;
   text-align: center;
+}
+
+/* 风向风力开关样式 */
+.wind-switch {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 20rpx;
+  font-size: 40rpx;
+  border-bottom: 1rpx solid #555;
 }
 
 /* 主题选择列表 */
@@ -93,6 +108,7 @@ swiper-item {
   width: 80%;
   max-height: 80vh;
   overflow-y: auto;
+  z-index: 3;
 }
 
 .theme-option {
