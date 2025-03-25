@@ -1,235 +1,173 @@
 Page({
   data: {
-    weather: null,      // 存储实况天气数据
-    forecasts: null,    // 存储预报天气数据
-    lastThreeDays: null,//存储后三天的天气数据
-    isLoading: true,   // 加载状态
-    currentTheme: 'default', // 默认主题
+    currentIndex: 1,
+    isMenuOpen: false,
+    weather: null,
+    forecasts: null,
+    lastThreeDays: null,
+    isLoading: true,
+    currentTheme: 'default',
+    showThemePicker: false, // 控制主题选择列表的显示
+    themeOptions: [
+      { key: 'default', name: '默认' },
+      { key: 'sunny', name: '晴天' },
+      { key: 'cloudy', name: '多云' },
+      { key: 'overcast', name: '阴天' },
+      { key: 'rainy', name: '雨天' },
+      { key: 'snowy', name: '雪天' }
+    ],
     themes: {
-      'default': {
-        navBarBgColor: '#01319f', // 导航栏背景色
-        navBarFrontColor: '#ffffff' // 标题和图标颜色
-      },
-      'snowy': {
-        navBarBgColor: '#daeef8',
-        navBarFrontColor: '#000000'
-      },
-      'rainy': {
-        navBarBgColor: '#1d252f',
-        navBarFrontColor: '#ffffff'
-      },
-      'sunny': {
-        navBarBgColor: '#0d5dc3',
-        navBarFrontColor: '#ffffff'
-      },
-      'cloudy': {
-        navBarBgColor: '#fae4b7',
-        navBarFrontColor: '#ffffff'
-      },
-      'overcast': {
-        navBarBgColor: '#667683', // 中灰色背景
-        navBarFrontColor: '#ffffff' // 白色文字
-      }
+      'default': { navBarBgColor: '#01319f', navBarFrontColor: '#ffffff' },
+      'snowy': { navBarBgColor: '#daeef8', navBarFrontColor: '#000000' },
+      'rainy': { navBarBgColor: '#1d252f', navBarFrontColor: '#ffffff' },
+      'sunny': { navBarBgColor: '#0d5dc3', navBarFrontColor: '#ffffff' },
+      'cloudy': { navBarBgColor: '#fae4b7', navBarFrontColor: '#ffffff' },
+      'overcast': { navBarBgColor: '#667683', navBarFrontColor: '#ffffff' }
     }
   },
 
-  // 页面加载时触发
   onLoad: function() {
     this.getAdcode();
   },
- //
- //   !!!为了功能展示暂时去掉了定位功能！！！
- //
+
   getAdcode: function() {
-    const that = this;
     const adcode = 110114;
-    that.getLiveWeather(adcode);      // 获取实况天气
-    that.getForecastWeather(adcode);  // 获取预报天气
+    this.getLiveWeather(adcode);
+    this.getForecastWeather(adcode);
   },
 
-  // 获取实况天气数据
   getLiveWeather: function(adcode) {
-    const that = this;
     wx.request({
       url: 'https://restapi.amap.com/v3/weather/weatherInfo',
       data: {
-        key: '2f7c1f0473c07d78c0f430480094e126',  // 你的高德 API Key
+        key: '2f7c1f0473c07d78c0f430480094e126',
         city: adcode,
-        extensions: 'base'  // 获取实况天气
+        extensions: 'base'
       },
-      success(res) {
+      success: (res) => {
         if (res.data.status === '1') {
           const liveWeather = res.data.lives[0];
-          //确定要切换的主题
-          const theme = that.getWeatherTheme(liveWeather.weather);
-          // 将数字星期转换为汉字
-          liveWeather.weekText = that.getWeekText(liveWeather.week);
-          that.setData({
+          const theme = this.getWeatherTheme(liveWeather.weather);
+          this.setData({
             weather: liveWeather,
-            currentTheme:theme
+            currentTheme: theme
           });
-          that.setNavBarColor(); // 更新导航栏颜色
+          this.setNavBarColor();
         } else {
-          wx.showToast({
-            title: '获取实况天气失败',
-            icon: 'none'
-          });
+          wx.showToast({ title: '获取实况天气失败', icon: 'none' });
         }
       },
-      fail() {
-        wx.showToast({
-          title: '网络请求失败',
-          icon: 'none'
-        });
+      fail: () => {
+        wx.showToast({ title: '网络请求失败', icon: 'none' });
       }
     });
   },
 
-  // 获取预报天气数据
   getForecastWeather: function(adcode) {
-    const that = this;
     wx.request({
-
       url: 'https://restapi.amap.com/v3/weather/weatherInfo',
       data: {
-        key: '2f7c1f0473c07d78c0f430480094e126',  // 你的高德 API Key
+        key: '2f7c1f0473c07d78c0f430480094e126',
         city: adcode,
-        extensions: 'all'  // 获取预报天气
+        extensions: 'all'
       },
- 
-      success(res) {
+      success: (res) => {
         if (res.data.status === '1') {
-          let forecasts = res.data.forecasts[0].casts;
-          // 将数字星期转换为汉字
-          forecasts.forEach(item => {
-            item.week= that.getWeekText(item.week);
-          });
-
-          //添加天气对应的图标
-          forecasts = forecasts.map(cast => {
-            return {
-              ...cast,
-              dayIcon: that.getWeatherIcon(cast.dayweather, true),   // 白天图标 URL
-              nightIcon: that.getWeatherIcon(cast.nightweather, false) // 晚上图标 URL
-            };
-          });
-
-          that.setData({
-            forecasts: forecasts,  // 存储处理后的预报天气数据
+          let forecasts = res.data.forecasts[0].casts.map(item => ({
+            ...item,
+            week: this.getWeekText(item.week),
+            dayIcon: this.getWeatherIcon(item.dayweather, true),
+            nightIcon: this.getWeatherIcon(item.nightweather, false)
+          }));
+          this.setData({
+            forecasts: forecasts,
             lastThreeDays: forecasts.slice(-3),
-            isLoading: false      // 加载完成
+            isLoading: false
           });
         } else {
-          wx.showToast({
-            title: '获取预报天气失败',
-            icon: 'none'
-          });
-          that.setData({ isLoading: false });
+          wx.showToast({ title: '获取预报天气失败', icon: 'none' });
+          this.setData({ isLoading: false });
         }
-        //测试用
-        const setTheme = 'default';
-        const setIcon = 'https://data-wyzmv.kinsta.page/icon/'+'kawaii-ghost.png';
-        that.changeData(setTheme,setIcon);
       },
-
-      fail() {
-        wx.showToast({
-          title: '网络请求失败',
-          icon: 'none'
-        });
-        that.setData({ isLoading: false });
+      fail: () => {
+        wx.showToast({ title: '网络请求失败', icon: 'none' });
+        this.setData({ isLoading: false });
       }
     });
   },
-  //测试用函数
-  changeData: function(newTheme, newDayIcon) {
-    const that = this;
-    const forecasts = [...that.data.forecasts];
-    if (forecasts && forecasts.length > 0) {
-      forecasts[0].dayIcon = newDayIcon; 
-    }
-    that.setData({
-      currentTheme: newTheme,
-      forecasts: forecasts
-    });
-    that.setNavBarColor(); // 更新导航栏颜色
-  },
 
-
-  // 将数字星期转换为汉字
   getWeekText: function(week) {
     const weekMap = {
-      '1': '星期一',
-      '2': '星期二',
-      '3': '星期三',
-      '4': '星期四',
-      '5': '星期五',
-      '6': '星期六',
-      '7': '星期日'
+      '1': '星期一', '2': '星期二', '3': '星期三', '4': '星期四',
+      '5': '星期五', '6': '星期六', '7': '星期日'
     };
     return weekMap[week] || '未知';
   },
-  
-    // 获取天气图标的 URL
-    getWeatherIcon(weather, isDay) {
-      const baseUrl = 'https://data-wyzmv.kinsta.page/icon/'; // 替换为你的图片托管地址
-      let weatherType = '';
-  
-      // 根据天气描述确定天气类型
-      if (weather.includes('雨')) {
-        weatherType = 'rainy';
-        // 雨天白天和晚上使用同一张图片
-      } else if (weather.includes('雪')) {
-        weatherType = 'snowy';
-        // 雪天白天和晚上使用同一张图片
-      } else if (weather.includes('晴')) {
-        weatherType = 'sunny';
-        // 晴天需要区分白天和晚上
-        return `${baseUrl}${weatherType}${isDay ? '-day' : '-night'}.png`;
-      } else if (weather.includes('云')) {
-        weatherType = 'cloudy';
-        return `${baseUrl}${weatherType}${isDay ? '-day' : '-night'}.png`;
-        // 多云需要区分白天和晚上
-      } else if (weather.includes('阴')) {
-        weatherType = 'cloud';
-        // 阴天白天和晚上使用同一张图片
-      } else {
-        weatherType = 'kawaii-ghost';
-        // 默认情况使用同一张图片
-      }
-  
-      // 对于不区分白天和晚上的天气，直接返回相同的 URL
-      return `${baseUrl}${weatherType}.png`;
-    },
 
-    // 获取天气相关主题
-    getWeatherTheme(weather) {
-      let weatherType = '';
-      if (weather.includes('雪')) {
-        weatherType = 'snowy';
-      } else if (weather.includes('雨')) {
-        weatherType = 'rainy';
-      } else if (weather.includes('晴')) {
-        weatherType = 'sunny';
-      } else if (weather.includes('云')) {
-        weatherType = 'cloudy';
-      } else if (weather.includes('阴')) {
-        weatherType = 'overcast';
-      } else {
-        weatherType = 'default';
-      }
-      return weatherType;
-    },
-    setNavBarColor: function() {
-      const theme = this.data.themes[this.data.currentTheme] || this.data.themes['default'];
-      wx.setNavigationBarColor({
-        frontColor: theme.navBarFrontColor, // 标题和图标颜色
-        backgroundColor: theme.navBarBgColor, // 导航栏背景色
-        animation: {
-          duration: 400, // 动画时长（毫秒）
-          timingFunc: 'easeIn' // 动画效果
-        }
-      });
-    }
+  getWeatherIcon: function(weather, isDay) {
+    const baseUrl = 'https://data-wyzmv.kinsta.page/icon/';
+    if (weather.includes('雨')) return `${baseUrl}rainy.png`;
+    if (weather.includes('雪')) return `${baseUrl}snowy.png`;
+    if (weather.includes('晴')) return `${baseUrl}sunny-${isDay ? 'day' : 'night'}.png`;
+    if (weather.includes('云')) return `${baseUrl}cloudy-${isDay ? 'day' : 'night'}.png`;
+    if (weather.includes('阴')) return `${baseUrl}cloud.png`;
+    return `${baseUrl}kawaii-ghost.png`;
+  },
 
+  getWeatherTheme: function(weather) {
+    if (weather.includes('雪')) return 'snowy';
+    if (weather.includes('雨')) return 'rainy';
+    if (weather.includes('晴')) return 'sunny';
+    if (weather.includes('云')) return 'cloudy';
+    if (weather.includes('阴')) return 'overcast';
+    return 'default';
+  },
+
+  setNavBarColor: function() {
+    const theme = this.data.themes[this.data.currentTheme] || this.data.themes['default'];
+    wx.setNavigationBarColor({
+      frontColor: theme.navBarFrontColor,
+      backgroundColor: theme.navBarBgColor,
+      animation: { duration: 400, timingFunc: 'easeIn' }
+    });
+  },
+
+  openMenu: function() {
+    this.setData({ currentIndex: 0, isMenuOpen: true });
+  },
+
+  closeMenu: function() {
+    this.setData({ currentIndex: 1, isMenuOpen: false, showThemePicker: false });
+  },
+
+  onSwiperChange: function(e) {
+    const current = e.detail.current;
+    this.setData({
+      currentIndex: current,
+      isMenuOpen: current === 0,
+      showThemePicker: false // 滑动时关闭主题选择
+    });
+  },
+
+  toggleThemePicker: function() {
+    this.setData({
+      showThemePicker: !this.data.showThemePicker
+    });
+  },
+
+  selectTheme: function(e) {
+    const theme = e.currentTarget.dataset.theme;
+    this.setData({
+      currentTheme: theme,
+      showThemePicker: false
+    });
+    this.setNavBarColor();
+    this.closeMenu();
+  },
+
+  refreshWeather: function() {
+    this.setData({ isLoading: true });
+    this.getAdcode();
+    this.closeMenu();
+  }
 });
