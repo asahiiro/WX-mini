@@ -3,5 +3,6 @@
   "projectname": "weather-1",
   "setting": {
     "compileHotReLoad": true
-  }
+  },
+  "libVersion": "trial"
 }
