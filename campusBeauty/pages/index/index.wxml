@@ -30,18 +30,25 @@
   <image class="{{isPlaying ? 'rotate-icon' : ''}}" src="/images/cd.png" mode="aspectFit"></image>
 </view>
 
-<!-- 音乐控制面板（显示在图标上方） -->
+<!-- 音乐控制面板 -->
 <view class="music-panel" wx:if="{{showMusicPanel}}" animation="{{panelAnimation}}">
   <view class="panel-content">
-    <text class="panel-title">音乐播放器</text>
+    <!-- 关闭按钮 -->
+    <view class="close-icon" bind:tap="toggleMusicPanel">×</view>
+    <!-- 当前播放歌曲 -->
+    <view class="current-track">
+      <image class="track-cover" src="{{currentMusicId ? musicList[currentMusicId - 1].cover : '/images/bunny.gif'}}" mode="aspectFit"></image>
+      <view class="track-info">
+        <text class="track-title">{{currentMusicId ? musicList[currentMusicId - 1].name : '未选择歌曲'}}</text>
+        <view class="track-controls">
+          <image class="play-pause-icon" src="{{isPlaying ? '/images/pause.png' : '/images/play.png'}}" bind:tap="playPauseMusic" mode="aspectFit"></image>
+          <slider class="progress-bar" min="0" max="{{duration}}" value="{{currentTime}}" bind:change="seekMusic" show-value="{{false}}" />
+        </view>
+      </view>
+    </view>
+    <!-- 其他歌曲列表 -->
     <view class="music-list">
-      <text wx:for="{{musicList}}" wx:key="id" class="music-item {{currentMusicId === item.id ? 'active' : ''}}" bind:tap="selectMusic" data-id="{{item.id}}">{{item.name}}</text>
+      <text wx:for="{{musicList}}" wx:key="id" class="music-item {{currentMusicId === item.id ? 'active' : ''}}" bind:dbltap="selectMusic" data-id="{{item.id}}">{{item.name}}</text>
     </view>
-    <view class="control-buttons">
-      <button class="control-btn" bind:tap="playPauseMusic">{{isPlaying ? '暂停' : '播放'}}</button>
-      <button class="control-btn" bind:tap="stopMusic">停止</button>
-    </view>
-    <slider class="volume-slider" min="0" max="100" value="{{volume}}" bind:change="adjustVolume" show-value />
-    <button class="close-btn" bind:tap="toggleMusicPanel">关闭</button>
   </view>
 </view>

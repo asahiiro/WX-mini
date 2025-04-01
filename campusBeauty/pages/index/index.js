@@ -12,15 +12,19 @@ Page({
     currentBgSrc: '',
     bgAnimation: {},
     musicList: [
-      { id: 1, name: '春风', src: 'http://example.com/music/spring.mp3' },
-      { id: 2, name: '花开', src: 'http://example.com/music/flower.mp3' },
-      { id: 3, name: '静夜', src: 'http://example.com/music/night.mp3' }
+      { id: 1, name: 'FLOWERS (Piano Solo)', src: 'https://m10.music.126.net/20250401143718/8efe4c47a7ec81bcb0b8d0efd6b02d5c/ymusic/ab76/f7c8/56cb/64c610e646de1053beb64bf3f8a8b99c.mp3?vuutv=xZ+C5fUlIdHYtulCXJ0lWug0usC9zLVLG/usUkG/5rMg929DfEqfL45vTiqdwnh/8kdewqZhwTXiKFDmQcpPKtDqyUhtH/8wKcA+0xsEquc=', cover: 'https://p1.music.126.net/bCJpaqv8muvLMeijDhvV8g==/5953855464618947.jpg?param=90y90' },
+      { id: 2, name: '心に秘めた愛', src: 'https://m10.music.126.net/20250401144020/3ae71b4e4508b9423c1f5c2332632fb5/ymusic/4228/120e/74c5/50f67bc9c670e3b7172aa1876ebde3d7.mp3?vuutv=RoteRCS6pzdbkOkPboQrw1X7Py6f943RxJZvRGSKngvyeW9fPA9xR4YhBZDv6obMdDkipNB94EXjYOcVFtgTPa5Ccj+d8DEuUz3jTCAQHFo=', cover: 'https://p2.music.126.net/bCJpaqv8muvLMeijDhvV8g==/5953855464618947.jpg?param=90y90' },
+      { id: 3, name: '希望', src: 'https://m804.music.126.net/20250401144205/6d7b5c24e745e3474e1b5feb8c765db0/jdymusic/obj/wo3DlMOGwrbDjj7DisKw/11455720264/868d/22cf/8b50/b9922a736b2562d81011f24c87f190df.mp3?vuutv=9BiMvN5GPUlh08TDZONTT7+X4aq8sNj0+2Ebodhsu+KCwKHDBqIbwFwRR1LbOp7X5Cf4G967VN3n1UK5x3hMum7UWR6MbbxjKFIJc6yFJUI=&authSecret=00000195efff129c15eb0a3084db08b9', cover: 'https://p2.music.126.net/E6l0JieXt26BxRiuqmt15Q==/109951166554301464.jpg?param=90y90'},
+      { id: 4,name:'',src: 'https://m704.music.126.net/20250401144321/5901db4f010c8b3e71bfad273544b066/jdymusic/obj/wo3DlMOGwrbDjj7DisKw/36444514346/8211/80a0/5dbc/7ab4cfe47a844d8ce7681ceb4ca97299.mp3?vuutv=I99tr4u8uQC4GILlVcntnOWDeQ3hbAbp76SFQTQ2j7UoVF8se40JwEyHcxnAI4f1jtKqhjbWNE3vws+68MEiJ5NOWBZBgzrxIFo0ngSjmI0=&authSecret=00000195f0003b0c13630a329daf0006',cover :'https://p2.music.126.net/YEC31F-uiAdvLZQb5vYRCg==/109951169655626261.jpg?param=34y34'
+      }
     ],
     currentMusicId: null,
     isPlaying: false,
     showMusicPanel: false,
     volume: 50,
-    panelAnimation: {}
+    panelAnimation: {},
+    currentTime: 0, // 当前播放时间（秒）
+    duration: 0 // 总时长（秒）
   },
 
   onLoad() {
@@ -36,7 +40,16 @@ Page({
       this.setData({ isPlaying: false });
     });
     this.backgroundAudioManager.onStop(() => {
-      this.setData({ isPlaying: false });
+      this.setData({ isPlaying: false, currentTime: 0 });
+    });
+    this.backgroundAudioManager.onTimeUpdate(() => {
+      this.setData({
+        currentTime: Math.floor(this.backgroundAudioManager.currentTime),
+        duration: Math.floor(this.backgroundAudioManager.duration || 0)
+      });
+    });
+    this.backgroundAudioManager.onEnded(() => {
+      this.setData({ isPlaying: false, currentTime: 0 });
     });
   },
 
@@ -87,9 +100,9 @@ Page({
       timingFunction: 'ease'
     });
     if (show) {
-      animation.translateY(0).opacity(1).step(); // 从隐藏位置滑到紧靠图标
+      animation.translateY(0).opacity(1).step();
     } else {
-      animation.translateY(100).opacity(0).step(); // 滑回隐藏位置
+      animation.translateY(100).opacity(0).step();
     }
     this.setData({
       showMusicPanel: show,
@@ -103,10 +116,12 @@ Page({
     if (music) {
       this.backgroundAudioManager.src = music.src;
       this.backgroundAudioManager.title = music.name;
+      this.backgroundAudioManager.coverImg = music.cover;
       this.backgroundAudioManager.play();
       this.setData({
         currentMusicId: id,
-        isPlaying: true
+        isPlaying: true,
+        currentTime: 0
       });
     }
   },
@@ -123,10 +138,11 @@ Page({
     }
   },
 
-  stopMusic() {
-    this.backgroundAudioManager.stop();
+  seekMusic(e) {
+    const seekTime = e.detail.value;
+    this.backgroundAudioManager.seek(seekTime);
     this.setData({
-      isPlaying: false
+      currentTime: seekTime
     });
   },
 

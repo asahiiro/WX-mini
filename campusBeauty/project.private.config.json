@@ -3,5 +3,6 @@
   "projectname": "campusBeauty",
   "setting": {
     "compileHotReLoad": true
-  }
+  },
+  "libVersion": "trial"
 }
