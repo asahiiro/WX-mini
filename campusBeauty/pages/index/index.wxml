@@ -48,7 +48,9 @@
     </view>
     <!-- 其他歌曲列表 -->
     <view class="music-list">
-      <text wx:for="{{musicList}}" wx:key="id" class="music-item {{currentMusicId === item.id ? 'active' : ''}}" bind:dbltap="selectMusic" data-id="{{item.id}}">{{item.name}}</text>
+      <view wx:for="{{musicList}}" wx:key="id" class="music-item {{currentMusicId === item.id ? 'active' : ''}}" bind:dbltap="selectMusic" data-id="{{item.id}}">
+        <text>{{item.name}}</text>
+      </view>
     </view>
   </view>
 </view>
