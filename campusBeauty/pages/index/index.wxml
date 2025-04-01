@@ -1,0 +1,47 @@
+<!-- pages/index/index.wxml -->
+<swiper class="vertical-swiper" vertical circular bind:change="onVerticalChange">
+  <!-- 首页 -->
+  <swiper-item>
+    <view class="home-page">
+      <image class="home-bg-image" src="/images/ziteng.jpg" mode="aspectFill"></image>
+      <text class="title">校园花影</text>
+    </view>
+  </swiper-item>
+
+  <!-- 花卉页面保持不变 -->
+  <swiper-item wx:for="{{flowers}}" wx:key="id">
+    <view class="flower-page">
+      <image class="bg-image" src="{{currentBgSrc}}" mode="aspectFill" animation="{{bgAnimation}}"></image>
+      <view class="flower-content">
+        <swiper class="horizontal-swiper" circular bind:change="onHorizontalChange" data-flower-id="{{item.id}}">
+          <swiper-item wx:for="{{item.images}}" wx:key="*this">
+            <image class="flower-image" src="{{item}}" mode="aspectFit"></image>
+          </swiper-item>
+        </swiper>
+        <text class="flower-name">{{item.name}}</text>
+        <text class="flower-desc">{{item.desc}}</text>
+      </view>
+    </view>
+  </swiper-item>
+</swiper>
+
+<!-- 音乐图标 -->
+<view class="music-icon" bind:tap="toggleMusicPanel">
+  <image class="{{isPlaying ? 'rotate-icon' : ''}}" src="/images/cd.png" mode="aspectFit"></image>
+</view>
+
+<!-- 音乐控制面板（显示在图标上方） -->
+<view class="music-panel" wx:if="{{showMusicPanel}}" animation="{{panelAnimation}}">
+  <view class="panel-content">
+    <text class="panel-title">音乐播放器</text>
+    <view class="music-list">
+      <text wx:for="{{musicList}}" wx:key="id" class="music-item {{currentMusicId === item.id ? 'active' : ''}}" bind:tap="selectMusic" data-id="{{item.id}}">{{item.name}}</text>
+    </view>
+    <view class="control-buttons">
+      <button class="control-btn" bind:tap="playPauseMusic">{{isPlaying ? '暂停' : '播放'}}</button>
+      <button class="control-btn" bind:tap="stopMusic">停止</button>
+    </view>
+    <slider class="volume-slider" min="0" max="100" value="{{volume}}" bind:change="adjustVolume" show-value />
+    <button class="close-btn" bind:tap="toggleMusicPanel">关闭</button>
+  </view>
+</view>

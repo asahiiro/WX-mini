@@ -1,0 +1,190 @@
+/* pages/index/index.wxss */
+.vertical-swiper {
+  height: 100vh;
+  width: 100%;
+}
+
+/* 首页样式 */
+.home-page {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.home-bg-image {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  opacity: 0.9;
+  z-index: 1;
+}
+
+.title {
+  font-size: 60rpx;
+  font-family: 'STXingkai', serif;
+  color: #fff;
+  text-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.5);
+  z-index: 2;
+}
+
+/* 花卉页面样式 */
+.flower-page {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.bg-image {
+  position: absolute;
+  width: 150%;
+  height: 150%;
+  top: -25%;
+  left: -25%;
+  filter: blur(10rpx);
+  opacity: 0.8;
+}
+
+.flower-content {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.horizontal-swiper {
+  width: 90%;
+  height: 60vh;
+  margin: 0 auto;
+}
+
+.flower-image {
+  width: 100%;
+  height: 60vh;
+  border-radius: 20rpx;
+  box-shadow: 0 8rpx 16rpx rgba(0, 0, 0, 0.2);
+  object-fit: cover;
+}
+
+.flower-name {
+  margin-top: 40rpx;
+  font-size: 40rpx;
+  color: #fff;
+  text-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+.flower-desc {
+  margin-top: 20rpx;
+  font-size: 28rpx;
+  color: #eee;
+  text-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+/* 音乐图标样式 */
+.music-icon {
+  position: fixed;
+  bottom: 40rpx;
+  left: 40rpx;
+  width: 80rpx;
+  height: 100rpx;
+  z-index: 10;
+}
+
+.music-icon image {
+  width: 100%;
+  height: 100%;
+}
+
+.rotate-icon {
+  animation: rotate 4s linear infinite;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 音乐控制面板样式（紧靠图标上方） */
+.music-panel {
+  position: fixed;
+  bottom: 130rpx; /* 紧靠图标顶部，图标高度为 80rpx */
+  left: 50rpx; /* 与图标左对齐 */
+  width: 500rpx; /* 固定宽度，可调整 */
+  z-index: 20;
+}
+
+.panel-content {
+  background: rgba(255, 255, 255, 0.9); /* 半透明白色背景 */
+  border-radius: 20rpx;
+  padding: 20rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.2);
+}
+
+.panel-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  margin-bottom: 20rpx;
+}
+
+.music-list {
+  width: 100%;
+  max-height: 200rpx;
+  overflow-y: auto;
+  margin-bottom: 20rpx;
+}
+
+.music-item {
+  font-size: 28rpx;
+  padding: 10rpx;
+  text-align: center;
+  color: #333;
+}
+
+.music-item.active {
+  color: #ff6f61;
+  font-weight: bold;
+}
+
+.control-buttons {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 20rpx;
+}
+
+.control-btn {
+  width: 45%;
+  background: #ff6f61;
+  color: #fff;
+  font-size: 24rpx;
+}
+
+.volume-slider {
+  width: 100%;
+  margin-bottom: 20rpx;
+}
+
+.close-btn {
+  width: 50%;
+  background: #ccc;
+  color: #333;
+  font-size: 24rpx;
+}
