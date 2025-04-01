@@ -15,7 +15,7 @@ Page({
       { id: 1, name: 'FLOWERS (Piano Solo)', src: 'https://data-wyzmv.kinsta.page/audio/FLOWER.mp3', cover: 'https://p1.music.126.net/bCJpaqv8muvLMeijDhvV8g==/5953855464618947.jpg?param=90y90' },
       { id: 2, name: '心に秘めた愛', src: 'https://data-wyzmv.kinsta.page/audio/FLOWER-.mp3', cover: 'https://p2.music.126.net/bCJpaqv8muvLMeijDhvV8g==/5953855464618947.jpg?param=90y90' },
       { id: 3, name: '希望', src: 'https://data-wyzmv.kinsta.page/audio/hope.mp3', cover: 'https://p2.music.126.net/E6l0JieXt26BxRiuqmt15Q==/109951166554301464.jpg?param=90y90' },
-      { id: 4, name: '', src: "https://data-wyzmv.kinsta.page/audio/story's-begin.mp3", cover: 'https://p2.music.126.net/YEC31F-uiAdvLZQb5vYRCg==/109951169655626261.jpg?param=34y34' }
+      { id: 4, name: '物語の始まり', src: "https://data-wyzmv.kinsta.page/audio/story's-begin.mp3", cover: 'https://p2.music.126.net/YEC31F-uiAdvLZQb5vYRCg==/109951169655626261.jpg?param=34y34' }
     ],
     currentMusicId: null,
     isPlaying: false,
@@ -121,12 +121,9 @@ Page({
 
   selectMusic(e) {
     const id = e.currentTarget.dataset.id;
-    const music = this.data.musicList.find(m => m.id === parseInt(id)); // 确保 id 类型匹配
+    const music = this.data.musicList.find(m => m.id === parseInt(id));
     if (music) {
-      // 如果当前有音频在播放，先停止
-      if (this.innerAudioContext.src) {
-        this.innerAudioContext.stop();
-      }
+      this.innerAudioContext.stop();
       this.innerAudioContext.src = music.src;
       this.innerAudioContext.play();
       this.setData({
@@ -134,8 +131,6 @@ Page({
         isPlaying: true,
         currentTime: 0
       });
-    } else {
-      console.error('未找到匹配的音乐:', id);
     }
   },
 

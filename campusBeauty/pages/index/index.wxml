@@ -1,10 +1,10 @@
 <!-- pages/index/index.wxml -->
-<swiper class="vertical-swiper" vertical circular bind:change="onVerticalChange">
+<swiper class="vertical-swiper" vertical bind:change="onVerticalChange">
   <!-- 首页 -->
   <swiper-item>
     <view class="home-page">
       <image class="home-bg-image" src="/images/ziteng.jpg" mode="aspectFill"></image>
-      <text class="title">校园花影</text>
+      <text class="title">北化\n 百花</text>
     </view>
   </swiper-item>
 
@@ -42,13 +42,24 @@
         <text class="track-title">{{currentMusicId ? musicList[currentMusicId - 1].name : '未选择歌曲'}}</text>
         <view class="track-controls">
           <image class="play-pause-icon" src="{{isPlaying ? '/images/pause.png' : '/images/play.png'}}" bind:tap="playPauseMusic" mode="aspectFit"></image>
-          <slider class="progress-bar" min="0" max="{{duration}}" value="{{currentTime}}" bind:change="seekMusic" show-value="{{false}}" />
+          <slider 
+            class="progress-bar" 
+            min="0" 
+            max="{{duration}}" 
+            value="{{currentTime}}" 
+            bind:change="seekMusic" 
+            show-value="{{false}}" 
+            background-color="#d1d5db"
+            active-color="#ff6f61" 
+            block-color="#ffffff"
+            block-size="15"
+          />
         </view>
       </view>
     </view>
     <!-- 其他歌曲列表 -->
     <view class="music-list">
-      <view wx:for="{{musicList}}" wx:key="id" class="music-item {{currentMusicId === item.id ? 'active' : ''}}" bind:dbltap="selectMusic" data-id="{{item.id}}">
+      <view wx:for="{{musicList}}" wx:key="id" class="music-item {{currentMusicId === item.id ? 'active' : ''}}" bind:tap="selectMusic" data-id="{{item.id}}">
         <text>{{item.name}}</text>
       </view>
     </view>
