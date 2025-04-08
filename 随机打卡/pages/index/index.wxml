@@ -1,0 +1,23 @@
+<view class="container">
+  <image src="https://data-wyzmv.kinsta.page/icon/kawaii-ghost.png" class="logo"></image>
+  <view class="card">
+    <view class="card-item">
+      <text class="building-name">{{building}}</text>
+    </view>
+    <view class="card-item">
+      <text class="desc">{{desc}}</text>
+    </view>
+    <view class="card-item">
+      <text class="distance" wx:if="{{distance}}" style="color: {{distanceColor}}">距离你 {{distance}} 米</text>
+    </view>
+  </view>
+
+  <view class="btn-container">
+    <view class="btn-item">
+      <image src="https://data-wyzmv.kinsta.page/icon/kawaii-ghost.png" class="shake-icon"></image>
+    </view>
+    <view class="btn-item">
+      <button class="shake-btn" bindtap="startShake">摇一摇</button>
+    </view>
+  </view>
+</view>

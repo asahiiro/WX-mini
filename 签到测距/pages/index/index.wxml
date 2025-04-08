@@ -1,0 +1,30 @@
+<!--pages/index/index.wxml-->
+<view class="container">
+  <view data-weui-theme="{{theme}}">
+  <button class="avatar-wrapper" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
+    <image class="avatar" src="{{avatarUrl}}"></image>
+  </button> 
+  <mp-form>
+    <mp-cells>
+      <mp-cell title="昵称">
+        <input type="nickname" class="weui-input" placeholder="请输入昵称"/>
+      </mp-cell>
+    </mp-cells>
+  </mp-form>
+</view>
+  <view class="weui-cells_title">获取位置信息</view>
+    <view>
+      <view bind:tap="chooseLocation">
+        <view>选择位置</view>
+        <view class="input">({{choosenLocation.latitude}},{{choosenLocation.longitude}})</view>
+      </view>
+      <view bind:tap="getLocation">
+        <view class="weui-cells_bd">获取当前位置</view>
+        <view class="input">({{gotLocation.latitude}},{{gotLocation.longitude}})</view>
+      </view>
+    </view>
+    <button type="primary" disabled="{{!(flag1&&flag2)}}" bind:tap="calculate">测距</button>
+    <view class="usermotto">
+      <text class="user-motto">{{motto}}</text>
+    </view>
+</view>

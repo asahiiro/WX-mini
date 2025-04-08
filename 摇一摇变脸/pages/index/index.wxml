@@ -1,0 +1,7 @@
+<!--pages/index/index.wxml-->
+<view class="box">
+  <view class="title">变脸游戏</view>
+  <view>
+    <image src="{{imgArr[index]}}" bind:tap="changeface" mode="widthFix"></image>
+  </view>
+</view>

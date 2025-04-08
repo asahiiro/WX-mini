@@ -1,0 +1,9 @@
+/* pages/index/index.wxss */
+image{
+  margin-left: 35px;
+  margin-top: 50px;
+}
+.title{
+  font-size:20px;
+  text-align: center;
+}
