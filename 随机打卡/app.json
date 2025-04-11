@@ -7,9 +7,12 @@
       "desc": "你的位置信息将用于计算距离"
     }
   },
+  "requiredPrivateInfos": [
+    "getLocation"
+  ],
   "window": {
     "navigationBarTitleText": "校园摇一摇",
-    "navigationBarBackgroundColor": "#2c5e9e",
+    "navigationBarBackgroundColor": "#038ec5",
     "navigationBarTextStyle": "white"
   }
 }

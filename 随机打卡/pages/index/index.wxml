@@ -1,8 +1,11 @@
 <view class="container">
-  <image src="https://data-wyzmv.kinsta.page/icon/kawaii-ghost.png" class="logo"></image>
+  <image src="https://data-wyzmv.kinsta.page/icon/BUCT.png" class="logo"></image>
   <view class="card">
     <view class="card-item">
       <text class="building-name">{{building}}</text>
+    </view>
+    <view class="card-item">
+      <image src="{{iconUrl}}" class="building-icon"></image>
     </view>
     <view class="card-item">
       <text class="desc">{{desc}}</text>
@@ -14,7 +17,7 @@
 
   <view class="btn-container">
     <view class="btn-item">
-      <image src="https://data-wyzmv.kinsta.page/icon/kawaii-ghost.png" class="shake-icon"></image>
+      <image src="https://data-wyzmv.kinsta.page/icon/dice.png" class="shake-icon"></image>
     </view>
     <view class="btn-item">
       <button class="shake-btn" bindtap="startShake">摇一摇</button>

@@ -2,21 +2,22 @@ Page({
   data: {
     building: '点击开始摇一摇',
     desc: '',
+    iconUrl: 'https://data-wyzmv.kinsta.page/icon/cool-ghost.png', // 默认图标
     distance: null,
     distanceColor: '#666',
     userLocation: null,
     buildings: [
-      { name: '紫竹餐厅', latitude: 40.252133, longitude: 116.140109, desc: '校园美食聚集地' },
-      { name: '玉兰食堂', latitude: 40.253898, longitude: 116.141107, desc: '学生用餐好去处' },
-      { name: '图书馆', latitude: 40.25251, longitude: 116.144722, desc: '知识的海洋' },
-      { name: '第一教学楼', latitude: 40.248686, longitude: 116.144285, desc: '学术核心区域' },
-      { name: '第二教学楼', latitude: 40.253388, longitude: 116.143502, desc: '现代化教学楼' },
-      { name: '大学生活动中心', latitude: 40.253046, longitude: 116.141536, desc: '课外活动中心' },
-      { name: '体育馆', latitude: 40.246868, longitude: 116.142657, desc: '运动爱好者天堂' },
-      { name: '风雨操场', latitude: 40.248228, longitude: 116.139806, desc: '室内运动场地' },
-      { name: '玉屏山', latitude: 40.258956, longitude: 116.141504, desc: '校园自然景观' },
-      { name: '第二操场', latitude: 40.257505, longitude: 116.145428, desc: '户外运动场' },
-      { name: '实验楼', latitude: 40.250087, longitude: 116.145781, desc: '科研实验基地' }
+      { name: '紫竹餐厅', latitude: 40.252133, longitude: 116.140109, desc: '校园美食聚集地', icon: 'carteen-1.png' },
+      { name: '玉兰食堂', latitude: 40.253898, longitude: 116.141107, desc: '学生用餐好去处', icon: 'carteen-2.png' },
+      { name: '图书馆', latitude: 40.25251, longitude: 116.144722, desc: '知识的海洋', icon: 'library.png' },
+      { name: '第一教学楼', latitude: 40.248686, longitude: 116.144285, desc: '学术核心区域', icon: 'campus-1.png' },
+      { name: '第二教学楼', latitude: 40.253388, longitude: 116.143502, desc: '现代化教学楼', icon: 'campus-2.png' },
+      { name: '大学生活动中心', latitude: 40.253046, longitude: 116.141536, desc: '课外活动中心', icon: 'Violin.png' },
+      { name: '体育馆', latitude: 40.246868, longitude: 116.142657, desc: '运动爱好者天堂', icon: 'gym.png' },
+      { name: '风雨操场', latitude: 40.248228, longitude: 116.139806, desc: '室内运动场地', icon: 'playground.png' },
+      { name: '玉屏山', latitude: 40.258956, longitude: 116.141504, desc: '校园自然景观', icon: 'hill.png' },
+      { name: '第二操场', latitude: 40.257505, longitude: 116.145428, desc: '户外运动场', icon: 'running-track.png' },
+      { name: '实验楼', latitude: 40.250087, longitude: 116.145781, desc: '科研实验基地', icon: 'portion.png' }
     ]
   },
 
@@ -94,13 +95,15 @@ Page({
         selectedBuilding.longitude
       );
       const distanceColor = distance < 500 ? '#07c160' : distance < 1000 ? '#ff9900' : '#ff4444';
+      const iconUrl = `https://data-wyzmv.kinsta.page/icon/${selectedBuilding.icon}`;
 
       wx.vibrateLong();
-      this.setData({ building: '摇晃中...', desc: '', distance: null });
+      this.setData({ building: '摇晃中...', desc: '', iconUrl: 'https://data-wyzmv.kinsta.page/icon/cool-ghost.png', distance: null });
       setTimeout(() => {
         this.setData({
           building: selectedBuilding.name,
           desc: selectedBuilding.desc,
+          iconUrl: iconUrl,
           distance: distance,
           distanceColor: distanceColor
         });
