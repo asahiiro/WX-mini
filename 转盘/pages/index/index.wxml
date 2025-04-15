@@ -1,0 +1,15 @@
+<view class="container">
+  <!-- Wheel -->
+  <view class="wheel">
+    <view class="wheel-bg" animation="{{animation}}">
+      <view class="prize-section section-1">一等奖</view>
+      <view class="prize-section section-2">二等奖</view>
+      <view class="prize-section section-3">三等奖</view>
+      <view class="prize-section section-4">谢谢参与</view>
+    </view>
+    <view class="wheel-pointer"></view>
+  </view>
+  <!-- Start Button -->
+  <button class="start-btn" bindtap="startLottery" disabled="{{isSpinning}}">开始抽奖</button>
+  <view class="result">{{result}}</view>
+</view>
