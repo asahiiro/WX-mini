@@ -1,62 +1,127 @@
-/**index.wxss**/
-page {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-.scrollarea {
-  flex: 1;
-  overflow-y: hidden;
+
+@font-face {
+  font-family: 'Pixel';
+  src: url('https://data-wyzmv.kinsta.page/font/ark-pixel-font-12px/ark-pixel-12px-monospaced-zh_cn.ttf');
 }
 
-.userinfo {
+
+.container {
+  font-family: 'Pixel';
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: #aaa;
-  width: 80%;
+  justify-content: center;
+  height: 100vh;
 }
 
-.userinfo-avatar {
-  overflow: hidden;
-  width: 128rpx;
-  height: 128rpx;
-  margin: 20rpx;
-  border-radius: 50%;
-}
-
-.usermotto {
-  margin-top: 200px;
-}
-
-.avatar-wrapper {
-  padding: 0;
-  width: 56px !important;
-  border-radius: 8px;
-  margin-top: 40px;
-  margin-bottom: 40px;
-}
-
-.avatar {
-  display: block;
-  width: 56px;
-  height: 56px;
-}
-
-.nickname-wrapper {
-  display: flex;
+.bg-image {
+  position: absolute;
   width: 100%;
-  padding: 16px;
-  box-sizing: border-box;
-  border-top: .5px solid rgba(0, 0, 0, 0.1);
-  border-bottom: .5px solid rgba(0, 0, 0, 0.1);
-  color: black;
+  height: 100%;
+  top: 0;
+  left: 0;
+  opacity: 0.9;
+  z-index: -1;
 }
 
-.nickname-label {
-  width: 105px;
+canvas {
+  margin-bottom: 15px;
 }
 
-.nickname-input {
-  flex: 1;
+.chance-text {
+  font-size: 20px;
+  color: #fff;
+  text-shadow: 0 0 3px #c10707, 0 0 5px #c10707;
+  margin-bottom: 10px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.chance-number {
+  font-size: 25px;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 0 0 4px #c10707, 0 0 6px #c10707;
+  margin: 0 5px;
+  display: inline-block; /* 确保动画应用 */
+}
+
+.chance-number.jump {
+  animation: jump 0.3s ease-in-out;
+}
+
+@keyframes jump {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2); /* 放大到1.2倍 */
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+button {
+  width: 200px;
+  height: 50px;
+  background-color: #c1070765;
+  color: white;
+  font-size: 16px;
+  margin-bottom: 10px;
+  text-align: center;
+  border: 2px dashed rgb(209, 185, 185);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+button.button-active {
+  animation: pulse 2s infinite ease-in-out;
+}
+
+button.button-active.button-hover {
+  transform: scale(1.05);
+  background-color: #c10707a6;
+}
+
+button.button-active.button-press {
+  transform: scale(0.95);
+  background-color: #c10707a6;
+}
+
+button[disabled] {
+  background-color: rgba(204, 204, 204, 0.322);
+  animation: shake 0.5s infinite;
+  transform: scale(1);
+  border-color: rgba(209, 185, 185, 0.5);
+}
+
+@keyframes pulse {
+  0% {
+    background-color: #c1070765;
+  }
+  50% {
+    background-color: #c10707a6;
+  }
+  100% {
+    background-color: #c1070765;
+  }
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(2px);
+  }
+  50% {
+    transform: translateX(0);
+  }
+  75% {
+    transform: translateX(-2px);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }
