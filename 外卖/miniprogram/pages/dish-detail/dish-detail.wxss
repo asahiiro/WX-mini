@@ -1,71 +1,86 @@
-.reserve-container {
+.detail-container {
   min-height: 100vh;
   background: linear-gradient(180deg, #FFF3E0, #FFE8CC);
   display: flex;
   justify-content: center;
-  align-items: center;
   padding: 40rpx;
 }
 
-.form-card {
+.detail-card {
   width: 90%;
   background: #fff;
   border-radius: 24rpx;
-  padding: 48rpx;
+  overflow: hidden;
   box-shadow: 0 8rpx 20rpx rgba(0, 0, 0, 0.15);
   animation: fadeIn 0.5s ease-in-out;
 }
 
-.form-title {
+.detail-image {
+  width: 100%;
+  height: 500rpx;
+  object-fit: cover;
+}
+
+.detail-info {
+  padding: 40rpx;
+}
+
+.detail-name {
   font-size: 44rpx;
   font-weight: 600;
+  color: #333;
+  margin-bottom: 24rpx;
+  display: block;
+}
+
+.detail-price {
+  font-size: 36rpx;
+  font-weight: bold;
   color: #FF6F00;
-  text-align: center;
-  margin-bottom: 40rpx;
+  margin-bottom: 24rpx;
   display: block;
 }
 
-.form-item {
-  margin-bottom: 48rpx;
-}
-
-.label {
+.detail-desc {
   font-size: 32rpx;
-  color: #333;
-  display: block;
-  margin-bottom: 16rpx;
+  color: #666;
+  line-height: 48rpx;
 }
 
-.input, .picker {
-  width: 100%;
-  height: 90rpx;
-  background: #F5F5F5;
-  border-radius: 16rpx;
-  padding: 0 24rpx;
-  font-size: 30rpx;
-  box-sizing: border-box;
-  border: 2rpx solid #FFA040;
+.button-group {
+  padding: 0 40rpx 40rpx;
 }
 
-.picker-value {
-  line-height: 90rpx;
-  color: #333;
-}
-
-.submit-button {
+.reserve-button {
   width: 100%;
   background: linear-gradient(90deg, #FF6F00, #FFA040);
   color: #fff;
   font-size: 34rpx;
   border-radius: 60rpx;
   padding: 24rpx;
+  margin-bottom: 24rpx;
   box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.2);
   transition: transform 0.2s, opacity 0.2s;
 }
 
-.submit-button:hover {
+.reserve-button:hover {
   transform: scale(1.05);
   opacity: 0.95;
+}
+
+.back-button {
+  width: 100%;
+  background: #F5F5F5;
+  color: #FF6F00;
+  font-size: 34rpx;
+  border-radius: 60rpx;
+  padding: 24rpx;
+  border: 2rpx solid #FF6F00;
+  transition: background 0.2s;
+}
+
+.back-button:hover {
+  background: #FFE8CC;
 }
 
 @keyframes fadeIn {

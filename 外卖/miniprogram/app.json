@@ -2,13 +2,15 @@
   "pages": [
     "pages/index/index",
     "pages/reserve/reserve",
-    "pages/success/success"
+    "pages/success/success",
+    "pages/dish-detail/dish-detail"
   ],
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#fff",
+    "navigationBarBackgroundColor": "#FF6F00",
     "navigationBarTitleText": "餐厅预约",
-    "navigationBarTextStyle": "black"
+    "navigationBarTextStyle": "white"
   },
+  "style": "v2",
   "sitemapLocation": "sitemap.json"
 }

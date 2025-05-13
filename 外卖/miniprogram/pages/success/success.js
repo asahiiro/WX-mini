@@ -1,5 +1,7 @@
 Page({
   backToHome() {
-    wx.navigateBack({ delta: 2 });
+    wx.navigateBack({
+      delta: 2
+    });
   }
 });

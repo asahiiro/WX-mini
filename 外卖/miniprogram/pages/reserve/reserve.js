@@ -6,13 +6,19 @@ Page({
   },
 
   onLoad() {
-    // 获取用户OpenID
     wx.cloud.callFunction({
       name: 'getOpenId',
       success: res => {
-        wx.setStorageSync('openid', res.result.openid);
+        console.log('getOpenId 成功:', res);
+        if (res.result && res.result.openid) {
+          wx.setStorageSync('openid', res.result.openid);
+        } else {
+          console.error('响应中无 openid:', res);
+          wx.showToast({ title: '获取OpenID失败', icon: 'none' });
+        }
       },
       fail: err => {
+        console.error('getOpenId 失败:', err);
         wx.showToast({ title: '获取用户信息失败', icon: 'none' });
       }
     });
@@ -33,12 +39,11 @@ Page({
       return;
     }
 
-    // Step 1: Request subscription message permission
     wx.requestSubscribeMessage({
-      tmplIds: ['your_template_id'], // Replace with your actual template ID
+      tmplIds: ['IgwyXmLF_wbGs4dG0yjgyvsbVJYTo13iXJRo8y5WoS0'], // 替换为实际模板 ID
       success: res => {
-        if (res['your_template_id'] === 'accept') {
-          // Step 2: Save reservation to database
+        console.log('订阅消息结果:', res);
+        if (res['IgwyXmLF_wbGs4dG0yjgyvsbVJYTo13iXJRo8y5WoS0'] === 'accept') {
           db.collection('reservations').add({
             data: {
               userId: wx.getStorageSync('openid') || 'test_user',
@@ -48,7 +53,6 @@ Page({
               createTime: db.serverDate()
             },
             success: res => {
-              // Step 3: Send subscription message
               wx.cloud.callFunction({
                 name: 'sendSubscriptionMessage',
                 data: {
@@ -61,17 +65,16 @@ Page({
                   console.error('订阅消息发送失败', err);
                 }
               });
-              // Step 4: Navigate to success page
               wx.navigateTo({
                 url: '/pages/success/success'
               });
             },
             fail: err => {
+              console.error('保存预约失败:', err);
               wx.showToast({ title: '预约失败', icon: 'none' });
             }
           });
         } else {
-          // User denied permission, still save reservation
           db.collection('reservations').add({
             data: {
               userId: wx.getStorageSync('openid') || 'test_user',
@@ -86,14 +89,14 @@ Page({
               });
             },
             fail: err => {
+              console.error('保存预约失败:', err);
               wx.showToast({ title: '预约失败', icon: 'none' });
             }
           });
         }
       },
       fail: err => {
-        console.error('订阅消息请求失败', err);
-        // Even if subscription fails, proceed with reservation
+        console.error('订阅消息失败:', err);
         db.collection('reservations').add({
           data: {
             userId: wx.getStorageSync('openid') || 'test_user',
@@ -108,6 +111,7 @@ Page({
             });
           },
           fail: err => {
+            console.error('保存预约失败:', err);
             wx.showToast({ title: '预约失败', icon: 'none' });
           }
         });

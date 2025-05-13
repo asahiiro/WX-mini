@@ -1,0 +1,14 @@
+<view class="detail-container">
+  <view class="detail-card">
+    <image src="{{dish.image}}" mode="aspectFill" class="detail-image"/>
+    <view class="detail-info">
+      <text class="detail-name">{{dish.name}}</text>
+      <text class="detail-price">￥{{dish.price}}</text>
+      <text class="detail-desc">{{dish.description}}</text>
+    </view>
+    <view class="button-group">
+      <button class="reserve-button" bindtap="toReserve">立即预约</button>
+      <button class="back-button" bindtap="backToHome">返回首页</button>
+    </view>
+  </view>
+</view>

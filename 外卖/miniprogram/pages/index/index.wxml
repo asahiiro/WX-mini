@@ -1,31 +1,44 @@
-<view class="container">
-  <!-- 轮播图 -->
-  <view class="banner">
-    <swiper indicator-dots autoplay interval="5000" circular>
-      <block wx:for="{{bannerList}}" wx:key="_id">
-        <swiper-item>
-          <navigator url="{{item.url}}">
-            <image src="{{item.photo}}" mode="scaleToFill" style="width: 100%; height: 350rpx;" />
-          </navigator>
-        </swiper-item>
-      </block>
-    </swiper>
-  </view>
+<scroll-view scroll-y class="page-container">
+  <swiper class="banner-swiper" indicator-dots autoplay circular>
+    <swiper-item wx:for="{{bannerList}}" wx:key="_id">
+      <image src="{{item.photo}}" mode="aspectFill" class="banner-image" bindtap="onBannerTap" data-url="{{item.url}}"/>
+    </swiper-item>
+  </swiper>
 
-  <!-- 菜品列表 -->
-  <view class="dishes">
-    <scroll-view scroll-y style="height: 600rpx;" bindrefresherrefresh="onRefresh" refresher-enabled>
-      <view wx:for="{{dishList}}" wx:key="_id" class="dish-item">
-        <image src="{{item.image}}" mode="aspectFill" style="width: 150rpx; height: 150rpx;" />
-        <view class="dish-info">
-          <text class="dish-name">{{item.name}}</text>
-          <text class="dish-price">￥{{item.price}}</text>
-          <text class="dish-desc">{{item.description}}</text>
+  <view class="dish-section">
+    <text class="section-title">推荐菜品</text>
+    <scroll-view scroll-x class="dish-scroll">
+      <view class="dish-list">
+        <view class="dish-card" wx:for="{{dishList}}" wx:key="_id" bindtap="onDishTap" data-id="{{item._id}}">
+          <image src="{{item.image}}" mode="aspectFill" class="dish-image"/>
+          <view class="dish-info">
+            <text class="dish-name">{{item.name}}</text>
+            <text class="dish-price">￥{{item.price}}</text>
+            <text class="dish-desc">{{item.description}}</text>
+          </view>
         </view>
       </view>
     </scroll-view>
   </view>
 
-  <!-- 预约按钮 -->
-  <button class="reserve-btn" bindtap="toReserve">立即预约</button>
-</view>
+  <view class="intro-section">
+    <text class="section-title">关于我们</text>
+    <view class="intro-card">
+      <image src="{{introImage}}" mode="aspectFill" class="intro-image"/>
+      <text class="intro-text">欢迎光临我们的餐厅！我们致力于为您提供正宗川粤美食，融合传统与创新，营造温馨的用餐体验。期待您的到来！</text>
+    </view>
+  </view>
+
+  <view class="combo-section">
+    <text class="section-title">推荐套餐</text>
+    <view class="combo-list">
+      <view class="combo-card" wx:for="{{comboList}}" wx:key="id">
+        <text class="combo-name">{{item.name}}</text>
+        <text class="combo-price">￥{{item.price}}</text>
+        <text class="combo-desc">{{item.description}}</text>
+      </view>
+    </view>
+  </view>
+
+  <button class="reserve-button" bindtap="toReserve">立即预约</button>
+</scroll-view>

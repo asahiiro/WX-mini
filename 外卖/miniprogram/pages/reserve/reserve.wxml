@@ -1,13 +1,16 @@
-<view class="reserve-form">
-  <view class="form-item">
-    <text>用餐人数</text>
-    <input type="number" bindinput="onPeopleCountInput" placeholder="请输入人数" />
+<view class="reserve-container">
+  <view class="form-card">
+    <text class="form-title">预约餐厅</text>
+    <view class="form-item">
+      <text class="label">就餐人数</text>
+      <input type="number" placeholder="请输入人数" value="{{peopleCount}}" bindinput="onPeopleCountInput" class="input"/>
+    </view>
+    <view class="form-item">
+      <text class="label">预约日期</text>
+      <picker mode="date" value="{{date}}" start="2025-05-13" bindchange="onDateChange" class="picker">
+        <view class="picker-value">{{date || '请选择日期'}}</view>
+      </picker>
+    </view>
+    <button class="submit-button" bindtap="submitReservation">提交预约</button>
   </view>
-  <view class="form-item">
-    <text>预约时间</text>
-    <picker mode="date" bindchange="onDateChange">
-      <view>{{date || '请选择日期'}}</view>
-    </picker>
-  </view>
-  <button bindtap="submitReservation">提交预约</button>
 </view>

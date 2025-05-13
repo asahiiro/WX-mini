@@ -7,7 +7,7 @@ exports.main = async (event, context) => {
   try {
     const result = await cloud.openapi.subscribeMessage.send({
       touser: openid,
-      templateId: 'your_template_id', // 替换为你的订阅消息模板ID
+      templateId: 'IgwyXmLF_wbGs4dG0yjgyvsbVJYTo13iXJRo8y5WoS0', // 替换为实际模板 ID
       page: '/pages/success/success',
       data: {
         date1: { value: reservation.data.reserveTime },
@@ -15,9 +15,10 @@ exports.main = async (event, context) => {
         thing2: { value: '请按时到店用餐' }
       }
     });
+    console.log('订阅消息发送成功:', result);
     return result;
   } catch (err) {
-    console.error(err);
+    console.error('订阅消息发送失败:', err);
     return err;
   }
 };
