@@ -1,0 +1,4 @@
+<view class="success">
+  <text class="success-text">预约成功！</text>
+  <button bindtap="backToHome">返回首页</button>
+</view>
