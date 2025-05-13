@@ -1,0 +1,29 @@
+.reserve-form {
+  padding: 20rpx;
+}
+
+.form-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+  background-color: #fff;
+  padding: 20rpx;
+  border-radius: 10rpx;
+}
+
+.form-item text {
+  font-size: 32rpx;
+}
+
+.form-item input,
+.form-item picker {
+  font-size: 32rpx;
+  text-align: right;
+}
+
+button {
+  background-color: #07c160;
+  color: #fff;
+  font-size: 32rpx;
+}

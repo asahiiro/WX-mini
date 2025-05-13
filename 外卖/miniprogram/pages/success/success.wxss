@@ -1,0 +1,20 @@
+.success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.success-text {
+  font-size: 48rpx;
+  font-weight: bold;
+  margin-bottom: 40rpx;
+}
+
+button {
+  background-color: #07c160;
+  color: #fff;
+  font-size: 32rpx;
+  width: 60%;
+}

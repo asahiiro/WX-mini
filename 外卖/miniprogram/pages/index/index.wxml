@@ -1,0 +1,31 @@
+<view class="container">
+  <!-- 轮播图 -->
+  <view class="banner">
+    <swiper indicator-dots autoplay interval="5000" circular>
+      <block wx:for="{{bannerList}}" wx:key="_id">
+        <swiper-item>
+          <navigator url="{{item.url}}">
+            <image src="{{item.photo}}" mode="scaleToFill" style="width: 100%; height: 350rpx;" />
+          </navigator>
+        </swiper-item>
+      </block>
+    </swiper>
+  </view>
+
+  <!-- 菜品列表 -->
+  <view class="dishes">
+    <scroll-view scroll-y style="height: 600rpx;" bindrefresherrefresh="onRefresh" refresher-enabled>
+      <view wx:for="{{dishList}}" wx:key="_id" class="dish-item">
+        <image src="{{item.image}}" mode="aspectFill" style="width: 150rpx; height: 150rpx;" />
+        <view class="dish-info">
+          <text class="dish-name">{{item.name}}</text>
+          <text class="dish-price">￥{{item.price}}</text>
+          <text class="dish-desc">{{item.description}}</text>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 预约按钮 -->
+  <button class="reserve-btn" bindtap="toReserve">立即预约</button>
+</view>
