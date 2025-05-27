@@ -1,0 +1,6 @@
+/* 全局样式 */
+.task-item { display: flex; justify-content: space-between; padding: 20rpx; border-bottom: 1px solid #eee; }
+.sub-task-list { margin-left: 40rpx; }
+.countdown-red { color: red; }
+.input { padding: 10rpx; border: 1px solid #ddd; margin: 20rpx; }
+.button { background-color: #007aff; color: #fff; padding: 10rpx; border-radius: 8rpx; }

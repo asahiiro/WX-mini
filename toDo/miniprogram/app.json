@@ -1,0 +1,11 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/taskDetail/taskDetail",
+    "pages/addTask/addTask"
+  ],
+  "window": {
+    "navigationBarTitleText": "我的待办"
+  },
+  "sitemapLocation": "sitemap.json"
+}

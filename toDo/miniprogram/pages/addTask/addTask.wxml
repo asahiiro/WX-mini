@@ -1,0 +1,47 @@
+<form bindsubmit="saveTask">
+  <view class="add-task-container">
+    <!-- 任务标题 -->
+    <view class="form-item">
+      <label>任务标题</label>
+      <input placeholder="请输入任务标题" bindinput="inputTitle" name="title" />
+    </view>
+
+    <!-- 期限（日期和时间） -->
+    <view class="form-item">
+      <label>截止日期</label>
+      <picker mode="date" value="{{date}}" bindchange="changeDate" name="date">
+        <view>{{date || '选择日期'}}</view>
+      </picker>
+    </view>
+    <view class="form-item">
+      <label>截止时间</label>
+      <picker mode="time" value="{{time}}" bindchange="changeTime" name="time">
+        <view>{{time || '选择时间'}}</view>
+      </picker>
+    </view>
+
+    <!-- 标签（多选） -->
+    <view class="form-item">
+      <label>标签</label>
+      <checkbox-group bindchange="changeTags" name="tags">
+        <view class="checkbox-list">
+          <checkbox wx:for="{{tagOptions}}" wx:key="value" value="{{item.value}}">{{item.label}}</checkbox>
+        </view>
+      </checkbox-group>
+    </view>
+
+    <!-- 重复周期（单选） -->
+    <view class="form-item">
+      <label>重复周期</label>
+      <picker range="{{repeatOptions}}" value="{{repeatIndex}}" bindchange="changeRepeat" name="repeat">
+        <view>{{repeatOptions[repeatIndex] || '选择重复周期'}}</view>
+      </picker>
+    </view>
+
+    <!-- 按钮 -->
+    <view class="button-group">
+      <button type="primary" form-type="submit">保存</button>
+      <button type="default" bindtap="cancel">取消</button>
+    </view>
+  </view>
+</form>

@@ -1,0 +1,11 @@
+{
+  "pages": [
+    "pages/test/index"
+   
+
+  ],
+  "useExtendedLib": {
+    "kbone": true,
+    "weui": true
+  }
+}

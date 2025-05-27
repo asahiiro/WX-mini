@@ -1,0 +1,24 @@
+<view class="task-list">
+  <!-- 添加任务 -->
+  <input class="input" placeholder="添加新任务" bindinput="inputTaskTitle" />
+  <button class="button" bindtap="navigateToAddTask">+ 添加</button>
+
+  <!-- 任务列表 -->
+  <view wx:for="{{tasks}}" wx:key="id" class="task-item">
+    <checkbox checked="{{item.completed}}" bindtap="toggleTask" data-id="{{item.id}}" />
+    <text bindtap="toggleSubTasks" data-id="{{item.id}}">{{item.title}}</text>
+    <text wx:if="{{item.deadline}}" class="{{item.countdown.includes('过期') ? 'countdown-red' : ''}}">{{item.countdown}}</text>
+    <button bindtap="navigateToDetail" data-id="{{item.id}}">详情</button>
+
+    <!-- 子任务 -->
+    <view wx:if="{{item.showSubTasks}}" class="sub-task-list">
+      <view wx:for="{{item.subTasks}}" wx:key="id" class="task-item">
+        <checkbox checked="{{item.completed}}" bindtap="toggleSubTask" data-parent-id="{{item.parentId}}" data-id="{{item.id}}" />
+        <text>{{item.title}}</text>
+        <text wx:if="{{item.deadline}}" class="{{item.countdown.includes('过期') ? 'countdown-red' : ''}}">{{item.countdown}}</text>
+      </view>
+      <input class="input" placeholder="添加子任务" data-id="{{item.id}}" bindinput="inputSubTaskTitle" />
+      <button class="button" bindtap="addSubTask" data-id="{{item.id}}">+ 子任务</button>
+    </view>
+  </view>
+</view>
