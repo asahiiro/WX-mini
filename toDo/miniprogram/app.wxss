@@ -3,4 +3,4 @@
 .sub-task-list { margin-left: 40rpx; }
 .countdown-red { color: red; }
 .input { padding: 10rpx; border: 1px solid #ddd; margin: 20rpx; }
-.button { background-color: #007aff; color: #fff; padding: 10rpx; border-radius: 8rpx; }
+.button { background-color: #007bff8e; color: #fff; padding: 10rpx; border-radius: 8rpx; }

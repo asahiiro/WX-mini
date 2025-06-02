@@ -1,11 +1,13 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/taskDetail/taskDetail",
-    "pages/addTask/addTask"
+    "pages/list/list",
+    "pages/addTask/addTask",
+    "pages/addList/addTask",
+    "pages/task/task"
   ],
   "window": {
-    "navigationBarTitleText": "我的待办"
+    "navigationBarTitleText": "To Do"
   },
   "sitemapLocation": "sitemap.json"
 }

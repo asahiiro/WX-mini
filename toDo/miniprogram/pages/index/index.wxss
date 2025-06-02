@@ -1,3 +1,1 @@
-.task-list { padding: 20rpx; }
-.task-item text { flex: 1; }
-.countdown-red { color: red; }
+/* pages/index/index.wxss */
