@@ -1,2 +1,56 @@
-<!--pages/list/list.wxml-->
-<text>pages/list/list.wxml</text>
+<!-- pages/list/list.wxml -->
+<view class="list-page" style="background: {{list.background}}">
+  <view class="header">
+    <text>{{list.name}}</text>
+    <text class="edit-icon" bindtap="showEditModal">✏️</text>
+  </view>
+
+  <!-- 任务列表 -->
+  <view class="task-list">
+    <block wx:for="{{tasks}}" wx:key="index">
+      <view class="task-item" bindtap="goToTaskDetail" data-task-id="{{index}}">
+        <text>{{item.name}}</text>
+        <text wx:if="{{item.dueDate}}">截止: {{item.dueDate}}</text>
+        <text wx:if="{{item.repeat !== 'none'}}">重复: {{getRepeatLabel(item.repeat, item.customDays)}}</text>
+      </view>
+    </block>
+  </view>
+
+  <!-- 弹窗 -->
+  <view class="modal {{showModal ? 'show' : 'hide'}}">
+    <view class="modal-content">
+      <text class="close-btn" bindtap="hideModal">×</text>
+      <view class="modal-item">
+        <text>列表名称</text>
+        <input bindinput="inputName" value="{{list.name}}" placeholder="请输入列表名称" />
+      </view>
+      <view class="modal-item">
+        <text>背景选择</text>
+        <radio-group bindchange="changeBackgroundType">
+          <radio value="color" checked="{{backgroundType === 'color'}}">纯色</radio>
+          <radio value="image" checked="{{backgroundType === 'image'}}">图片</radio>
+        </radio-group>
+      </view>
+      <view wx:if="{{backgroundType === 'color'}}" class="modal-item">
+        <text>选择颜色</text>
+        <input bindinput="inputColor" value="{{list.background}}" placeholder="请输入颜色（如 #ffffff）" />
+      </view>
+      <view wx:if="{{backgroundType === 'image'}}" class="modal-item">
+        <text>选择背景图片</text>
+        <picker bindchange="selectImage" range="{{imageOptions}}" value="{{selectedImageIndex}}">
+          <view>{{imageOptions[selectedImageIndex] || '选择图片'}}</view>
+        </picker>
+      </view>
+      <view class="modal-item">
+        <text>选择图标</text>
+        <picker bindchange="selectIcon" range="{{iconOptions}}" value="{{selectedIconIndex}}">
+          <view>{{iconOptions[selectedIconIndex] || '选择图标'}}</view>
+        </picker>
+      </view>
+      <text class="confirm-btn" bindtap="saveChanges">✔</text>
+    </view>
+  </view>
+
+  <!-- 悬浮按钮 -->
+  <button class="float-btn" bindtap="goToCreateTask">+</button>
+</view>

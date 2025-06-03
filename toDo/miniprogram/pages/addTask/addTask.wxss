@@ -1,1 +1,44 @@
 /* pages/addTask/addTask.wxss */
+.task-page {
+  padding: 20rpx;
+}
+
+.form-item {
+  margin: 20rpx;
+}
+
+.form-item text {
+  display: block;
+  margin-bottom: 10rpx;
+  font-size: 32rpx;
+}
+
+input, picker {
+  border: 1rpx solid #ccc;
+  padding: 10rpx;
+  border-radius: 8rpx;
+  font-size: 28rpx;
+}
+
+radio-group, checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20rpx;
+  margin-top: 10rpx;
+}
+
+.custom-days {
+  padding-left: 20rpx;
+}
+
+button {
+  margin: 20rpx;
+  background-color: #07c160;
+  color: white;
+  border-radius: 10rpx;
+  padding: 20rpx;
+}
+
+label {
+  font-size: 28rpx;
+}

@@ -1,1 +1,35 @@
 /* pages/index/index.wxss */
+.list-container {
+  padding: 20rpx;
+  padding-bottom: 120rpx; /* 为底部按钮预留空间 */
+}
+
+.list-item {
+  display: flex;
+  align-items: center;
+  padding: 20rpx;
+  margin-bottom: 20rpx;
+  border-radius: 10rpx;
+  box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.1);
+}
+
+.list-icon {
+  font-size: 40rpx;
+  margin-right: 20rpx;
+}
+
+.list-name {
+  font-size: 32rpx;
+}
+
+.create-btn {
+  position: fixed;
+  bottom: 40rpx;
+  left: 20rpx;
+  right: 20rpx;
+  background-color: #07c160;
+  color: white;
+  border-radius: 10rpx;
+  padding: 20rpx;
+  text-align: center;
+}

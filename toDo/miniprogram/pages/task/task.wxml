@@ -1,2 +1,22 @@
-<!--pages/task/task.wxml-->
-<text>pages/task/task.wxml</text>
+<!-- pages/task/task.wxml -->
+<view class="task-page">
+  <view class="task-info">
+    <view class="info-item">
+      <text class="label">任务名称</text>
+      <text class="value">{{task.name}}</text>
+    </view>
+    <view class="info-item" wx:if="{{task.dueDate}}">
+      <text class="label">截止日期</text>
+      <text class="value">{{task.dueDate}}</text>
+    </view>
+    <view class="info-item" wx:if="{{task.repeat !== 'none'}}">
+      <text class="label">重复</text>
+      <text class="value">{{getRepeatLabel(task.repeat, task.customDays)}}</text>
+    </view>
+    <view class="info-item" wx:if="{{task.remark}}">
+      <text class="label">备注</text>
+      <text class="value">{{task.remark}}</text>
+    </view>
+  </view>
+  <button class="edit-btn" bindtap="goToEditTask">修改</button>
+</view>

@@ -1,4 +1,4 @@
-// pages/addList/addTask.js
+// pages/addList/addList.js
 Page({
 
   /**

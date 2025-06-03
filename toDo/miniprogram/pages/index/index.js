@@ -1,66 +1,39 @@
 // pages/index/index.js
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
-
+    lists: [], // 存储所有列表
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad(options) {
-
+  onLoad() {
+    // 加载本地存储的列表数据
+    const lists = wx.getStorageSync('lists') || [];
+    this.setData({ lists });
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady() {
+  // 创建新列表并跳转
+  createList() {
+    const lists = this.data.lists;
+    const newList = {
+      id: lists.length,
+      name: '新列表',
+      background: '#ffffff', // 默认白色背景
+      icon: '📋', // 默认图标
+    };
+    lists.push(newList);
+    wx.setStorageSync('lists', lists);
+    this.setData({ lists });
 
+    // 跳转到新列表页面
+    wx.navigateTo({
+      url: `/pages/list/list?id=${newList.id}`,
+    });
   },
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow() {
-
+  // 跳转到已有列表
+  goToList(e) {
+    const id = e.currentTarget.dataset.id;
+    wx.navigateTo({
+      url: `/pages/list/list?id=${id}`,
+    });
   },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload() {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh() {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom() {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage() {
-
-  }
-})
+});

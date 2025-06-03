@@ -3,8 +3,8 @@
     "pages/index/index",
     "pages/list/list",
     "pages/addTask/addTask",
-    "pages/addList/addTask",
-    "pages/task/task"
+    "pages/task/task",
+    "pages/addList/addList"
   ],
   "window": {
     "navigationBarTitleText": "To Do"

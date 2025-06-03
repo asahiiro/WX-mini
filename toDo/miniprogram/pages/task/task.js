@@ -1,66 +1,35 @@
 // pages/task/task.js
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
-
+    listId: null,
+    taskId: null,
+    task: {},
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
   onLoad(options) {
-
+    const { listId, taskId } = options;
+    const tasks = wx.getStorageSync('tasks') || {};
+    const listTasks = tasks[listId] || [];
+    const task = listTasks[taskId] || {};
+    this.setData({ listId, taskId, task });
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady() {
-
+  // 跳转到编辑页面
+  goToEditTask() {
+    const { listId, taskId } = this.data;
+    wx.navigateTo({
+      url: `/pages/addTask/addTask?listId=${listId}&taskId=${taskId}`,
+    });
   },
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow() {
-
+  // 获取重复选项的显示标签
+  getRepeatLabel(repeat, customDays) {
+    if (repeat === 'none') return '无';
+    if (repeat === 'daily') return '每天';
+    if (repeat === 'workday') return '工作日';
+    if (repeat === 'weekly') return '每周';
+    if (repeat === 'yearly') return '每年';
+    if (repeat === 'custom') return '自定义: ' + (customDays.length ? customDays.join(', ') : '无');
+    return '';
   },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload() {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh() {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom() {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage() {
-
-  }
-})
+});
