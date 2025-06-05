@@ -1,10 +1,15 @@
 <!-- pages/index/index.wxml -->
-<view class="list-container">
-  <block wx:for="{{lists}}" wx:key="index">
-    <view class="list-item" style="background: {{item.background}}" bindtap="goToList" data-id="{{index}}">
-      <text class="list-icon">{{item.icon}}</text>
-      <text class="list-name">{{item.name}}</text>
+<view class="container">
+  <view class="list-container">
+    <block wx:if="{{lists.length > 0}}" wx:for="{{lists}}" wx:key="index">
+      <view class="list-item" style="background: {{item.background}}" bindtap="goToList" data-id="{{index}}" hover-class="list-item-hover">
+        <text class="list-icon">{{item.icon}}</text>
+        <text class="list-name">{{item.name}}</text>
+      </view>
+    </block>
+    <view wx:if="{{lists.length === 0}}" class="empty-state">
+      <text>暂无列表，点击右下角创建</text>
     </view>
-  </block>
+  </view>
+  <button class="create-btn" bindtap="createList" hover-class="create-btn-hover">+</button>
 </view>
-<button class="create-btn" bindtap="createList">创建列表</button>

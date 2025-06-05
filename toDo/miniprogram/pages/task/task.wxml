@@ -13,10 +13,11 @@
       <text class="label">重复</text>
       <text class="value">{{getRepeatLabel(task.repeat, task.customDays)}}</text>
     </view>
-    <view class="info-item" wx:if="{{task.remark}}">
+    <view class="info-item">
       <text class="label">备注</text>
-      <text class="value">{{task.remark}}</text>
+      <textarea class="remark-input" value="{{task.remark || ''}}" placeholder="请输入备注" bindinput="updateRemark"></textarea>
     </view>
   </view>
+  <button class="save-remark-btn" bindtap="saveRemark">保存备注</button>
   <button class="edit-btn" bindtap="goToEditTask">修改</button>
 </view>

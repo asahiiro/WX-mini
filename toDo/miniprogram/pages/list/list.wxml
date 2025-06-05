@@ -1,7 +1,7 @@
 <!-- pages/list/list.wxml -->
-<view class="list-page" style="background: {{list.background}}">
+<view class="list-page">
   <view class="header">
-    <text>{{list.name}}</text>
+    <text class="header-title">{{list.name}}</text>
     <text class="edit-icon" bindtap="showEditModal">✏️</text>
   </view>
 
@@ -9,9 +9,11 @@
   <view class="task-list">
     <block wx:for="{{tasks}}" wx:key="index">
       <view class="task-item" bindtap="goToTaskDetail" data-task-id="{{index}}">
-        <text>{{item.name}}</text>
-        <text wx:if="{{item.dueDate}}">截止: {{item.dueDate}}</text>
-        <text wx:if="{{item.repeat !== 'none'}}">重复: {{getRepeatLabel(item.repeat, item.customDays)}}</text>
+        <text class="task-name">{{item.name}}</text>
+        <view class="task-info">
+          <text wx:if="{{item.dueDate}}" class="task-due">截止: {{item.dueDate}}</text>
+          <text wx:if="{{item.repeat !== 'none'}}" class="task-repeat">重复: {{getRepeatLabel(item.repeat, item.customDays)}}</text>
+        </view>
       </view>
     </block>
   </view>
@@ -21,30 +23,30 @@
     <view class="modal-content">
       <text class="close-btn" bindtap="hideModal">×</text>
       <view class="modal-item">
-        <text>列表名称</text>
-        <input bindinput="inputName" value="{{list.name}}" placeholder="请输入列表名称" />
+        <text class="modal-label">列表名称</text>
+        <input class="modal-input" bindinput="inputName" value="{{list.name}}" placeholder="请输入列表名称" />
       </view>
       <view class="modal-item">
-        <text>背景选择</text>
-        <radio-group bindchange="changeBackgroundType">
+        <text class="modal-label">背景选择</text>
+        <radio-group class="radio-group" bindchange="changeBackgroundType">
           <radio value="color" checked="{{backgroundType === 'color'}}">纯色</radio>
           <radio value="image" checked="{{backgroundType === 'image'}}">图片</radio>
         </radio-group>
       </view>
       <view wx:if="{{backgroundType === 'color'}}" class="modal-item">
-        <text>选择颜色</text>
-        <input bindinput="inputColor" value="{{list.background}}" placeholder="请输入颜色（如 #ffffff）" />
+        <text class="modal-label">选择颜色</text>
+        <input class="modal-input" bindinput="inputColor" value="{{list.background}}" placeholder="请输入颜色（如 #ffffff）" />
       </view>
       <view wx:if="{{backgroundType === 'image'}}" class="modal-item">
-        <text>选择背景图片</text>
-        <picker bindchange="selectImage" range="{{imageOptions}}" value="{{selectedImageIndex}}">
-          <view>{{imageOptions[selectedImageIndex] || '选择图片'}}</view>
+        <text class="modal-label">选择背景图片</text>
+        <picker class="modal-picker" bindchange="selectImage" range="{{imageOptions}}" value="{{selectedImageIndex}}">
+          <view class="picker-content">{{imageOptions[selectedImageIndex] || '选择图片'}}</view>
         </picker>
       </view>
       <view class="modal-item">
-        <text>选择图标</text>
-        <picker bindchange="selectIcon" range="{{iconOptions}}" value="{{selectedIconIndex}}">
-          <view>{{iconOptions[selectedIconIndex] || '选择图标'}}</view>
+        <text class="modal-label">选择图标</text>
+        <picker class="modal-picker" bindchange="selectIcon" range="{{iconOptions}}" value="{{selectedIconIndex}}">
+          <view class="picker-content">{{iconOptions[selectedImageIndex] || '选择图标'}}</view>
         </picker>
       </view>
       <text class="confirm-btn" bindtap="saveChanges">✔</text>

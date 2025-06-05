@@ -4,6 +4,7 @@ Page({
     listId: null,
     taskId: null,
     task: {},
+    remark: '', // Temporary storage for remark input
   },
 
   onLoad(options) {
@@ -11,10 +12,43 @@ Page({
     const tasks = wx.getStorageSync('tasks') || {};
     const listTasks = tasks[listId] || [];
     const task = listTasks[taskId] || {};
-    this.setData({ listId, taskId, task });
+    this.setData({ 
+      listId, 
+      taskId, 
+      task,
+      remark: task.remark || '' // Initialize remark
+    });
   },
 
-  // 跳转到编辑页面
+  // Update remark input
+  updateRemark(e) {
+    this.setData({ remark: e.detail.value });
+  },
+
+  // Save remark to local storage
+  saveRemark() {
+    const { listId, taskId, remark, task } = this.data;
+    
+    // Optional: Validate remark if needed (e.g., non-empty)
+    // if (!remark.trim()) {
+    //   wx.showToast({ title: '备注不能为空', icon: 'none' });
+    //   return;
+    // }
+
+    // Update task with new remark
+    const tasks = wx.getStorageSync('tasks') || {};
+    const listTasks = tasks[listId] || [];
+    listTasks[taskId] = { ...task, remark: remark || null };
+    tasks[listId] = listTasks;
+    wx.setStorageSync('tasks', tasks);
+
+    // Update displayed task
+    this.setData({ 'task.remark': remark || null });
+
+    wx.showToast({ title: '备注已保存', icon: 'success' });
+  },
+
+  // Navigate to edit page
   goToEditTask() {
     const { listId, taskId } = this.data;
     wx.navigateTo({
@@ -22,7 +56,7 @@ Page({
     });
   },
 
-  // 获取重复选项的显示标签
+  // Get repeat option label
   getRepeatLabel(repeat, customDays) {
     if (repeat === 'none') return '无';
     if (repeat === 'daily') return '每天';
