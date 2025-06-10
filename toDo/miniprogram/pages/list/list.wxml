@@ -16,7 +16,7 @@
             <text wx:if="{{item.repeat && item.repeat !== 'none'}}" class="task-repeat">重复: {{getRepeatLabel(item.repeat, item.customDays)}}</text>
           </view>
         </view>
-        <checkbox catch:change="toggleTaskComplete" data-task-id="{{item.id}}" checked="{{item.completed}}" />
+        <view class="task-status {{item.completed ? 'completed' : ''}}" bindtap="toggleTaskComplete" data-task-id="{{item.id}}"></view>
       </view>
     </block>
 
@@ -37,7 +37,7 @@
             <text wx:if="{{item.repeat && item.repeat !== 'none'}}" class="task-repeat">重复: {{getRepeatLabel(item.repeat, item.customDays)}}</text>
           </view>
         </view>
-        <checkbox catch:change="toggleTaskComplete" data-task-id="{{item.id}}" checked="{{item.completed}}" />
+        <view class="task-status {{item.completed ? 'completed' : ''}}" bindtap="toggleTaskComplete" data-task-id="{{item.id}}"></view>
       </view>
     </block>
 

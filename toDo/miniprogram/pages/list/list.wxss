@@ -89,21 +89,26 @@
   color: #64748B;
 }
 
-checkbox {
-  margin-left: 16rpx;
-}
-
-checkbox .wx-checkbox-input {
-  border: 2rpx solid #4682B4;
-  background: transparent;
+.task-status {
   width: 36rpx;
   height: 36rpx;
-  border-radius: 8rpx;
+  border: 2rpx solid #4682B4;
+  border-radius: 50%;
+  margin-left: 16rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-checkbox .wx-checkbox-input.wx-checkbox-input-checked {
-  border-color: #034cd7;
+.task-status.completed {
   background: #034cd7;
+  border-color: #034cd7;
+}
+
+.task-status.completed::after {
+  content: '✔';
+  color: #FFFFFF;
+  font-size: 24rpx;
 }
 
 .divider {
@@ -120,7 +125,7 @@ checkbox .wx-checkbox-input.wx-checkbox-input-checked {
 
 .divider-text {
   font-size: 30rpx;
-  color: #64748B;
+  color: #FFFFFF; /* 修改为白色 */
   padding: 0 20rpx;
 }
 
@@ -232,4 +237,4 @@ checkbox .wx-checkbox-input.wx-checkbox-input-checked {
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10rpx); }
   to { opacity: 1; transform: translateY(0); }
-} 
+}

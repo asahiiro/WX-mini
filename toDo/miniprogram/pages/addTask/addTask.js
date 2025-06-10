@@ -1,3 +1,5 @@
+const { getTasks, saveTask, showToast } = require('../../utils.js');
+
 Page({
   data: {
     listId: null,
@@ -27,26 +29,51 @@ Page({
   },
 
   onLoad(options) {
-    const { listId, taskId: taskIdStr } = options;
-    this.setData({ listId });
-    if (taskIdStr) {
-      const taskId = parseInt(taskIdStr, 10);
-      const tasks = wx.getStorageSync('tasks') || {};
-      const listTasks = tasks[listId] || [];
-      const task = listTasks.find(t => t.id === taskId);
-      if (task) {
-        this.setData({
-          taskId,
-          isEditing: true,
-          taskName: task.name || '',
-          dueDate: task.dueDate || '',
-          repeat: task.repeat || 'none',
-          customDays: task.customDays || [],
-        });
-      } else {
-        wx.showToast({ title: '任务不存在', icon: 'error' });
-        wx.navigateBack();
+    console.log('addTask 参数:', options);
+    if (!options.listId) {
+      console.error('缺少 listId 参数:', options);
+      showToast('缺少列表ID', 'error');
+      setTimeout(() => wx.navigateBack(), 1500);
+      return;
+    }
+    this.setData({ listId: Number(options.listId) });
+    if (options.taskId) {
+      const taskId = parseInt(options.taskId, 10);
+      if (isNaN(taskId)) {
+        console.error('无效 taskId:', options.taskId);
+        showToast('任务ID无效', 'error');
+        setTimeout(() => wx.navigateBack(), 1500);
+        return;
       }
+      this.loadTask(taskId);
+    }
+  },
+
+  async loadTask(taskId) {
+    try {
+      console.log('加载任务，ListID:', this.data.listId, 'TaskID:', taskId);
+      const tasks = await getTasks(this.data.listId);
+      console.log('获取任务数据:', tasks);
+      const task = tasks.find(t => t.id === taskId);
+      if (!task) {
+        console.error('任务不存在，TaskID:', taskId);
+        showToast('任务不存在', 'error');
+        setTimeout(() => wx.navigateBack(), 1500);
+        return;
+      }
+      this.setData({
+        taskId,
+        isEditing: true,
+        taskName: task.name || '',
+        dueDate: task.dueDate || '',
+        repeat: task.repeat || 'none',
+        customDays: task.customDays || [],
+      });
+      console.log('任务加载成功:', task);
+    } catch (e) {
+      console.error('加载任务失败:', e);
+      showToast('加载任务失败', 'error');
+      setTimeout(() => wx.navigateBack(), 1500);
     }
   },
 
@@ -55,52 +82,67 @@ Page({
   },
 
   selectRepeat(e) {
-    const repeat = e.detail.value;
+    const repeat = this.data.repeatOptions[e.detail.value].value;
     this.setData({
       repeat,
       customDays: repeat === 'custom' ? this.data.customDays : [],
     });
+    console.log('选择重复类型:', repeat, 'CustomDays:', this.data.customDays);
   },
 
   selectCustomDays(e) {
-    this.setData({ customDays: e.detail.value });
+    const customDays = e.detail.value;
+    this.setData({ customDays });
+    console.log('选择自定义星期:', customDays);
   },
 
   updateTaskName(e) {
-    this.setData({ taskName: e.detail.value });
+    this.setData({ taskName: e.detail.value.trim() });
   },
 
-  submitTask(e) {
-    const taskName = e.detail.value.taskName || '';
-    if (!taskName.trim()) {
-      wx.showToast({ title: '任务名称不能为空', icon: 'none' });
+  async submitTask(e) {
+    const taskName = e.detail.value.taskName.trim();
+    if (!taskName) {
+      showToast('任务名称不能为空');
+      return;
+    }
+    if (taskName.length > 50) {
+      showToast('任务名称不能超过50字');
+      return;
+    }
+    if (this.data.repeat === 'custom' && !this.data.customDays.length) {
+      showToast('自定义重复需选择至少一个星期');
       return;
     }
 
-    const tasks = wx.getStorageSync('tasks') || {};
-    const listTasks = tasks[this.data.listId] || [];
-    const task = {
-      id: this.data.isEditing ? this.data.taskId : Date.now(),
-      name: taskName,
-      dueDate: this.data.dueDate || null,
-      repeat: this.data.repeat,
-      customDays: this.data.repeat === 'custom' ? this.data.customDays : [],
-      completed: this.data.isEditing ? (listTasks.find(t => t.id === this.data.taskId)?.completed || false) : false,
-    };
-
-    if (this.data.isEditing) {
-      const index = listTasks.findIndex(t => t.id === this.data.taskId);
-      if (index !== -1) {
-        listTasks[index] = task;
-        wx.showToast({ title: '任务已更新', icon: 'success' });
+    try {
+      console.log('提交任务:', taskName);
+      const tasks = await getTasks(this.data.listId);
+      let task = {
+        listId: this.data.listId,
+        id: this.data.isEditing ? this.data.taskId : Date.now(),
+        name: taskName,
+        dueDate: this.data.dueDate || null,
+        repeat: this.data.repeat,
+        customDays: this.data.repeat === 'custom' ? this.data.customDays : [],
+        completed: false,
+      };
+      if (this.data.isEditing) {
+        const existingTask = tasks.find(t => t.id === this.data.taskId);
+        if (existingTask) {
+          task = { ...existingTask, ...task };
+        } else {
+          console.error('任务不存在，TaskID:', this.data.taskId);
+          showToast('任务不存在', 'error');
+          return;
+        }
       }
-    } else {
-      listTasks.push(task);
-      wx.showToast({ title: '任务创建成功', icon: 'success' });
+      await saveTask(task);
+      showToast(this.data.isEditing ? '任务已更新' : '任务创建成功', 'success');
+      wx.navigateBack();
+    } catch (e) {
+      console.error('保存任务失败:', e);
+      showToast('保存任务失败', 'error');
     }
-
-    tasks[this.data.listId] = listTasks;
-    wx.setStorageSync('tasks', tasks);
-    wx.navigateBack();
   },
 });

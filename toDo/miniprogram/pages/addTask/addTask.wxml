@@ -2,7 +2,7 @@
   <form class="form" bindsubmit="submitTask">
     <view class="form-item">
       <text class="label">任务名称</text>
-      <input class="input" name="taskName" value="{{taskName}}" placeholder="请输入任务名称" focus="{{true}}" bindinput="updateTaskName" />
+      <input class="input" name="taskName" value="{{taskName}}" placeholder="请输入任务名称" focus="{{true}}" bindinput="updateTaskName" maxlength="50" />
     </view>
     <view class="form-item">
       <text class="label">截止日期（可选）</text>
@@ -12,17 +12,15 @@
     </view>
     <view class="form-item">
       <text class="label">重复（可选）</text>
-      <radio-group class="radio-group" bindchange="selectRepeat">
-        <label class="radio-label" wx:for="{{repeatOptions}}" wx:key="index">
-          <radio value="{{item.value}}" checked="{{repeat === item.value}}" />{{item.label}}
-        </label>
-      </radio-group>
+      <picker class="picker" bindchange="selectRepeat" range="{{repeatOptions}}" range-key="label" value="{{repeatOptions.findIndex(item => item.value === repeat)}}">
+        <view class="picker-content">{{repeatOptions.find(item => item.value === repeat)?.label || '选择重复类型'}}</view>
+      </picker>
     </view>
-    <view hidden="{{repeat !== 'custom'}}" class="form-item custom-days">
+    <view wx:if="{{repeat === 'custom'}}" class="form-item custom-days">
       <text class="label">选择重复的星期</text>
       <checkbox-group class="checkbox-group" bindchange="selectCustomDays">
-        <label class="checkbox-label" wx:for="{{daysOfWeek}}" wx:key="index">
-          <checkbox value="{{item.value}}" checked="{{customDays.includes(item.value)}}">{{item.label}}</checkbox>
+        <label class="checkbox-label" wx:for="{{daysOfWeek}}" wx:key="value">
+          <checkbox value="{{item.value}}" checked="{{customDays.includes(item.value)}}" />{{item.label}}
         </label>
       </checkbox-group>
     </view>

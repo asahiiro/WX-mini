@@ -1,67 +1,75 @@
+// pages/index/index.js
+const { getLists, saveList, deleteList, showToast, showConfirm } = require('../../utils.js');
+
 Page({
   data: {
     listData: [],
+    isLoading: false,
   },
 
-  // 页面加载时获取列表数据
   onLoad() {
-    this.loadLists();
+    this.loadListData();
   },
 
-  // 页面显示时刷新列表数据
   onShow() {
-    this.loadLists();
+    this.loadListData();
   },
 
-  // 从本地存储加载列表
-  loadLists() {
-    const lists = wx.getStorageSync('lists') || [];
-    this.setData({ listData: lists });
-    console.log('Loaded lists:', JSON.stringify(lists));
-    if (!lists.length) {
-      console.warn('No lists found in storage');
-      wx.showToast({ title: '暂无列表，请创建新列表', icon: 'none' });
+  async loadListData() {
+    this.setData({ isLoading: true });
+    try {
+      console.log('加载列表数据');
+      const lists = await getLists();
+      this.setData({ listData: lists, isLoading: false });
+      if (!lists.length) {
+        showToast('暂无列表，请创建新列表');
+      }
+    } catch (e) {
+      console.error('加载列表失败:', e);
+      this.setData({ isLoading: false });
+      showToast('加载列表失败', 'error');
     }
   },
 
-  // 点击列表项跳转到详情页面
   goToList(e) {
     const id = e.currentTarget.dataset.id;
-    console.log('Navigating to list:', id);
-    wx.navigateTo({
-      url: `/pages/list/list?id=${id}`,
-    });
+    wx.navigateTo({ url: `/pages/list/list?id=${id}` });
   },
 
-  // 创建新列表
-  createList() {
-    const lists = wx.getStorageSync('lists') || [];
-    const newId = lists.length ? Math.max(...lists.map(l => Number(l.id))) + 1 : 1;
-    const newList = {
-      id: newId,
-      name: '新列表',
-      background: '#DBEAFE',
-      backgroundType: 'color',
-      icon: '📋',
-    };
-    lists.push(newList);
-    wx.setStorageSync('lists', lists);
-    console.log('Created list:', JSON.stringify(newList));
-    console.log('Updated lists:', JSON.stringify(lists));
-    this.loadLists();
-    wx.navigateTo({
-      url: `/pages/list/list?id=${newId}`,
-    });
+  async createList() {
+    try {
+      console.log('创建新列表');
+      const lists = await getLists();
+      const newId = lists.length ? Math.max(...lists.map(l => Number(l.id))) + 1 : 1;
+      const newList = {
+        id: newId,
+        name: '新列表',
+        background: '#DBEAFE',
+        backgroundType: 'color',
+        icon: '📋',
+      };
+      await saveList(newList);
+      this.loadListData();
+      wx.navigateTo({ url: `/pages/list/list?id=${newId}` });
+    } catch (e) {
+      console.error('创建列表失败:', e);
+      showToast('创建列表失败', 'error');
+    }
   },
 
-  // 删除指定列表
-  deleteList(e) {
+  async deleteList(e) {
     const id = e.currentTarget.dataset.id;
-    let lists = wx.getStorageSync('lists') || [];
-    lists = lists.filter(l => String(l.id) !== String(id));
-    wx.setStorageSync('lists', lists);
-    this.loadLists();
-    console.log('Deleted list with id:', id);
-    wx.showToast({ title: '列表已删除', icon: 'success' });
+    const confirmed = await showConfirm('删除列表', '确定删除此列表？');
+    if (!confirmed) return;
+
+    try {
+      console.log('删除列表:', id);
+      await deleteList(id);
+      this.loadListData();
+      showToast('列表已删除', 'success');
+    } catch (e) {
+      console.error('删除列表失败:', e);
+      showToast('删除列表失败', 'error');
+    }
   },
 });

@@ -1,19 +1,48 @@
 // app.js
 App({
-  onLaunch: function () {
-    if (!wx.cloud) {
-      console.error("请使用 2.2.3 或以上的基础库以使用云能力");
-    } else {
-      wx.cloud.init({
-        // env 参数说明：
-        //   env 参数决定接下来小程序发起的云开发调用（wx.cloud.xxx）会默认请求到哪个云环境的资源
-        //   此处请填入环境 ID, 环境 ID 可打开云控制台查看
-        //   如不填则使用默认环境（第一个创建的环境）
-        env: "",
-        traceUser: true,
-      });
-    }
-
-    this.globalData = {};
+  onLaunch() {
+    wx.cloud.init({
+      env: 'cloud1-8gypolju2461fc18',
+      traceUser: true,
+    });
+    this.migrateData();
   },
+
+  async migrateData() {
+    try {
+      console.log('开始数据迁移');
+      const { getLists, saveList, getTasks, saveTask } = require('./utils.js');
+      
+      const migrated = wx.getStorageSync('migrated');
+      if (migrated) {
+        console.log('数据已迁移，跳过');
+        return;
+      }
+
+      const localLists = wx.getStorageSync('lists') || [];
+      console.log('本地列表:', localLists);
+      for (const list of localLists) {
+        await saveList(list);
+      }
+
+      const localTasks = wx.getStorageSync('tasks') || {};
+      console.log('本地任务:', localTasks);
+      for (const listId in localTasks) {
+        const tasks = localTasks[listId];
+        for (const task of tasks) {
+          task.listId = parseInt(listId);
+          await saveTask(task);
+        }
+      }
+
+      wx.setStorageSync('migrated', true);
+      wx.showToast({ title: '数据迁移完成', icon: 'success' });
+      wx.removeStorageSync('lists');
+      wx.removeStorageSync('tasks');
+      console.log('数据迁移完成');
+    } catch (e) {
+      console.error('数据迁移失败:', e);
+      wx.showToast({ title: '数据迁移失败', icon: 'error' });
+    }
+  }
 });
