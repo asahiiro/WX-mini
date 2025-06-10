@@ -1,13 +1,13 @@
-<!-- pages/index/index.wxml -->
 <view class="container">
   <view class="list-container">
-    <block wx:if="{{lists.length > 0}}" wx:for="{{lists}}" wx:key="index">
-      <view class="list-item" style="background: {{item.background}}" bindtap="goToList" data-id="{{index}}" hover-class="list-item-hover">
+    <block wx:if="{{listData.length > 0}}" wx:for="{{listData}}" wx:key="id">
+      <view class="list-item" style="background: {{item.background}}" bindtap="goToList" data-id="{{item.id}}" hover-class="list-item-hover">
         <text class="list-icon">{{item.icon}}</text>
         <text class="list-name">{{item.name}}</text>
+        <text class="delete-btn" bindtap="deleteList" data-id="{{item.id}}">×</text>
       </view>
     </block>
-    <view wx:if="{{lists.length === 0}}" class="empty-state">
+    <view wx:if="{{listData.length === 0}}" class="empty-state">
       <text>暂无列表，点击右下角创建</text>
     </view>
   </view>

@@ -1,9 +1,12 @@
-<!-- pages/task/task.wxml -->
 <view class="task-page">
   <view class="task-info">
     <view class="info-item">
       <text class="label">任务名称</text>
-      <text class="value">{{task.name}}</text>
+      <text class="value {{task.completed ? 'completed' : ''}}">{{task.name}}</text>
+    </view>
+    <view class="info-item">
+      <text class="label">完成状态</text>
+      <text class="value">{{task.completed ? '已完成' : '未完成'}}</text>
     </view>
     <view class="info-item" wx:if="{{task.dueDate}}">
       <text class="label">截止日期</text>
@@ -15,9 +18,11 @@
     </view>
     <view class="info-item">
       <text class="label">备注</text>
-      <textarea class="remark-input" value="{{task.remark || ''}}" placeholder="请输入备注" bindinput="updateRemark"></textarea>
+      <textarea class="remark-input" value="{{task.remark || ''}}" placeholder="请输入备注" bindinput="updateRemark" auto-height></textarea>
     </view>
   </view>
-  <button class="save-remark-btn" bindtap="saveRemark">保存备注</button>
-  <button class="edit-btn" bindtap="goToEditTask">修改</button>
+  <view class="button-group">
+    <button class="save-remark-btn" bindtap="saveRemark">保存备注</button>
+    <button class="edit-btn" bindtap="goToEditTask">修改</button>
+  </view>
 </view>

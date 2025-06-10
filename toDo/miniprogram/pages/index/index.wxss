@@ -1,11 +1,10 @@
-/* pages/index/index.wxss */
 .container {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  padding: 20rpx;
+  padding: 28rpx;
   box-sizing: border-box;
-  background: linear-gradient(180deg, #DBEAFE 0%, #FFFFFF 100%); /* Fallback background */
+  background: linear-gradient(180deg, #002a9a 0%, #034cd7 100%);
 }
 
 .list-container {
@@ -13,7 +12,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20rpx;
+  gap: 28rpx;
 }
 
 .list-item {
@@ -21,12 +20,13 @@
   align-items: center;
   width: 90%;
   max-width: 600rpx;
-  padding: 20rpx;
-  background: rgba(255, 255, 255, 0.9); /* Transparent white */
-  border: 1rpx solid #BFDBFE; /* Light blue border */
-  border-radius: 12rpx;
-  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease;
+  padding: 24rpx;
+  background: linear-gradient(180deg, rgba(220, 234, 255, 0.9), rgba(220, 234, 255, 0.85));
+  border: 1rpx solid #4682B4;
+  border-radius: 16rpx;
+  box-shadow: 0 6rpx 16rpx rgba(0, 0, 0, 0.15);
+  animation: fadeIn 0.3s ease;
+  position: relative;
 }
 
 .list-item-hover {
@@ -34,15 +34,41 @@
 }
 
 .list-icon {
-  font-size: 40rpx;
-  color: #6B7280; /* Gray-blue */
-  margin-right: 20rpx;
+  font-size: 44rpx;
+  background: linear-gradient(180deg, #64748B 0%, #ADD8E6 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  color: #64748B; /* 回退颜色 */
+  margin-right: 24rpx;
 }
 
 .list-name {
-  font-size: 32rpx;
-  color: #1E3A8A; /* Deep blue */
-  font-weight: 500;
+  font-size: 34rpx;
+  background: linear-gradient(180deg, #1E3A8A 0%, #034cd7 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  color: #1E3A8A; /* 回退颜色 */
+  font-weight: 600;
+  flex: 1;
+}
+
+.delete-btn {
+  font-size: 36rpx;
+  background: linear-gradient(180deg, #FF6B6B 0%, #DC143C 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  color: #FF6B6B; /* 回退颜色 */
+  position: absolute;
+  right: 24rpx;
+  padding: 8rpx;
+  border-radius: 10rpx;
+}
+
+.delete-btn:hover {
+  transform: scale(1.1);
 }
 
 .empty-state {
@@ -50,29 +76,45 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 32rpx;
-  color: #6B7280;
+  font-size: 34rpx;
+  background: linear-gradient(180deg, #1E3A8A 0%, #034cd7 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  color: #1E3A8A; /* 回退颜色 */
+  background: linear-gradient(180deg, rgba(220, 234, 255, 0.9), rgba(220, 234, 255, 0.85));
+  border-radius: 16rpx;
+  padding: 48rpx;
+  margin: 28rpx;
+  box-shadow: 0 6rpx 16rpx rgba(0, 0, 0, 0.15);
+  animation: fadeIn 0.3s ease;
 }
 
 .create-btn {
   position: fixed;
-  bottom: 40rpx;
-  right: 40rpx;
-  width: 100rpx;
-  height: 100rpx;
+  bottom: 48rpx;
+  right: 48rpx;
+  width: 120rpx;
+  height: 120rpx;
   border-radius: 50%;
-  background: #1E3A8A; /* Deep blue */
-  color: white;
+  background: rgba(255, 255, 255, 0.3);
+  color: #FFFFFF; /* 白色文字 */
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 48rpx;
-  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.2);
-  opacity: 0.9;
-  transition: transform 0.2s ease, background 0.2s ease;
+  font-size: 52rpx;
+  box-shadow: 0 6rpx 16rpx rgba(0, 0, 0, 0.2);
+  border: 2rpx solid #034cd7;
+  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
 }
 
 .create-btn-hover {
-  transform: scale(0.95);
-  background: #3B82F6; /* Lighter blue */
+  background: rgba(255, 255, 255, 0.4);
+  transform: scale(1.05);
+  box-shadow: 0 8rpx 20rpx rgba(0, 0, 0, 0.25);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10rpx); }
+  to { opacity: 1; transform: translateY(0); }
 }

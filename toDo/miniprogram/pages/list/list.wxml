@@ -1,55 +1,68 @@
-<!-- pages/list/list.wxml -->
-<view class="list-page">
+<view class="list-page {{list.backgroundType === 'image' ? 'image-bg' : 'color-bg'}}">
   <view class="header">
-    <text class="header-title">{{list.name}}</text>
+    <text class="header-title">{{list.name || '新列表'}}</text>
     <text class="edit-icon" bindtap="showEditModal">✏️</text>
   </view>
 
   <!-- 任务列表 -->
   <view class="task-list">
-    <block wx:for="{{tasks}}" wx:key="index">
-      <view class="task-item" bindtap="goToTaskDetail" data-task-id="{{index}}">
-        <text class="task-name">{{item.name}}</text>
-        <view class="task-info">
-          <text wx:if="{{item.dueDate}}" class="task-due">截止: {{item.dueDate}}</text>
-          <text wx:if="{{item.repeat !== 'none'}}" class="task-repeat">重复: {{getRepeatLabel(item.repeat, item.customDays)}}</text>
+    <!-- 未完成任务 -->
+    <block wx:for="{{incompleteTasks}}" wx:key="id">
+      <view class="task-item">
+        <view class="task-content" bindtap="goToTaskDetail" data-task-id="{{item.id}}">
+          <text class="task-name {{item.completed ? 'completed' : ''}}">{{item.name || '未命名任务'}}</text>
+          <view class="task-info">
+            <text wx:if="{{item.dueDate}}" class="task-due">截止: {{item.dueDate}}</text>
+            <text wx:if="{{item.repeat && item.repeat !== 'none'}}" class="task-repeat">重复: {{getRepeatLabel(item.repeat, item.customDays)}}</text>
+          </view>
         </view>
+        <checkbox catch:change="toggleTaskComplete" data-task-id="{{item.id}}" checked="{{item.completed}}" />
       </view>
     </block>
+
+    <!-- 已完成分界线 -->
+    <view wx:if="{{completedTasks.length > 0}}" class="divider">
+      <view class="divider-line"></view>
+      <text class="divider-text">已完成</text>
+      <view class="divider-line"></view>
+    </view>
+
+    <!-- 已完成任务 -->
+    <block wx:for="{{completedTasks}}" wx:key="id">
+      <view class="task-item">
+        <view class="task-content" bindtap="goToTaskDetail" data-task-id="{{item.id}}">
+          <text class="task-name {{item.completed ? 'completed' : ''}}">{{item.name || '未命名任务'}}</text>
+          <view class="task-info">
+            <text wx:if="{{item.dueDate}}" class="task-due">截止: {{item.dueDate}}</text>
+            <text wx:if="{{item.repeat && item.repeat !== 'none'}}" class="task-repeat">重复: {{getRepeatLabel(item.repeat, item.customDays)}}</text>
+          </view>
+        </view>
+        <checkbox catch:change="toggleTaskComplete" data-task-id="{{item.id}}" checked="{{item.completed}}" />
+      </view>
+    </block>
+
+    <view wx:if="{{incompleteTasks.length === 0 && completedTasks.length === 0}}" class="empty-state">
+      <text>暂无任务，点击右下角 + 添加新任务</text>
+    </view>
   </view>
 
-  <!-- 弹窗 -->
+  <!-- 编辑弹窗 -->
   <view class="modal {{showModal ? 'show' : 'hide'}}">
     <view class="modal-content">
-      <text class="close-btn" bindtap="hideModal">×</text>
       <view class="modal-item">
         <text class="modal-label">列表名称</text>
         <input class="modal-input" bindinput="inputName" value="{{list.name}}" placeholder="请输入列表名称" />
       </view>
       <view class="modal-item">
-        <text class="modal-label">背景选择</text>
-        <radio-group class="radio-group" bindchange="changeBackgroundType">
-          <radio value="color" checked="{{backgroundType === 'color'}}">纯色</radio>
-          <radio value="image" checked="{{backgroundType === 'image'}}">图片</radio>
-        </radio-group>
-      </view>
-      <view wx:if="{{backgroundType === 'color'}}" class="modal-item">
-        <text class="modal-label">选择颜色</text>
-        <input class="modal-input" bindinput="inputColor" value="{{list.background}}" placeholder="请输入颜色（如 #ffffff）" />
-      </view>
-      <view wx:if="{{backgroundType === 'image'}}" class="modal-item">
-        <text class="modal-label">选择背景图片</text>
-        <picker class="modal-picker" bindchange="selectImage" range="{{imageOptions}}" value="{{selectedImageIndex}}">
-          <view class="picker-content">{{imageOptions[selectedImageIndex] || '选择图片'}}</view>
-        </picker>
-      </view>
-      <view class="modal-item">
         <text class="modal-label">选择图标</text>
         <picker class="modal-picker" bindchange="selectIcon" range="{{iconOptions}}" value="{{selectedIconIndex}}">
-          <view class="picker-content">{{iconOptions[selectedImageIndex] || '选择图标'}}</view>
+          <view class="picker-content">{{iconOptions[selectedIconIndex] || '选择图标'}}</view>
         </picker>
       </view>
-      <text class="confirm-btn" bindtap="saveChanges">✔</text>
+      <view class="modal-buttons">
+        <text class="close-btn" bindtap="hideModal">× 退出</text>
+        <text class="confirm-btn" bindtap="saveChanges">✔ 保存</text>
+      </view>
     </view>
   </view>
 

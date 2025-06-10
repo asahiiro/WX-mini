@@ -1,19 +1,36 @@
 /* app.wxss */
 :root {
-  --primary-color: #1E3A8A; /* Deep blue */
-  --secondary-color: #3B82F6; /* Light blue */
-  --background-gradient: linear-gradient(180deg, #DBEAFE 0%, #FFFFFF 100%);
-  --card-background: rgba(255, 255, 255, 0.9);
-  --text-primary: #1E3A8A;
-  --text-secondary: #6B7280;
-  --border-color: #BFDBFE;
-  --shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.1);
-  --border-radius: 12rpx;
-  --spacing: 20rpx;
+  --secondary-color: #034cd7;
+  --background-gradient: linear-gradient(180deg, #002a9a 0%, #034cd7 100%);
+  --card-background: linear-gradient(180deg, rgba(220, 234, 255, 0.9), rgba(220, 234, 255, 0.85));
+  --border-color: #4682B4;
+  --shadow: 0 6rpx 16rpx rgba(0, 0, 0, 0.15);
+  --border-radius: 16rpx;
+  --spacing: 28rpx;
   --font-family: 'PingFang SC', -apple-system, Arial, sans-serif;
 }
 
 page {
   font-family: var(--font-family);
-  background: var(--background-gradient);
+  background: linear-gradient(180deg, #1E3A8A 0%, #034cd7 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  color: #1E3A8A;
+}
+
+text {
+  background: linear-gradient(180deg, #1E3A8A 0%, #034cd7 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  color: #1E3A8A !important;
+}
+
+text:not([class]) {
+  background: linear-gradient(180deg, #1E3A8A 0%, #034cd7 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  color: #1E3A8A !important;
 }

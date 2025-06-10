@@ -1,25 +1,90 @@
-// pages/list/list.js
 Page({
   data: {
     list: {},
-    tasks: [],
+    incompleteTasks: [],
+    completedTasks: [],
     showModal: false,
-    backgroundType: 'color',
-    imageOptions: ['图片1', '图片2', '图片3'],
     iconOptions: ['📋', '📌', '📅', '✅'],
-    selectedImageIndex: 0,
     selectedIconIndex: 0,
   },
 
   onLoad(options) {
-    const id = options.id;
-    const lists = wx.getStorageSync('lists') || [];
-    const tasks = wx.getStorageSync('tasks') || {};
-    const list = lists[id] || { id, name: '新列表', background: '#ffffff', icon: '📋' };
-    this.setData({ list, tasks: tasks[id] || [] });
+    this.loadData(options.id);
   },
 
-  // 更新：跳转到 task 页面
+  onShow() {
+    if (this.data.list.id) {
+      this.loadData(this.data.list.id);
+    }
+  },
+
+  loadData(id) {
+    if (!id) {
+      wx.showToast({ title: '缺少列表ID', icon: 'error' });
+      wx.navigateBack();
+      return;
+    }
+    const lists = wx.getStorageSync('lists') || [];
+    const list = lists.find(l => String(l.id) === String(id));
+    if (!list) {
+      wx.showToast({ title: '列表不存在', icon: 'error' });
+      wx.navigateBack();
+      return;
+    }
+    const tasks = wx.getStorageSync('tasks') || {};
+    const taskList = tasks[id] || [];
+    this.sortTasks(taskList);
+    this.setData({ list });
+  },
+
+  sortTasks(tasks) {
+    const incompleteTasks = tasks.filter(task => !task.completed);
+    const completedTasks = tasks.filter(task => task.completed);
+    this.setData({
+      incompleteTasks,
+      completedTasks,
+    });
+  },
+
+  toggleTaskComplete(e) {
+    const taskId = parseInt(e.currentTarget.dataset.taskId, 10);
+    const completed = e.detail.value; // true 表示勾选，false 表示取消勾选
+    const tasks = wx.getStorageSync('tasks') || {};
+    let listTasks = tasks[this.data.list.id] || [];
+    const taskIndex = listTasks.findIndex(t => t.id === taskId);
+
+    if (taskIndex === -1) {
+      wx.showToast({ title: '任务未找到', icon: 'error' });
+      return;
+    }
+
+    // 获取当前任务
+    const currentTask = listTasks[taskIndex];
+    
+    // 创建新任务并保留原有信息
+    const newTask = {
+      ...currentTask,
+      id: Date.now(), // 新任务需要新 ID
+      completed: completed,
+    };
+
+    // 删除旧任务
+    listTasks.splice(taskIndex, 1);
+    // 添加新任务
+    listTasks.push(newTask);
+
+    tasks[this.data.list.id] = listTasks;
+    wx.setStorageSync('tasks', tasks);
+
+    // 更新页面
+    this.sortTasks(listTasks);
+
+    wx.showToast({
+      title: completed ? '任务已完成' : '任务未完成',
+      icon: 'success',
+    });
+  },
+
   goToTaskDetail(e) {
     const taskId = e.currentTarget.dataset.taskId;
     wx.navigateTo({
@@ -34,21 +99,20 @@ Page({
   },
 
   getRepeatLabel(repeat, customDays) {
-    if (repeat === 'none') return '';
+    if (!repeat || repeat === 'none') return '';
     if (repeat === 'daily') return '每天';
     if (repeat === 'workday') return '工作日';
     if (repeat === 'weekly') return '每周';
     if (repeat === 'yearly') return '每年';
-    if (repeat === 'custom') return '自定义: ' + (customDays.length ? customDays.join(', ') : '无');
+    if (repeat === 'custom') return '自定义: ' + (customDays?.length ? customDays.join(', ') : '无');
     return '';
   },
 
   showEditModal() {
-    const iconIndex = this.data.iconOptions.indexOf(this.data.list.icon);
+    const index = this.data.iconOptions.indexOf(this.data.list.icon);
     this.setData({
       showModal: true,
-      selectedIconIndex: iconIndex >= 0 ? iconIndex : 0,
-      backgroundType: this.data.list.background.startsWith('http') ? 'image' : 'color',
+      selectedIconIndex: index >= 0 ? index : 0,
     });
   },
 
@@ -60,29 +124,8 @@ Page({
     this.setData({ 'list.name': e.detail.value });
   },
 
-  inputColor(e) {
-    this.setData({ 'list.background': e.detail.value });
-  },
-
-  changeBackgroundType(e) {
-    this.setData({ backgroundType: e.detail.value });
-  },
-
-  selectImage(e) {
-    const index = e.detail.value;
-    const imageUrls = [
-      'https://example.com/image1.jpg',
-      'https://example.com/image2.jpg',
-      'https://example.com/image3.jpg',
-    ];
-    this.setData({
-      selectedImageIndex: index,
-      'list.background': imageUrls[index],
-    });
-  },
-
   selectIcon(e) {
-    const index = e.detail.value;
+    const index = parseInt(e.detail.value);
     this.setData({
       selectedIconIndex: index,
       'list.icon': this.data.iconOptions[index],
@@ -90,9 +133,19 @@ Page({
   },
 
   saveChanges() {
+    if (!this.data.list.name || this.data.list.name.length > 20) {
+      wx.showToast({ title: '列表名称不能为空且不超过20字', icon: 'none' });
+      return;
+    }
     const lists = wx.getStorageSync('lists') || [];
-    lists[this.data.list.id] = this.data.list;
+    const index = lists.findIndex(l => String(l.id) === String(this.data.list.id));
+    if (index >= 0) {
+      lists[index] = { ...this.data.list };
+    } else {
+      lists.push({ ...this.data.list });
+    }
     wx.setStorageSync('lists', lists);
     this.setData({ showModal: false });
+    wx.showToast({ title: '列表已保存', icon: 'success' });
   },
 });

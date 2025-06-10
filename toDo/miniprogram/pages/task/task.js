@@ -1,54 +1,63 @@
-// pages/task/task.js
 Page({
   data: {
     listId: null,
     taskId: null,
     task: {},
-    remark: '', // Temporary storage for remark input
+    remark: '',
   },
 
   onLoad(options) {
-    const { listId, taskId } = options;
+    this.loadData(options);
+  },
+
+  onShow() {
+    if (this.data.listId && this.data.taskId) {
+      this.loadData({ listId: this.data.listId, taskId: this.data.taskId });
+    }
+  },
+
+  loadData(options) {
+    const { listId, taskId: taskIdStr } = options;
+    const taskId = parseInt(taskIdStr, 10);
+    if (!listId || isNaN(taskId)) {
+      wx.showToast({ title: '参数错误', icon: 'error' });
+      wx.navigateBack();
+      return;
+    }
     const tasks = wx.getStorageSync('tasks') || {};
     const listTasks = tasks[listId] || [];
-    const task = listTasks[taskId] || {};
+    const task = listTasks.find(t => t.id === taskId);
+    if (!task) {
+      wx.showToast({ title: '任务不存在', icon: 'error' });
+      wx.navigateBack();
+      return;
+    }
     this.setData({ 
-      listId, 
-      taskId, 
+      listId,
+      taskId,
       task,
-      remark: task.remark || '' // Initialize remark
+      remark: task.remark || '',
     });
   },
 
-  // Update remark input
   updateRemark(e) {
     this.setData({ remark: e.detail.value });
   },
 
-  // Save remark to local storage
   saveRemark() {
-    const { listId, taskId, remark, task } = this.data;
-    
-    // Optional: Validate remark if needed (e.g., non-empty)
-    // if (!remark.trim()) {
-    //   wx.showToast({ title: '备注不能为空', icon: 'none' });
-    //   return;
-    // }
-
-    // Update task with new remark
+    const { listId, taskId, remark } = this.data;
     const tasks = wx.getStorageSync('tasks') || {};
     const listTasks = tasks[listId] || [];
-    listTasks[taskId] = { ...task, remark: remark || null };
-    tasks[listId] = listTasks;
-    wx.setStorageSync('tasks', tasks);
-
-    // Update displayed task
-    this.setData({ 'task.remark': remark || null });
-
-    wx.showToast({ title: '备注已保存', icon: 'success' });
+    const taskIndex = listTasks.findIndex(t => t.id === taskId);
+    if (taskIndex !== -1) {
+      listTasks[taskIndex].remark = remark || null;
+      tasks[listId] = listTasks;
+      wx.setStorageSync('tasks', tasks);
+      this.setData({ 'task.remark': remark || null });
+      wx.showToast({ title: '备注已保存', icon: 'success' });
+    }
   },
 
-  // Navigate to edit page
   goToEditTask() {
     const { listId, taskId } = this.data;
     wx.navigateTo({
@@ -56,14 +65,13 @@ Page({
     });
   },
 
-  // Get repeat option label
   getRepeatLabel(repeat, customDays) {
-    if (repeat === 'none') return '无';
+    if (!repeat || repeat === 'none') return '无';
     if (repeat === 'daily') return '每天';
     if (repeat === 'workday') return '工作日';
     if (repeat === 'weekly') return '每周';
     if (repeat === 'yearly') return '每年';
-    if (repeat === 'custom') return '自定义: ' + (customDays.length ? customDays.join(', ') : '无');
+    if (repeat === 'custom') return '自定义: ' + (customDays?.length ? customDays.join(', ') : '无');
     return '';
   },
 });
