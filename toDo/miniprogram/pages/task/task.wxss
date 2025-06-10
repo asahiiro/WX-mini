@@ -34,23 +34,32 @@
 
 .value {
   font-size: 26rpx;
-  color: #1E3A8A;
+  color: #034cd7 !important;
+  background: none !important;
+  -webkit-background-clip: none !important;
+  background-clip: none !important;
 }
 
 .value.completed {
-  color: #A0AEC0;
+  color: #A0AEC0 !important;
   text-decoration: line-through;
 }
 
 .remark-input {
   width: 100%;
-  min-height: 160rpx;
+  min-height: 100rpx;
+  max-height: 200rpx;
+  overflow-y: auto;
   background: rgba(255, 255, 255, 0.8);
   border: 2rpx solid #4682B4;
   border-radius: 10rpx;
   padding: 16rpx;
   font-size: 26rpx;
-  color: #64748B;
+  color: #034cd7 !important;
+  background: none !important;
+  -webkit-background-clip: none !important;
+  background-clip: none !important;
+  box-sizing: border-box;
 }
 
 .remark-input:focus {

@@ -1,4 +1,3 @@
-// app.js
 App({
   onLaunch() {
     wx.cloud.init({
@@ -6,6 +5,59 @@ App({
       traceUser: true,
     });
     this.migrateData();
+    // 加载自定义字体
+    wx.loadFontFace({
+      family: 'Pixel',
+      source: 'url("https://cloud.tencent.com/ark-pixel-12px-monospaced-zh_cn.ttf")',
+      success: () => {
+        console.log('字体加载成功');
+      },
+      fail: (err) => {
+        console.error('字体加载失败:', err);
+      }
+    });
+
+    // 初始化动态云数据
+    this.globalData.clouds = this.generateClouds(15);
+  },
+
+  generateClouds(count) {
+    const clouds = [];
+    for (let i = 0; i < count; i++) {
+      clouds.push({
+        id: i,
+        size: Math.random() * 200 + 100,
+        left: Math.random() * 100,
+        top: Math.random() * 80,
+        animationDelay: Math.random() * 5,
+        zIndex: Math.floor(Math.random() * 10),
+      });
+    }
+    return clouds;
+  },
+
+  globalData: {
+    clouds: [],
+  },
+
+  navigateTo(options) {
+    const url = options.url.includes('?') ? `${options.url}&t=${Date.now()}` : `${options.url}?t=${Date.now()}`;
+    wx.redirectTo({
+      ...options,
+      url,
+    });
+  },
+
+  navigateBack(options) {
+    wx.navigateBack({
+      ...options,
+      success: () => {
+        const pages = getCurrentPages();
+        if (pages.length > 0) {
+          pages[pages.length - 1].onShow();
+        }
+      },
+    });
   },
 
   async migrateData() {

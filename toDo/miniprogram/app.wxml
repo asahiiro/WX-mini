@@ -1,0 +1,3 @@
+<view class="sky">
+  <view wx:for="{{clouds}}" wx:key="id" class="dynamic-cloud" data-size="{{item.size}}" data-left="{{item.left}}" data-top="{{item.top}}" data-delay="{{item.animationDelay}}" data-zindex="{{item.zIndex}}"></view>
+</view>

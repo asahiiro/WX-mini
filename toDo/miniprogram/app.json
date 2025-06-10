@@ -2,11 +2,18 @@
   "pages": [
     "pages/index/index",
     "pages/list/list",
+    "pages/task/task",
     "pages/addTask/addTask",
-    "pages/task/task"
+    "pages/search/search",
+    "components/cloud-background",
+    "components/cloud-background/cloud-background"
   ],
   "window": {
-    "navigationBarTitleText": "To Do"
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "任务管理",
+    "navigationBarTextStyle": "black"
   },
+  "style": "v2",
   "sitemapLocation": "sitemap.json"
 }

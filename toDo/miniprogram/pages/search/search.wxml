@@ -1,0 +1,18 @@
+<view class="container">
+  <cloud-background />
+  <view class="search-bar">
+    <input class="search-input" value="{{query}}" bindinput="updateQuery" placeholder="搜索任务" auto-focus />
+    <text class="search-btn" bindtap="searchTasks">🔍</text>
+  </view>
+  <view class="result-container">
+    <block wx:if="{{searchResults.length > 0}}" wx:for="{{searchResults}}" wx:key="id">
+      <view class="result-item" bindtap="goToTask" data-list-id="{{item.listId}}" data-task-id="{{item.id}}">
+        <text class="task-name">{{item.name}}</text>
+        <text class="task-info">清单: {{item.listName}}</text>
+      </view>
+    </block>
+    <view wx:if="{{searchResults.length === 0 && query}}" class="empty-state">
+      <text>未找到匹配任务</text>
+    </view>
+  </view>
+</view>

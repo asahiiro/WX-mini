@@ -1,4 +1,22 @@
 <view class="container">
+  <cloud-background />
+  <view class="profile-section">
+    <view class="profile-row">
+      <image class="avatar" src="{{userInfo.avatarUrl || 'https://data-wyzmv.kinsta.page/icon/cloud.png'}}" bindtap="getUserProfile"></image>
+      <text class="nickname">{{userInfo.nickName || '微信用户'}}</text>
+      <text class="search-icon" bindtap="goToSearch">🔍</text>
+    </view>
+    <view class="stats-row">
+      <text class="stats-text">待完成: {{pendingTasks}}</text>
+      <text class="stats-text">已完成: {{completedTasks}}</text>
+    </view>
+  </view>
+  <view class="default-list-container">
+    <view wx:for="{{defaultLists}}" wx:key="id" class="list-item default-list" bindtap="goToList" data-id="{{item.id}}">
+      <text class="list-icon">{{item.icon}}</text>
+      <text class="list-name">{{item.name}}</text>
+    </view>
+  </view>
   <view class="list-container">
     <block wx:if="{{listData.length > 0}}" wx:for="{{listData}}" wx:key="id">
       <view class="list-item" style="background: {{item.background}}" bindtap="goToList" data-id="{{item.id}}" hover-class="list-item-hover">
@@ -7,7 +25,7 @@
         <text class="delete-btn" bindtap="deleteList" data-id="{{item.id}}">×</text>
       </view>
     </block>
-    <view wx:if="{{listData.length === 0}}" class="empty-state">
+    <view class="list-text" wx:if="{{listData.length === 0}}" class="empty-state">
       <text>暂无列表，点击右下角创建</text>
     </view>
   </view>

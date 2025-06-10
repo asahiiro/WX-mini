@@ -1,0 +1,23 @@
+.sky {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.dynamic-cloud {
+  position: absolute;
+  background-image: url('https://data-wyzmv.kinsta.page/icon/cloud.png');
+  background-size: cover;
+  opacity: 0.9;
+  transform: translateX(-50%) rotate(-5deg);
+  animation: sway-dynamic 4s infinite ease-in-out;
+}
+
+@keyframes sway-dynamic {
+  0% { transform: translateX(-50%) rotate(-5deg) translateY(0); }
+  50% { transform: translateX(-50%) rotate(-5deg) translateY(-10rpx); }
+  100% { transform: translateX(-50%) rotate(-5deg) translateY(0); }
+}

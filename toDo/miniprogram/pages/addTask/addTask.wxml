@@ -1,4 +1,5 @@
 <view class="task-page">
+  <cloud-background />
   <form class="form" bindsubmit="submitTask">
     <view class="form-item">
       <text class="label">任务名称</text>
@@ -12,15 +13,17 @@
     </view>
     <view class="form-item">
       <text class="label">重复（可选）</text>
-      <picker class="picker" bindchange="selectRepeat" range="{{repeatOptions}}" range-key="label" value="{{repeatOptions.findIndex(item => item.value === repeat)}}">
-        <view class="picker-content">{{repeatOptions.find(item => item.value === repeat)?.label || '选择重复类型'}}</view>
-      </picker>
+      <radio-group class="radio-group" bindchange="selectRepeat">
+        <label class="radio-label" wx:for="{{repeatOptions}}" wx:key="value">
+          <radio value="{{item.value}}" checked="{{repeat === item.value}}" />{{item.label}}
+        </label>
+      </radio-group>
     </view>
-    <view wx:if="{{repeat === 'custom'}}" class="form-item custom-days">
+    <view hidden="{{repeat !== 'custom'}}" class="form-item custom-days">
       <text class="label">选择重复的星期</text>
       <checkbox-group class="checkbox-group" bindchange="selectCustomDays">
         <label class="checkbox-label" wx:for="{{daysOfWeek}}" wx:key="value">
-          <checkbox value="{{item.value}}" checked="{{customDays.includes(item.value)}}" />{{item.label}}
+          <checkbox value="{{item.value}}" checked="{{item.checked}}">{{item.label}}</checkbox>
         </label>
       </checkbox-group>
     </view>

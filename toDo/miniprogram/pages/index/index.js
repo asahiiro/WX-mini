@@ -1,18 +1,48 @@
-// pages/index/index.js
-const { getLists, saveList, deleteList, showToast, showConfirm } = require('../../utils.js');
+const { getLists, saveList, deleteList, getTasks, showToast, showConfirm, getOpenId } = require('../../utils.js');
+const db = wx.cloud.database();
 
 Page({
   data: {
     listData: [],
+    defaultLists: [
+      { id: 'today', name: '我的一天', icon: '🌞', background: '#FFFFFF', backgroundType: 'color' },
+      { id: 'planned', name: '计划中', icon: '📅', background: '#FFFFFF', backgroundType: 'color' },
+    ],
     isLoading: false,
+    userInfo: { avatarUrl: 'https://data-wyzmv.kinsta.page/icon/cloud.png', nickName: '微信用户' },
+    pendingTasks: 0,
+    completedTasks: 0,
   },
 
   onLoad() {
+    this.loadUserInfo();
     this.loadListData();
+    this.loadTaskStats();
   },
 
   onShow() {
     this.loadListData();
+    this.loadTaskStats();
+  },
+
+  loadUserInfo() {
+    this.setData({
+      userInfo: { avatarUrl: 'https://data-wyzmv.kinsta.page/icon/cloud.png', nickName: '微信用户' }
+    });
+  },
+
+  getUserProfile() {
+    wx.getUserProfile({
+      desc: '用于展示个人头像和昵称',
+      success: (res) => {
+        const { avatarUrl, nickName } = res.userInfo;
+        this.setData({ userInfo: { avatarUrl, nickName } });
+        showToast('获取用户信息成功', 'success');
+      },
+      fail: () => {
+        showToast('获取用户信息失败', 'error');
+      },
+    });
   },
 
   async loadListData() {
@@ -22,7 +52,7 @@ Page({
       const lists = await getLists();
       this.setData({ listData: lists, isLoading: false });
       if (!lists.length) {
-        showToast('暂无列表，请创建新列表');
+        showToast('暂无自定义列表，请创建新列表');
       }
     } catch (e) {
       console.error('加载列表失败:', e);
@@ -31,9 +61,28 @@ Page({
     }
   },
 
+  async loadTaskStats() {
+    try {
+      const openid = wx.getStorageSync('openid') || await getOpenId();
+      const res = await db.collection('tasks').where({ _openid: openid }).get();
+      const tasks = res.data;
+      this.setData({
+        pendingTasks: tasks.filter(t => !t.completed).length,
+        completedTasks: tasks.filter(t => t.completed).length,
+      });
+    } catch (e) {
+      console.error('加载任务统计失败:', e);
+      showToast('加载任务统计失败', 'error');
+    }
+  },
+
   goToList(e) {
     const id = e.currentTarget.dataset.id;
-    wx.navigateTo({ url: `/pages/list/list?id=${id}` });
+    wx.redirectTo({ url: `/pages/list/list?id=${id}&t=${Date.now()}` });
+  },
+
+  goToSearch() {
+    wx.redirectTo({ url: `/pages/search/search?t=${Date.now()}` });
   },
 
   async createList() {
@@ -50,7 +99,7 @@ Page({
       };
       await saveList(newList);
       this.loadListData();
-      wx.navigateTo({ url: `/pages/list/list?id=${newId}` });
+      wx.redirectTo({ url: `/pages/list/list?id=${newId}&t=${Date.now()}` });
     } catch (e) {
       console.error('创建列表失败:', e);
       showToast('创建列表失败', 'error');

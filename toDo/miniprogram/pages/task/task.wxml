@@ -1,20 +1,21 @@
 <view class="task-page">
+  <cloud-background />
   <view class="task-info">
     <view class="info-item">
       <text class="label">任务名称</text>
       <text class="value {{task.completed ? 'completed' : ''}}">{{task.name}}</text>
     </view>
-    <view class="info-item">
+    <view class="info-item" wx:if="{{task.completed}}">
       <text class="label">完成状态</text>
-      <text class="value">{{task.completed ? '已完成' : '未完成'}}</text>
+      <text class="value completed">已完成</text>
     </view>
     <view class="info-item" wx:if="{{task.dueDate}}">
       <text class="label">截止日期</text>
       <text class="value">{{task.dueDate}}</text>
     </view>
-    <view class="info-item" wx:if="{{task.repeat !== 'none'}}">
+    <view class="info-item" wx:if="{{task.repeatLabel !== '无'}}">
       <text class="label">重复</text>
-      <text class="value">{{getRepeatLabel(task.repeat, task.customDays)}}</text>
+      <text class="value">{{task.repeatLabel}}</text>
     </view>
     <view class="info-item">
       <text class="label">备注</text>
@@ -23,6 +24,6 @@
   </view>
   <view class="button-group">
     <button class="save-remark-btn" bindtap="saveRemark">保存备注</button>
-    <button class="edit-btn" bindtap="goToEditTask">修改</button>
+    <button class="edit-btn" bindtap="editTask">编辑任务</button>
   </view>
 </view>

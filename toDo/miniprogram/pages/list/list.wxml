@@ -1,71 +1,54 @@
-<view class="list-page {{list.backgroundType === 'image' ? 'image-bg' : 'color-bg'}}">
+<view class="list-page {{list.backgroundType === 'color' ? 'color-bg' : 'image-bg'}}" style="{{list.backgroundType === 'image' ? 'background-image: url(' + list.background + ')' : ''}}">
+  <cloud-background />
   <view class="header">
-    <text class="header-title">{{list.name || '新列表'}}</text>
-    <text class="edit-icon" bindtap="showEditModal">✏️</text>
+    <text class="header-title">{{list.name || '清单'}}</text>
+    <text class="edit-icon" bindtap="showEditModal">✎</text>
   </view>
-
-  <!-- 任务列表 -->
+  <view wx:if="{{!isLoading && tasks.length === 0 && completedTasks.length === 0}}" class="empty-state">暂无任务</view>
   <view class="task-list">
-    <!-- 未完成任务 -->
-    <block wx:for="{{incompleteTasks}}" wx:key="id">
-      <view class="task-item">
-        <view class="task-content" bindtap="goToTaskDetail" data-task-id="{{item.id}}">
-          <text class="task-name {{item.completed ? 'completed' : ''}}">{{item.name || '未命名任务'}}</text>
-          <view class="task-info">
-            <text wx:if="{{item.dueDate}}" class="task-due">截止: {{item.dueDate}}</text>
-            <text wx:if="{{item.repeat && item.repeat !== 'none'}}" class="task-repeat">重复: {{getRepeatLabel(item.repeat, item.customDays)}}</text>
-          </view>
+    <view wx:for="{{tasks}}" wx:key="id" class="task-item" bindtap="goToTask" data-task-id="{{item.id}}">
+      <view class="task-content">
+        <text class="task-name {{item.completed ? 'completed' : ''}}">{{item.name}}</text>
+        <view class="task-info">
+          <text wx:if="{{item.dueDate}}" class="task-due">截止: {{item.dueDate}}</text>
+          <text wx:if="{{item.repeatLabel !== '无'}}" class="task-repeat">重复: {{item.repeatLabel}}</text>
         </view>
-        <view class="task-status {{item.completed ? 'completed' : ''}}" bindtap="toggleTaskComplete" data-task-id="{{item.id}}"></view>
       </view>
-    </block>
-
-    <!-- 已完成分界线 -->
+      <view class="task-status {{item.completed ? 'completed' : ''}}" bindtap="toggleTaskStatus" data-task-id="{{item.id}}"></view>
+    </view>
     <view wx:if="{{completedTasks.length > 0}}" class="divider">
       <view class="divider-line"></view>
       <text class="divider-text">已完成</text>
       <view class="divider-line"></view>
     </view>
-
-    <!-- 已完成任务 -->
-    <block wx:for="{{completedTasks}}" wx:key="id">
-      <view class="task-item">
-        <view class="task-content" bindtap="goToTaskDetail" data-task-id="{{item.id}}">
-          <text class="task-name {{item.completed ? 'completed' : ''}}">{{item.name || '未命名任务'}}</text>
-          <view class="task-info">
-            <text wx:if="{{item.dueDate}}" class="task-due">截止: {{item.dueDate}}</text>
-            <text wx:if="{{item.repeat && item.repeat !== 'none'}}" class="task-repeat">重复: {{getRepeatLabel(item.repeat, item.customDays)}}</text>
-          </view>
+    <view wx:for="{{completedTasks}}" wx:key="id" class="task-item" bindtap="goToTask" data-task-id="{{item.id}}">
+      <view class="task-content">
+        <text class="task-name completed">{{item.name}}</text>
+        <view class="task-info">
+          <text wx:if="{{item.dueDate}}" class="task-due">截止: {{item.dueDate}}</text>
+          <text wx:if="{{item.repeatLabel !== '无'}}" class="task-repeat">重复: {{item.repeatLabel}}</text>
         </view>
-        <view class="task-status {{item.completed ? 'completed' : ''}}" bindtap="toggleTaskComplete" data-task-id="{{item.id}}"></view>
       </view>
-    </block>
-
-    <view wx:if="{{incompleteTasks.length === 0 && completedTasks.length === 0}}" class="empty-state">
-      <text>暂无任务，点击右下角 + 添加新任务</text>
+      <view class="task-status completed" bindtap="toggleTaskStatus" data-task-id="{{item.id}}"></view>
     </view>
   </view>
-
-  <!-- 编辑弹窗 -->
-  <view class="modal {{showModal ? 'show' : 'hide'}}">
+  <view class="float-btn" bindtap="addTask">+</view>
+  <view class="modal {{showModal ? 'show' : ''}}">
     <view class="modal-content">
       <view class="modal-item">
-        <text class="modal-label">列表名称</text>
-        <input class="modal-input" bindinput="inputName" value="{{list.name}}" placeholder="请输入列表名称" />
+        <text class="modal-label">清单名称</text>
+        <input class="modal-input" value="{{editListName}}" bindinput="updateListName" placeholder="请输入清单名称" maxlength="20" />
       </view>
       <view class="modal-item">
-        <text class="modal-label">选择图标</text>
-        <picker class="modal-picker" bindchange="selectIcon" range="{{iconOptions}}" value="{{selectedIconIndex}}">
-          <view class="picker-content">{{iconOptions[selectedIconIndex] || '选择图标'}}</view>
+        <text class="modal-label">图标</text>
+        <picker class="modal-picker" bindchange="selectIcon" range="{{icons}}" value="{{editIconIndex}}">
+          <view class="picker-content">{{editIcon || '选择图标'}}</view>
         </picker>
       </view>
       <view class="modal-buttons">
-        <text class="close-btn" bindtap="hideModal">× 退出</text>
-        <text class="confirm-btn" bindtap="saveChanges">✔ 保存</text>
+        <button class="close-btn" bindtap="hideEditModal">取消</button>
+        <button class="confirm-btn" bindtap="saveList">保存</button>
       </view>
     </view>
   </view>
-
-  <!-- 悬浮按钮 -->
-  <button class="float-btn" bindtap="goToCreateTask">+</button>
 </view>

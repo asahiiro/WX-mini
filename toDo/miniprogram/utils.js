@@ -1,5 +1,4 @@
 const db = wx.cloud.database();
-
 const utils = {
   async getOpenId() {
     try {
@@ -28,8 +27,13 @@ const utils = {
         listId: Number(listId),
         _openid: db.command.eq(openid)
       }).get();
-      // 确保 id 为数字
-      const tasks = res.data.map(task => ({ ...task, id: Number(task.id) }));
+      const tasks = res.data.map(task => ({
+        ...task,
+        id: Number(task.id),
+        repeat: ['none', 'daily', 'workday', 'weekly', 'yearly', 'custom'].includes(task.repeat) ? task.repeat : 'none',
+        customDays: task.customDays || [],
+        repeatLabel: task.repeatLabel || utils.getRepeatLabel(task.repeat, task.customDays)
+      }));
       console.log('获取任务:', tasks);
       return tasks || [];
     } catch (e) {
@@ -42,9 +46,12 @@ const utils = {
   async saveTask(task) {
     try {
       console.log('保存任务:', task);
-      // 清理保留字段
       const { _id, _openid, ...cleanTask } = task;
-      cleanTask.listId = Number(task.listId); // 确保 listId 为数字
+      cleanTask.listId = Number(task.listId);
+      const validRepeats = ['none', 'daily', 'workday', 'weekly', 'yearly', 'custom'];
+      cleanTask.repeat = validRepeats.includes(task.repeat) ? task.repeat : 'none';
+      cleanTask.customDays = cleanTask.repeat === 'custom' ? (task.customDays || []) : [];
+      cleanTask.repeatLabel = utils.getRepeatLabel(cleanTask.repeat, cleanTask.customDays);
       if (_id) {
         console.log('更新任务，_id:', _id);
         await db.collection('tasks').doc(_id).update({ 
@@ -84,10 +91,17 @@ const utils = {
   async saveList(list) {
     try {
       console.log('保存列表:', list);
-      if (list._id) {
-        await db.collection('lists').doc(list._id).update({ data: { ...list, _openid: undefined } });
+      const { _id, _openid, ...cleanList } = list;
+      if (_id) {
+        console.log('更新列表，_id:', _id);
+        await db.collection('lists').doc(_id).update({ 
+          data: cleanList 
+        });
       } else {
-        const res = await db.collection('lists').add({ data: list });
+        console.log('新建列表');
+        const res = await db.collection('lists').add({ 
+          data: cleanList 
+        });
         list._id = res._id;
       }
       utils.showToast('保存列表成功', 'success');
@@ -120,15 +134,27 @@ const utils = {
   },
 
   getRepeatLabel(repeat, customDays) {
+    console.log('getRepeatLabel 输入:', { repeat, customDays });
     if (!repeat || repeat === 'none') return '无';
+    const dayLabels = {
+      Monday: '周一',
+      Tuesday: '周二',
+      Wednesday: '周三',
+      Thursday: '周四',
+      Friday: '周五',
+      Saturday: '周六',
+      Sunday: '周日'
+    };
     const labels = {
       daily: '每天',
       workday: '工作日',
       weekly: '每周',
       yearly: '每年',
-      custom: `自定义: ${customDays?.length ? customDays.join(', ') : '无'}`,
+      custom: customDays?.length ? customDays.map(day => dayLabels[day]).join(', ') : '无'
     };
-    return labels[repeat] || '';
+    const result = labels[repeat] || '未知';
+    console.log('getRepeatLabel 输出:', result);
+    return result;
   },
 
   showToast(title, icon = 'none', duration = 1500) {
