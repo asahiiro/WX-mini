@@ -83,7 +83,7 @@
 .task-status-container {
   display: flex;
   align-items: center;
-  gap: 30rpx; /* 增加间距，稍微离复选框远一点 */
+  gap: 20rpx; /* 增加间距，稍微离复选框远一点 */
 }
 
 .task-days-left {
@@ -91,7 +91,7 @@
   color: #2F855A; /* 绿色表示正常 */
   display: flex;
   align-items: center; /* 确保文字垂直居中 */
-  line-height: 15rpx; /* 与复选框高度一致，辅助垂直居中 */
+  line-height: 36rpx; /* 与复选框高度一致，辅助垂直居中 */
 }
 
 .task-days-left.urgent {

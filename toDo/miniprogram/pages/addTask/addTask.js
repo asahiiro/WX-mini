@@ -4,6 +4,7 @@ Page({
   data: {
     listId: null,
     taskId: null,
+    taskName: '', // Align with WXML input binding
     task: {
       name: '',
       dueDate: '',
@@ -19,17 +20,17 @@ Page({
       { label: '每年', value: 'yearly' },
       { label: '自定义', value: 'custom' },
     ],
-    days: [
-      { label: '周一', value: 'Monday' },
-      { label: '周二', value: 'Tuesday' },
-      { label: '周三', value: 'Wednesday' },
-      { label: '周四', value: 'Thursday' },
-      { label: '周五', value: 'Friday' },
-      { label: '周六', value: 'Saturday' },
-      { label: '周日', value: 'Sunday' },
+    daysOfWeek: [
+      { label: '周一', value: 'Monday', checked: false },
+      { label: '周二', value: 'Tuesday', checked: false },
+      { label: '周三', value: 'Wednesday', checked: false },
+      { label: '周四', value: 'Thursday', checked: false },
+      { label: '周五', value: 'Friday', checked: false },
+      { label: '周六', value: 'Saturday', checked: false },
+      { label: '周日', value: 'Sunday', checked: false },
     ],
     isCustomRepeat: false,
-    isEditing: false, // 添加标志以区分新建/编辑模式
+    isEditing: false,
   },
 
   onLoad(options) {
@@ -42,11 +43,12 @@ Page({
     this.setData({
       listId: Number(options.listId),
       taskId: options.taskId ? Number(options.taskId) : null,
-      isEditing: !!options.taskId, // 设置编辑模式
+      isEditing: !!options.taskId,
     });
     if (options.taskId) {
       this.loadTask();
     }
+    wx.setNavigationBarTitle({ title: this.data.isEditing ? '编辑任务' : '新建任务' });
   },
 
   onShow() {
@@ -64,7 +66,13 @@ Page({
         setTimeout(() => wx.navigateBack(), 1500);
         return;
       }
+      // Update daysOfWeek with checked status based on customDays
+      const daysOfWeek = this.data.daysOfWeek.map(day => ({
+        ...day,
+        checked: task.customDays?.includes(day.value) || false,
+      }));
       this.setData({
+        taskName: task.name || '',
         task: {
           name: task.name || '',
           dueDate: task.dueDate || '',
@@ -72,6 +80,7 @@ Page({
           customDays: task.customDays || [],
           remark: task.remark || '',
         },
+        daysOfWeek,
         isCustomRepeat: task.repeat === 'custom',
       });
     } catch (e) {
@@ -81,33 +90,41 @@ Page({
   },
 
   updateTaskName(e) {
-    const value = e.detail.value.trim();
+    const name = e.detail.value.trim();
     this.setData({
-      'task.name': value,
-    });
-    console.log('任务名称更新:', value); // 添加日志调试
-  },
-
-  updateDueDate(e) {
-    this.setData({
-      'task.dueDate': e.detail.value,
+      taskName: name,
+      'task.name': name, // Sync with task object
     });
   },
 
-  updateRepeat(e) {
+  selectDueDate(e) {
+    const dueDate = e.detail.value;
+    this.setData({
+      'task.dueDate': dueDate,
+    });
+    console.log('选择截止日期:', dueDate);
+  },
+
+  selectRepeat(e) {
     const repeat = e.detail.value;
     this.setData({
       'task.repeat': repeat,
       isCustomRepeat: repeat === 'custom',
       'task.customDays': repeat === 'custom' ? this.data.task.customDays : [],
     });
+    console.log('选择重复方式:', repeat);
   },
 
   selectCustomDays(e) {
     const customDays = e.detail.value;
     this.setData({
       'task.customDays': customDays,
+      daysOfWeek: this.data.daysOfWeek.map(day => ({
+        ...day,
+        checked: customDays.includes(day.value),
+      })),
     });
+    console.log('选择自定义重复日期:', customDays);
   },
 
   updateRemark(e) {
@@ -117,28 +134,29 @@ Page({
   },
 
   async submitTask() {
-    const { task, listId } = this.data;
-    console.log('提交任务:', task); // 添加日志调试
-    if (!task.name) {
+    const { task, taskName, listId, taskId, isEditing } = this.data;
+    if (!taskName) {
       showToast('任务名称不能为空');
       return;
     }
     try {
       const taskToSave = {
         ...task,
-        listId,
-        id: this.data.taskId || Date.now(),
-        completed: false,
+        name: taskName, // Ensure taskName is used
+        listId: Number(listId),
+        id: taskId || Date.now(),
+        completed: isEditing ? (await getTasks(listId)).find(t => t.id === taskId)?.completed || false : false,
+        repeatLabel: this.data.repeatOptions.find(opt => opt.value === task.repeat)?.label || '无',
       };
-      if (this.data.taskId) {
+      if (isEditing && taskId) {
         const tasks = await getTasks(listId);
-        const existingTask = tasks.find(t => t.id === this.data.taskId);
+        const existingTask = tasks.find(t => t.id === taskId);
         if (existingTask) {
           taskToSave._id = existingTask._id;
         }
       }
       await saveTask(taskToSave);
-      showToast('保存任务成功', 'success');
+      showToast(isEditing ? '保存修改成功' : '创建任务成功', 'success');
       wx.redirectTo({
         url: `/pages/list/list?id=${listId}&t=${Date.now()}`,
       });

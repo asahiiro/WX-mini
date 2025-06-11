@@ -3,29 +3,33 @@
   <form class="form" bindsubmit="submitTask">
     <view class="form-item">
       <text class="label">任务名称</text>
-      <input class="input" value="{{task.name}}" placeholder="请输入任务名称" focus="{{true}}" bindinput="updateTaskName" maxlength="50" />
+      <input class="input" name="taskName" value="{{taskName}}" placeholder="请输入任务名称" focus="{{true}}" bindinput="updateTaskName" maxlength="50" />
     </view>
     <view class="form-item">
       <text class="label">截止日期（可选）</text>
-      <picker class="picker" mode="date" bindchange="selectDueDate" value="{{dueDate}}">
-        <view class="picker-content">{{dueDate || '选择日期'}}</view>
+      <picker class="picker" mode="date" bindchange="selectDueDate" value="{{task.dueDate}}">
+        <view class="picker-content">{{task.dueDate || '选择日期'}}</view>
       </picker>
     </view>
     <view class="form-item">
       <text class="label">重复（可选）</text>
       <radio-group class="radio-group" bindchange="selectRepeat">
         <label class="radio-label" wx:for="{{repeatOptions}}" wx:key="value">
-          <radio value="{{item.value}}" checked="{{repeat === item.value}}" />{{item.label}}
+          <radio value="{{item.value}}" checked="{{task.repeat === item.value}}" />{{item.label}}
         </label>
       </radio-group>
     </view>
-    <view hidden="{{repeat !== 'custom'}}" class="form-item custom-days">
+    <view hidden="{{!isCustomRepeat}}" class="form-item custom-days">
       <text class="label">选择重复的星期</text>
       <checkbox-group class="checkbox-group" bindchange="selectCustomDays">
         <label class="checkbox-label" wx:for="{{daysOfWeek}}" wx:key="value">
-          <checkbox value="{{item.value}}" checked="{{item.checked}}">{{item.label}}</checkbox>
+          <checkbox value="{{item.value}}" checked="{{item.checked}}" />{{item.label}}
         </label>
       </checkbox-group>
+    </view>
+    <view class="form-item">
+      <text class="label">备注（可选）</text>
+      <textarea class="input textarea" name="remark" value="{{task.remark}}" placeholder="请输入备注" bindinput="updateRemark" auto-height />
     </view>
     <button class="save-btn" formType="submit">{{isEditing ? '保存修改' : '创建任务'}}</button>
   </form>
