@@ -1,6 +1,5 @@
 .task-page {
   min-height: 100vh;
-  background: linear-gradient(180deg, #002a9a 0%, #034cd7 100%);
   display: flex;
   flex-direction: column;
   justify-content: center;

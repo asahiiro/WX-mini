@@ -14,7 +14,12 @@
           <text wx:if="{{item.repeatLabel !== '无'}}" class="task-repeat">重复: {{item.repeatLabel}}</text>
         </view>
       </view>
-      <view class="task-status {{item.completed ? 'completed' : ''}}" bindtap="toggleTaskStatus" data-task-id="{{item.id}}"></view>
+      <view class="task-status-container">
+        <text wx:if="{{item.daysLeft !== null}}" class="task-days-left {{item.daysLeft < 0 ? 'overdue' : item.daysLeft <= 3 ? 'urgent' : ''}}">
+          余 <text class="days-number">{{item.daysLeft < 0 ? -item.daysLeft : item.daysLeft}}</text> 日
+        </text>
+        <view class="task-status {{item.completed ? 'completed' : ''}}" catchtap="toggleTaskStatus" data-task-id="{{item.id}}"></view>
+      </view>
     </view>
     <view wx:if="{{completedTasks.length > 0}}" class="divider">
       <view class="divider-line"></view>
@@ -29,7 +34,12 @@
           <text wx:if="{{item.repeatLabel !== '无'}}" class="task-repeat">重复: {{item.repeatLabel}}</text>
         </view>
       </view>
-      <view class="task-status completed" bindtap="toggleTaskStatus" data-task-id="{{item.id}}"></view>
+      <view class="task-status-container">
+        <text wx:if="{{item.daysLeft !== null}}" class="task-days-left {{item.daysLeft < 0 ? 'overdue' : item.daysLeft <= 3 ? 'urgent' : ''}}">
+          余 <text class="days-number">{{item.daysLeft < 0 ? -item.daysLeft : item.daysLeft}}</text> 日
+        </text>
+        <view class="task-status completed" catchtap="toggleTaskStatus" data-task-id="{{item.id}}"></view>
+      </view>
     </view>
   </view>
   <view class="float-btn" bindtap="addTask">+</view>

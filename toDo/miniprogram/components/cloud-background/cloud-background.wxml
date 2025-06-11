@@ -3,6 +3,6 @@
     wx:for="{{clouds}}"
     wx:key="id"
     class="dynamic-cloud"
-    style="width: {{item.size}}rpx; height: {{item.size}}rpx; left: ({{item.left}}*10)rpx; top: （{{item.top}}*10）rpx; animation-delay: {{item.animationDelay}}s; z-index: 0;"
+    style="width: {{item.size}}rpx; height: {{item.size}}rpx; left: {{item.left}}rpx; top: {{item.top}}rpx; animation-delay: {{item.animationDelay}}s; z-index: {{item.zIndex}};"
   ></view>
 </view>

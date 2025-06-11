@@ -29,6 +29,7 @@ Page({
       { label: '周日', value: 'Sunday' },
     ],
     isCustomRepeat: false,
+    isEditing: false, // 添加标志以区分新建/编辑模式
   },
 
   onLoad(options) {
@@ -41,6 +42,7 @@ Page({
     this.setData({
       listId: Number(options.listId),
       taskId: options.taskId ? Number(options.taskId) : null,
+      isEditing: !!options.taskId, // 设置编辑模式
     });
     if (options.taskId) {
       this.loadTask();
@@ -78,10 +80,12 @@ Page({
     }
   },
 
-  updateName(e) {
+  updateTaskName(e) {
+    const value = e.detail.value.trim();
     this.setData({
-      'task.name': e.detail.value.trim(),
+      'task.name': value,
     });
+    console.log('任务名称更新:', value); // 添加日志调试
   },
 
   updateDueDate(e) {
@@ -99,14 +103,8 @@ Page({
     });
   },
 
-  toggleCustomDay(e) {
-    const day = e.currentTarget.dataset.day;
-    let customDays = [...this.data.task.customDays];
-    if (customDays.includes(day)) {
-      customDays = customDays.filter(d => d !== day);
-    } else {
-      customDays.push(day);
-    }
+  selectCustomDays(e) {
+    const customDays = e.detail.value;
     this.setData({
       'task.customDays': customDays,
     });
@@ -120,6 +118,7 @@ Page({
 
   async submitTask() {
     const { task, listId } = this.data;
+    console.log('提交任务:', task); // 添加日志调试
     if (!task.name) {
       showToast('任务名称不能为空');
       return;

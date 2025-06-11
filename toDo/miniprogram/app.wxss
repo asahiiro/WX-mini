@@ -6,12 +6,12 @@
   --shadow: 0 6rpx 16rpx rgba(0, 0, 0, 0.15);
   --border-radius: 16rpx;
   --spacing: 28rpx;
-  --font-family: 'PingFang SC', -apple-system, Arial, sans-serif;
+  --font-family: 'Pixel';
 }
 
 page {
   font-family: var(--font-family);
-  background: linear-gradient(180deg, #1E3A8A 0%, #034cd7 100%);
+  background: linear-gradient(180deg, #1E3A8A 0%, #015aff 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;

@@ -26,9 +26,9 @@ App({
     for (let i = 0; i < count; i++) {
       clouds.push({
         id: i,
-        size: Math.random() * 200 + 100,
-        left: Math.random() * 100,
-        top: Math.random() * 80,
+        size: Math.floor(Math.random() * 150 + 120),
+        left: Math.floor(Math.random() * 850),
+        top: Math.floor(Math.random() * 1100),
         animationDelay: Math.random() * 5,
         zIndex: Math.floor(Math.random() * 10),
       });

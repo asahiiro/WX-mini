@@ -7,15 +7,6 @@
   box-sizing: border-box;
 }
 
-.color-bg {
-  background: linear-gradient(180deg, #002a9a 0%, #034cd7 100%);
-}
-
-.image-bg {
-  background-size: cover;
-  background-position: center;
-}
-
 .header {
   display: flex;
   justify-content: space-between;
@@ -89,12 +80,39 @@
   color: #64748B;
 }
 
+.task-status-container {
+  display: flex;
+  align-items: center;
+  gap: 30rpx; /* 增加间距，稍微离复选框远一点 */
+}
+
+.task-days-left {
+  font-size: 28rpx;
+  color: #2F855A; /* 绿色表示正常 */
+  display: flex;
+  align-items: center; /* 确保文字垂直居中 */
+  line-height: 15rpx; /* 与复选框高度一致，辅助垂直居中 */
+}
+
+.task-days-left.urgent {
+  color: #D97706; /* 橙色表示紧急（≤3天） */
+}
+
+.task-days-left.overdue {
+  color: #EF4444; /* 红色表示逾期 */
+}
+
+.days-number {
+  font-size: 36rpx; /* 数字放大 */
+  font-weight: 700; /* 加粗 */
+  margin: 0 4rpx; /* 数字与“余”和“日”间距 */
+}
+
 .task-status {
   width: 36rpx;
   height: 36rpx;
   border: 2rpx solid #4682B4;
   border-radius: 50%;
-  margin-left: 16rpx;
   display: flex;
   justify-content: center;
   align-items: center;

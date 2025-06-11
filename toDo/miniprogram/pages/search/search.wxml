@@ -7,8 +7,8 @@
   <view class="result-container">
     <block wx:if="{{searchResults.length > 0}}" wx:for="{{searchResults}}" wx:key="id">
       <view class="result-item" bindtap="goToTask" data-list-id="{{item.listId}}" data-task-id="{{item.id}}">
-        <text class="task-name">{{item.name}}</text>
-        <text class="task-info">清单: {{item.listName}}</text>
+        <text class="task-name">{{item.name}} </text>
+        <text class="task-info">   清单 : {{item.listName}}</text>
       </view>
     </block>
     <view wx:if="{{searchResults.length === 0 && query}}" class="empty-state">

@@ -75,6 +75,11 @@ Page({
       } else {
         tasks = await getTasks(this.data.listId);
       }
+      // 计算倒计时天数
+      tasks = tasks.map(task => ({
+        ...task,
+        daysLeft: task.dueDate ? this.calculateDaysLeft(task.dueDate) : null,
+      }));
       console.log('加载任务:', tasks);
       this.setData({
         tasks: tasks.filter(t => !t.completed),
@@ -86,6 +91,17 @@ Page({
       showToast('加载任务失败', 'error');
       this.setData({ isLoading: false });
     }
+  },
+
+  calculateDaysLeft(dueDate) {
+    const due = new Date(dueDate);
+    const today = new Date();
+    // 设置为当天的 00:00:00 以确保天数计算准确
+    today.setHours(0, 0, 0, 0);
+    due.setHours(0, 0, 0, 0);
+    const diffTime = due.getTime() - today.getTime();
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays;
   },
 
   async getTodayTasks() {
