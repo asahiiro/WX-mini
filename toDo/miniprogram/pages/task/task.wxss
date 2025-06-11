@@ -1,4 +1,10 @@
+@font-face {
+  font-family: 'Pixel';
+  src: url('https://data-wyzmv.kinsta.page/font/ark-pixel-font-12px/ark-pixel-12px-monospaced-zh_cn.ttf');
+}
+
 .task-page {
+  font-family: 'Pixel';
   min-height: 100vh;
   display: flex;
   flex-direction: column;
